@@ -104,7 +104,6 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-
   onCloseError() {
     this.error = null;
   }
@@ -151,28 +150,25 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value + '@' + this.form.get('moduleRevision').value;
     // this.router.navigate([newRoute]);
     window.location.href = newRoute;
-
   }
 
   getPropTemplate(property: string, isNested = false): TemplateRef<any> {
     const templatesMapping = {
       revision: isNested ? 'plainTextTemplate' : 'revisionTemplate',
-      namespace: 'linkTemplate',
       'compilation-result': 'linkTemplate',
       schema: 'linkTemplate',
       reference: 'linkTemplate',
       'yang-tree': 'linkTemplate',
       description: 'formatedTextTemplate',
       contact: 'formatedTextTemplate',
-      'yang-version': 'formatedTextTemplate',
       ietf: 'ietfDataTemplate',
       submodule: 'nestedListOfObjectsTemplate',
       dependencies: 'nestedListOfObjectsTemplate',
       dependents: 'nestedListOfObjectsTemplate',
       'author-email': 'mailTemplate',
       implementations: 'nestedListOfObjectsTemplate',
-
     };
+
     if (templatesMapping.hasOwnProperty(property)) {
       return this[templatesMapping[property]];
     } else {
