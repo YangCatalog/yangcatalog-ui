@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { merge, Observable, of, Subject, zip } from 'rxjs';
-import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
-import { YangModuleDetailsService } from './yang-module-details.service';
-import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
-import { ModuleDetailsModel } from './models/module-details-model';
-import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
+import { merge, Observable, of, Subject, zip } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { ModuleDetailsModel } from './models/module-details-model';
+import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
+import { YangModuleDetailsService } from './yang-module-details.service';
 
 @Component({
   selector: 'yc-yang-module-details',
@@ -93,12 +93,12 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       debounceTime(200),
       distinctUntilChanged(),
       mergeMap(term => {
-          if (term.length > 2) {
-            return this.dataService.getModuleAutocomplete(term.toLowerCase());
-          } else {
-            return of([]);
-          }
+        if (term.length > 2) {
+          return this.dataService.getModuleAutocomplete(term.toLowerCase());
+        } else {
+          return of([]);
         }
+      }
       ),
       takeUntil(this.componentDestroyed)
     );
@@ -165,7 +165,8 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       description: 'formatedTextTemplate',
       contact: 'formatedTextTemplate',
       'yang-version': 'formatedTextTemplate',
-      ietf : 'ietfDataTemplate',
+      ietf: 'ietfDataTemplate',
+      submodule: 'nestedListOfObjectsTemplate',
       dependencies: 'nestedListOfObjectsTemplate',
       dependents: 'nestedListOfObjectsTemplate',
       'author-email': 'mailTemplate',
@@ -173,7 +174,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
 
     };
     if (templatesMapping.hasOwnProperty(property)) {
-     return this[templatesMapping[property]];
+      return this[templatesMapping[property]];
     } else {
       return this.plainTextTemplate;
     }
@@ -192,7 +193,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       return this.dataService.getModuleAutocomplete(control.value).pipe(
         map(result => {
           if (result.length !== 1) {
-            return {nonexistingModule: true};
+            return { nonexistingModule: true };
           } else {
             return {};
           }
@@ -200,6 +201,4 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       );
     };
   }
-
-
 }
