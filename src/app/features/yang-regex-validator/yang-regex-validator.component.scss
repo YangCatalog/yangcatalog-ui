@@ -21,15 +21,11 @@
     .form-inline {
       width: 75%;
 
-
-
         .engine-type {
           width: 101px !important;
           text-align: center;
           font-size: 13px;
         }
-
-
 
       .btn.disabled, .btn:disabled, fieldset:disabled .btn {
         opacity: 1 !important;
@@ -45,9 +41,9 @@
       }
 
       .pattern-input-container {
-
         position: relative;
         flex: max-content;
+        width: 70%;
 
         input {
           width: 100%;
@@ -66,13 +62,8 @@
             font-weight: bold;
           }
         }
-
-
       }
-
     }
-
-
 
     label{
       padding-right: 15px;
@@ -83,7 +74,6 @@
       padding-right: 0;
     }
   }
-
 }
 
 .header-container {
