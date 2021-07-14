@@ -6,11 +6,10 @@
       <p class="pt25" *ngIf="loading">
         <span class="spinner-border" role="status"></span>
         Loading data...
-
       </p>
 
       <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
-        {{ error['error'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+        {{ error['error'] ? error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
       </ngb-alert>
 
       <div class="results-grid-container" *ngIf="!loading && treeRows" [ngStyle]="{minWidth: resultsContainerWidth}">
@@ -32,13 +31,16 @@
             <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{tree.module}}" border="0">
             Module details</a>
           <a href="/yang-search/impact_analysis/{{tree.module}}">
-            <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{tree.module}}"
-                 border="0">
+            <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{tree.module}}" border="0">
             Impact Analysis</a>
-
         </p>
 
-        <yc-ag-grid tableId="yangTreeResults"
+        <ngb-alert *ngIf="treeRows.length === 1" type="info" [dismissible]="false">
+          INFO: This yang file does not contain any tree.
+        </ngb-alert>
+
+        <yc-ag-grid *ngIf="treeRows.length > 1"
+                    tableId="yangTreeResults"
                     entityName="Module"
                     entityNamePlural="Modules"
                     [suppressHorizontalScroll]="false"
@@ -67,14 +69,14 @@
           <ng-template let-row #elementColumnTemplate>
             <span *ngFor="let in of counter(row['level']) ;let i = index ">&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <a title="{{row['title']}}" class="element"
-               (click)="row['groupCollapsed'] ?  expandGroup(row) : collapseGroup(row)"
-               *ngIf="row['children'].length > 0">
+              (click)="row['groupCollapsed'] ?  expandGroup(row) : collapseGroup(row)"
+              *ngIf="row['children'].length > 0">
               <fa-icon [icon]="faFolder" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === true"></fa-icon>
-              <fa-icon [icon]="faFolderOpen"
-                       *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
+              <fa-icon [icon]="faFolderOpen" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
               {{row['text']}}
             </a>
-            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0" (click)="openNodeDetail(row)">
+            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0 && row['type'] !== 'module'"
+              (click)="openNodeDetail(row)">
               <fa-icon [icon]="faLeaf" class="green"></fa-icon>
               {{row['text']}}
             </a>

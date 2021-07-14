@@ -7,9 +7,11 @@ export class AdvancedFormatPipe implements PipeTransform {
 
   transform(value, ...args: unknown[]): unknown {
     let val: string = value;
-    val = val.replace(/\</g, ' &lt;');
-    val = val.replace(/\>/g, ' &gt;');
-    return this.linkify(val.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+    if (value) {
+      val = val.replace(/\</g, ' &lt;');
+      val = val.replace(/\>/g, ' &gt;');
+      return this.linkify(val.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+    }
   }
 
   linkify(inputText: string) {

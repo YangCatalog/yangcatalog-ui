@@ -1,21 +1,21 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { YangTreeService } from './yang-tree.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { faCopy } from '@fortawesome/free-regular-svg-icons/faCopy';
+import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
+import { faFolderOpen } from '@fortawesome/free-regular-svg-icons/faFolderOpen';
+import { faMinusSquare } from '@fortawesome/free-regular-svg-icons/faMinusSquare';
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons/faPlusSquare';
+import { faLeaf } from '@fortawesome/free-solid-svg-icons/faLeaf';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ColDef, GridOptions, RowNode } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ActivatedRoute, Params } from '@angular/router';
-import { TreeModel } from './models/tree-model';
-import { TreeItemTableRowModel } from './models/tree-item-table-row-model';
-import { ColDef, GridOptions, RowNode } from 'ag-grid-community';
-import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
-import { faFolder} from '@fortawesome/free-regular-svg-icons/faFolder';
-import { faFolderOpen } from '@fortawesome/free-regular-svg-icons/faFolderOpen';
-import { faLeaf } from '@fortawesome/free-solid-svg-icons/faLeaf';
-import { faPlusSquare } from '@fortawesome/free-regular-svg-icons/faPlusSquare';
-import { faMinusSquare } from '@fortawesome/free-regular-svg-icons/faMinusSquare';
-import { faCopy } from '@fortawesome/free-regular-svg-icons/faCopy';
 import { environment } from '../../../environments/environment';
+import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TreeItemTableRowModel } from './models/tree-item-table-row-model';
+import { TreeModel } from './models/tree-model';
+import { YangTreeService } from './yang-tree.service';
 
 @Component({
   selector: 'yc-yang-tree',
@@ -59,21 +59,21 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   };
 
   allColDefs: ColDef[] = [
-    {colId: 'element', field: 'text', headerName: 'Element', headerComponentParams: this.headerComponentParams, pinned: 'left'},
-    {colId: 'schema', field: 'schema', headerName: 'Schema'},
-    {colId: 'type', field: 'type', headerName: 'Type'},
-    {colId: 'flags', field: 'flags', headerName: 'Flags'},
-    {colId: 'opts', field: 'opts', headerName: 'Opts'},
-    {colId: 'status', field: 'status', headerName: 'Status'},
-    {colId: 'path', field: 'path', headerName: 'Path'},
-    {colId: 'sensorPath', field: 'sensorPath', headerName: 'Sensor Path'},
+    { colId: 'element', field: 'text', headerName: 'Element', headerComponentParams: this.headerComponentParams, pinned: 'left' },
+    { colId: 'schema', field: 'schema', headerName: 'Schema' },
+    { colId: 'type', field: 'type', headerName: 'Type' },
+    { colId: 'flags', field: 'flags', headerName: 'Flags' },
+    { colId: 'opts', field: 'opts', headerName: 'Opts' },
+    { colId: 'status', field: 'status', headerName: 'Status' },
+    { colId: 'path', field: 'path', headerName: 'Path' },
+    { colId: 'sensorPath', field: 'sensorPath', headerName: 'Sensor Path' },
   ];
 
   gridOptions: GridOptions = {
     pagination: false,
     isExternalFilterPresent: () => true,
     doesExternalFilterPass: (node: RowNode) => this.doesExternalFilterPass(node),
-    getRowStyle: params => {return { background: 'white' }; }
+    getRowStyle: params => { return { background: 'white' }; }
   };
 
   defaultColDef = {
@@ -115,7 +115,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     }
   }
 
-
   private loadTreedata() {
     this.loading = true;
     this.dataService.getTree(this.moduleName, this.revision).pipe(
@@ -136,7 +135,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.componentDestroyed.next();
   }
-
 
   onGridReady(event: any) {
     document.getElementById('elementELabel').append(document.getElementById('collapseExpandDiv'));
@@ -166,7 +164,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   expandAll() {
     this.treeRows.forEach((tr: TreeItemTableRowModel) => tr.groupCollapsed = false);
     this.resultsGrid.onFilterChanged();
-
   }
 
   collapseAll() {
@@ -180,7 +177,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     return result;
   }
 
-
   openNodeDetail(row: any) {
     const modalNodeDetail: YangShowNodeModalComponent = this.modalService.open(YangShowNodeModalComponent, {
       size: 'lg',
@@ -190,5 +186,4 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     modalNodeDetail.revision = this['revision'];
     modalNodeDetail.paramsSetManually.next(true);
   }
-
 }

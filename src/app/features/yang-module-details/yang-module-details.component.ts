@@ -159,6 +159,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       schema: 'linkTemplate',
       reference: 'linkTemplate',
       'yang-tree': 'linkTemplate',
+      'document-name': 'formatedTextTemplate',
       description: 'formatedTextTemplate',
       contact: 'formatedTextTemplate',
       ietf: 'ietfDataTemplate',
