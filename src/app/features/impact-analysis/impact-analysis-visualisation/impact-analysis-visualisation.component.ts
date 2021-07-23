@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { PtTopologyComponent, PtTopologyService } from '@pt/pt-topology';
+import { Component } from '@angular/core';
+import { PtTopologyComponent } from '@pt/pt-topology';
 import { ImpactVisService } from './impact-vis.service';
-import { DataSet, Edge, Network, Node, IdType, Options } from 'vis';
 import { ImpactVisNodeModel } from './models/impact-vis-node-model';
 
 
@@ -23,13 +22,12 @@ export class ImpactAnalysisVisualisationComponent extends PtTopologyComponent {
     this.visTopoObject.cluster(opts);
   }
 
-  openCluster(nodeId) {
+  openCluster(nodeId: string) {
     this.visTopoObject.openCluster(nodeId, {
       releaseFunction: () => {
         return {};
       }
     });
-
   }
 
   redraw() {

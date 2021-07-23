@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ImpactVisNodeModel } from '../models/impact-vis-node-model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef } from 'ag-grid-community';
 import { environment } from '../../../../../environments/environment';
+import { ImpactAnalysisModel } from '../models/impact-analysis-model';
 
 @Component({
   selector: 'yc-impact-nodes-list',
@@ -13,18 +13,18 @@ export class ImpactNodesListComponent implements OnInit {
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
-  nodesList: ImpactVisNodeModel[];
+  nodesList: ImpactAnalysisModel[];
   colDefs: ColDef[] = [
-    {colId: 'name', field: 'name'},
-    {colId: 'organization', field: 'organization'},
-    {colId: 'maturity', field: 'maturity'},
-    {colId: 'actions', field: ''}
+    { colId: 'name', field: 'name' },
+    { colId: 'organization', field: 'organization' },
+    { colId: 'maturity', field: 'maturity' },
+    { colId: 'actions', field: '' }
   ];
   defaultColDef = {
     autoHeight: true,
     resizable: false,
     sortable: true,
-    cellStyle: {'white-space': 'normal'},
+    cellStyle: { 'white-space': 'normal' },
   };
 
   constructor(private modal: NgbActiveModal,) { }
@@ -36,6 +36,4 @@ export class ImpactNodesListComponent implements OnInit {
   onCancelClick() {
     this.modal.dismiss();
   }
-
-
 }

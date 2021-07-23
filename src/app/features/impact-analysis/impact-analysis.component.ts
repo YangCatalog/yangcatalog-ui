@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClusteringService, TopologyData } from '@pt/pt-topology';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ImpactAnalysisVisualisationComponent } from './impact-analysis-visualisation/impact-analysis-visualisation.component';
@@ -28,9 +28,11 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   form: FormGroup;
   error: any;
   autocomplete = this.autocompleteRequest.bind(this);
+  tagAutocomplete = this.tagAutocompleteRequest.bind(this);
   loadingResults = false;
 
   errors = [];
+  warnings = [];
 
 
   highlightedOrg = '';
@@ -104,11 +106,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       multiselect: true,
     }
   };
-  mainResult: ImpactAnalysisModel;
+  mainResults: ImpactAnalysisModel[] = [];
+  mainResultsNames: string[] = [];
   contextMenuTop: number = null;
   contextMenuLeft: number = null;
   selectedNode: ImpactAnalysisModel;
-  clusterByCompany = false;
+  clusterByOrganization = false;
   clusterByMaturity = false;
   selectedCluster: any;
   showWarnings = true;
@@ -131,7 +134,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     combineLatest([this.route.params, this.route.queryParams])
       .pipe(map(results => ({ params: results[0], query: results[1] })))
       .subscribe(results => {
-        const queryParamsProperties = ['rfcs', 'show_subm', 'show_dir', 'orgtags'];
+        const queryParamsProperties = ['rfcs', 'show_subm', 'show_dir', 'orgtags', 'modtags'];
         queryParamsProperties.forEach(prop => {
           if (results.query.hasOwnProperty(prop)) {
             this.queryParams[prop] = results.query[prop];
@@ -139,8 +142,29 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         });
 
         if (results.params.hasOwnProperty('module')) {
-          this.params['module'] = results.params['module'];
-          this.form.get('moduleName').setValue(results.params['module']);
+          if (this.queryParams['modtags']) {
+            this.queryParams['modtags'] += ',' + results.params['module'];
+          } else {
+            this.queryParams['modtags'] = results.params['module'];
+          }
+        }
+
+        // Move modules from old php URL format to modtags query param
+        if (results.query.hasOwnProperty('modules[]')) {
+          const queryModules = Array.isArray(results.query['modules[]']) ? results.query['modules[]'].join(',') : results.query['modules[]'];
+          if (this.queryParams['modtags']) {
+            this.queryParams['modtags'] += ',' + queryModules;
+          } else {
+            this.queryParams['modtags'] = queryModules;
+          }
+        }
+
+        if (this.queryParams['modtags']) {
+          const queryModules = this.queryParams['modtags'].split(',');
+          const moduleTags = queryModules.map(module => (
+            { display: module.split('.yang')[0], value: module.split('.yang')[0] }
+          ));
+          this.form.get('moduleNamesList').setValue(moduleTags);
           this.submitModuleName(true);
         }
       });
@@ -150,7 +174,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.form = this.fb.group({
       moduleName: [''],
       allowRfc: [true],
-      allowSubmodules: [true]
+      allowSubmodules: [true],
+      moduleNamesList: []
     });
   }
 
@@ -182,6 +207,9 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     );
   }
 
+  tagAutocompleteRequest(text$: string) {
+    return this.dataService.getModuleAutocomplete(text$.toLowerCase());
+  }
 
   addOrganizations(organizations: string[]): void {
     organizations.forEach(org => {
@@ -200,15 +228,20 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         this.matColors[mat] = this.colorForMats[this.maturities.length - 1];
         this.matSelected[mat] = true;
       }
-
     });
   }
 
   submitModuleName(fromURL = false) {
+    let allModules = [];
+    if (this.form.get('moduleNamesList').value) {
+      allModules = this.form.get('moduleNamesList').value.map(module => module.value.split('@'));
+    }
 
     this.showWarnings = true;
-    this.mainResult = null;
+    this.mainResults = [];
+    this.mainResultsNames = [];
     this.errors = [];
+    this.warnings = [];
     this.visData = null;
     this.loadingResults = true;
     this.selectedNode = null;
@@ -217,47 +250,76 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.maturities = [];
     this.matColors = {};
 
-    const moduleNameArr = this.form.get('moduleName').value.split('@');
-    this.params['module'] = this.form.get('moduleName').value;
+    this.visData = new TopologyData();
 
-    this.dataService.getImpactAnalysis(
-      moduleNameArr[0],
-      this.form.get('allowRfc').value,
-      this.form.get('allowSubmodules').value,
-      moduleNameArr.length > 1 ? moduleNameArr[1] : null
-    ).pipe(
-      finalize(() => this.loadingResults = false),
-      takeUntil(this.componentDestroyed)
-    ).subscribe(
-      impactResult => {
-        this.mainResult = impactResult;
-        this.addOrganizations(impactResult.getOrganisations());
-        this.addMaturities(impactResult.getMaturities());
-
-        this.visData = new TopologyData();
-
-        this.visData.nodes.push(new ImpactVisNodeModel(impactResult.name, impactResult.name, impactResult.organization, impactResult.maturity, this.orgColors[impactResult.organization], this.matColors[impactResult.maturity], false, false));
-        impactResult['dependents'].forEach(dep => {
-          if (dep['name']) {
-            this.visData.nodes.push(new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], false, true));
-            this.visData.links.push(new ImpactVisLinkModel(dep['name'] + '_' + impactResult.name, dep.name, impactResult['name'], 'rgba(0,0,0,1)', 'from'));
-          }
-        });
-
-        impactResult['dependencies'].forEach(dep => {
-          if (dep['name']) {
-            this.visData.nodes.push(new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], true, false));
-            this.visData.links.push(new ImpactVisLinkModel(impactResult.name + '_' + dep.name, impactResult['name'], dep.name, 'rgba(0,0,0,1)', 'from'));
-          }
-        });
-
+    from(allModules).pipe(
+      mergeMap((module: string[]) => {
+        return this.dataService.getImpactAnalysis(
+          module[0],
+          this.form.get('allowRfc').value,
+          this.form.get('allowSubmodules').value,
+          module.length > 1 ? module[1] : null
+        );
+      }),
+      finalize(() => {
         if (fromURL) {
           this.updateTopologyByQueryParams();
         }
         else {
           this.updateURL();
         }
-      },
+        this.loadingResults = false;
+        this.visComponent.redraw();
+      }),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(impactResult => {
+      this.mainResults.push(impactResult);
+      this.mainResultsNames.push(impactResult.name);
+      this.addOrganizations(impactResult.getOrganisations());
+      this.addMaturities(impactResult.getMaturities());
+
+      const newNodes = [];
+      const newLinks = [];
+
+      // if (!this.visData.getNodeById(impactResult.name)) {
+      const newNode = new ImpactVisNodeModel(impactResult.name, impactResult.name, impactResult.organization, impactResult.maturity, this.orgColors[impactResult.organization], this.matColors[impactResult.maturity], false, false);
+      this.visData.nodes.push();
+      newNodes.push(newNode);
+      // }
+
+      impactResult['dependents'].forEach(dep => {
+        if (dep['name']) {
+          if (!this.visData.getNodeById(dep['name'])) {
+            const newNode = new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], false, true);
+            this.visData.nodes.push(newNode);
+            newNodes.push(newNode);
+          }
+
+          const newLink = new ImpactVisLinkModel(dep['name'] + '_' + impactResult.name, dep['name'], impactResult['name'], 'rgba(0,0,0,1)', 'from');
+          this.visData.links.push(newLink);
+          newLinks.push(newLink);
+        }
+      });
+
+      impactResult['dependencies'].forEach(dep => {
+        if (dep['name']) {
+          if (!this.visData.getNodeById(dep['name'])) {
+            const newNode = new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], true, false);
+            this.visData.nodes.push(newNode);
+            newNodes.push(newNode);
+          }
+
+          const newLink = new ImpactVisLinkModel(impactResult.name + '_' + dep['name'], impactResult['name'], dep['name'], 'rgba(0,0,0,1)', 'from');
+          this.visData.links.push(newLink);
+          newLinks.push(newLink);
+        }
+      });
+
+      this.visComponent.updateNodes(newNodes);
+      this.visComponent.updateLinks(newLinks);
+
+      this.warnings.push(...impactResult.warnings);
+    },
       err => {
         console.error(err);
         this.errors.push(err);
@@ -271,12 +333,11 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.highlightedOrg = org;
 
       const nodesToHighlighted = this.visData.nodes.filter((node) => {
-        return node['organization'] === org || node['label'] === this.mainResult.name;
+        return node['organization'] === org || this.mainResults.findIndex(res => res.name === node['label']) !== -1;
       });
 
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
 
   }
 
@@ -286,12 +347,11 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.highlightedMat = mat;
 
       const nodesToHighlighted = this.visData.nodes.filter((node) => {
-        return node['maturity'] === mat || node['label'] === this.mainResult.name;
+        return node['maturity'] === mat || this.mainResults.findIndex(res => res.name === node['label']) !== -1;
       });
 
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
 
   }
 
@@ -301,11 +361,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.highlightedDir = dir;
 
       const nodesToHighlighted = this.visData.nodes.filter((node) => {
-        return (dir === 'dependencies' && node['isDependency']) || (dir === 'dependents' && node['isDependent']) || node['label'] === this.mainResult.name;
+        return (dir === 'dependencies' && node['isDependency'])
+          || (dir === 'dependents' && node['isDependent'])
+          || this.mainResults.findIndex(res => res.name === node['label']) !== -1;
       });
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
 
   }
 
@@ -315,7 +376,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.highlightedOrg = '';
     }
   }
-
 
   onMatMouseOut() {
     if (this.highlightedMat) {
@@ -331,9 +391,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
 
-  onOrgToggle(checked, organization: string) {
+  onOrgToggle(checked: boolean, organization: string) {
     this.orgSelected[organization] = checked;
-    const nodes = this.visData.nodes.filter(node => node['organization'] === organization && node['label'] !== this.mainResult.name);
+    const nodes = this.visData.nodes.filter(
+      node => node['organization'] === organization && this.mainResults.findIndex(res => res.name === node['label']) === -1);
     nodes.forEach(node => node['hidden'] = !checked);
     this.visComponent.updateNodes(nodes);
     if (checked) {
@@ -344,9 +405,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.updateURL();
   }
 
-  onMatToggle(checked, mat: string) {
+  onMatToggle(checked: boolean, mat: string) {
     this.matSelected[mat] = checked;
-    const nodes = this.visData.nodes.filter(node => node['maturity'] === mat && node['label'] !== this.mainResult.name);
+    const nodes = this.visData.nodes.filter(
+      node => node['maturity'] === mat && this.mainResults.findIndex(res => res.name === node['label']) === -1);
     nodes.forEach(node => node['hidden'] = !checked);
     this.visComponent.updateNodes(nodes);
     if (checked) {
@@ -356,9 +418,11 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
 
-  onDirToggle(checked, dir: string) {
+  onDirToggle(checked: boolean, dir: string) {
     this.dirSelected[dir] = checked;
-    const nodes = this.visData.nodes.filter(node => ((dir === 'dependencies' && node['isDependency']) || (dir === 'dependents' && node['isDependent'])) && node['label'] !== this.mainResult.name);
+    const nodes = this.visData.nodes.filter(node =>
+      ((dir === 'dependencies' && node['isDependency']) || (dir === 'dependents' && node['isDependent']))
+      && this.mainResults.findIndex(res => res.name === node['label']) === -1);
     nodes.forEach(node => node['hidden'] = !checked);
     this.visComponent.updateNodes(nodes);
     if (checked) {
@@ -369,16 +433,26 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.updateURL();
   }
 
-  onClusterCompaniesToggle(clustered: boolean) {
+  onClusterOrganizationsToggle(clustered: boolean) {
     if (clustered) {
       if (this.clusterByMaturity) {
         this.clusterByMaturity = false;
         this.onClusterMaturityToggle(false);
       }
-      this.organizations.forEach(organization => {
+      this.organizations.forEach((organization: string) => {
+        let organizationNodes: ImpactAnalysisModel[] = [];
+
+        this.mainResults.forEach((res: ImpactAnalysisModel) => {
+          const orgMembers = res.getOrganizationMembers(organization);
+          const orgMembersNoMains = orgMembers.filter(orgMember => this.mainResults.findIndex(mainRes => mainRes.name === orgMember.name) === -1);
+          const uniqueOrgMembers = orgMembersNoMains.filter(org => organizationNodes.findIndex(node => node.name === org.name) === -1);
+          organizationNodes.push(...uniqueOrgMembers);
+        });
+
+        let membersCount = organizationNodes.length;
         const clusterOptionsByData = {
           joinCondition: (childOptions) => {
-            return childOptions['organization'] === organization && childOptions['label'] !== this.mainResult.name;
+            return childOptions['organization'] === organization && this.mainResults.findIndex(res => res.name === childOptions['label']) === -1;
           },
           releaseFunction: () => {
             return {};
@@ -394,8 +468,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
             borderWidth: 3,
             shape: 'dot',
             color: this.orgColors[organization],
-            size: 15 + Math.round(this.mainResult.getOrganizationMembersCount(organization) * 0.75),
-            label: `${organization} (${this.mainResult.getOrganizationMembersCount(organization)})`,
+            size: 15 + Math.round(membersCount * 0.75),
+            label: `${organization} (${membersCount})`,
           },
         };
         this.visComponent.cluster(clusterOptionsByData);
@@ -420,13 +494,18 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.onOrgMouseOut();
 
     } else {
-      this.organizations.forEach(org => {
-        let membersCount = this.mainResult.getOrganizationMembersCount(org);
-        if (org === this.mainResult.organization) {
-          membersCount--;
-        }
-        if (membersCount > 1) {
-          this.visComponent.openCluster('cluster_org_' + org);
+      this.organizations.forEach((organization: string) => {
+        let organizationNodes: ImpactAnalysisModel[] = [];
+
+        this.mainResults.forEach((res: ImpactAnalysisModel) => {
+          const orgMembers = res.getOrganizationMembers(organization);
+          const orgMembersNoMains = orgMembers.filter(orgMember => this.mainResults.findIndex(mainRes => mainRes.name === orgMember.name) === -1);
+          const uniqueOrgMembers = orgMembersNoMains.filter(org => organizationNodes.findIndex(node => node.name === org.name) === -1);
+          organizationNodes.push(...uniqueOrgMembers);
+        });
+
+        if (organizationNodes.length > 1) {
+          this.visComponent.openCluster('cluster_org_' + organization);
         }
       });
     }
@@ -435,14 +514,23 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   onClusterMaturityToggle(clustered: boolean) {
     if (clustered) {
-      if (this.clusterByCompany) {
-        this.clusterByCompany = false;
-        this.onClusterCompaniesToggle(false);
+      if (this.clusterByOrganization) {
+        this.clusterByOrganization = false;
+        this.onClusterOrganizationsToggle(false);
       }
-      this.maturities.forEach(maturity => {
+      this.maturities.forEach((maturity: string) => {
+        let maturityNodes: ImpactAnalysisModel[] = [];
+
+        this.mainResults.forEach((res: ImpactAnalysisModel) => {
+          const matMembers = res.getMaturityMembers(maturity);
+          const matMembersNoMains = matMembers.filter(matMember => this.mainResults.findIndex(mainRes => mainRes.name === matMember.name) === -1);
+          const uniqueMatMembers = matMembersNoMains.filter(mat => maturityNodes.findIndex(node => node.name === mat.name) === -1);
+          maturityNodes.push(...uniqueMatMembers);
+        });
+        let membersCount = maturityNodes.length;
         const clusterOptionsByData = {
           joinCondition: (childOptions) => {
-            return childOptions['maturity'] === maturity && childOptions['label'] !== this.mainResult.name;
+            return childOptions['maturity'] === maturity && this.mainResults.findIndex(res => res.name === childOptions['label']) === -1;
           },
           releaseFunction: () => {
             return {};
@@ -458,8 +546,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
             borderWidth: 3,
             shape: 'dot',
             color: this.matColors[maturity],
-            size: 15 + Math.round(this.mainResult.getMaturityMembersCount(maturity) * 0.75),
-            label: `${maturity} (${this.mainResult.getMaturityMembersCount(maturity)})`,
+            size: 15 + Math.round(membersCount * 0.75),
+            label: `${maturity} (${membersCount})`,
           },
         };
         this.visComponent.cluster(clusterOptionsByData);
@@ -484,13 +572,18 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       this.onMatMouseOut();
 
     } else {
-      this.maturities.forEach(mat => {
-        let membersCount = this.mainResult.getMaturityMembersCount(mat);
-        if (mat === this.mainResult.maturity) {
-          membersCount--;
-        }
-        if (membersCount > 1) {
-          this.visComponent.openCluster('cluster_mat_' + mat);
+      this.maturities.forEach((maturity: string) => {
+        let maturityNodes: ImpactAnalysisModel[] = [];
+
+        this.mainResults.forEach((res: ImpactAnalysisModel) => {
+          const matMembers = res.getMaturityMembers(maturity);
+          const matMembersNoMains = matMembers.filter(matMember => this.mainResults.findIndex(mainRes => mainRes.name === matMember.name) === -1);
+          const uniqueMatMembers = matMembersNoMains.filter(mat => maturityNodes.findIndex(node => node.name === mat.name) === -1);
+          maturityNodes.push(...uniqueMatMembers);
+        });
+
+        if (maturityNodes.length > 1) {
+          this.visComponent.openCluster('cluster_mat_' + maturity);
         }
       });
     }
@@ -506,7 +599,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     if (clickedNodeId.indexOf('cluster_') !== -1) {
       this.selectedCluster = clickedNodeId;
     } else {
-      this.selectedNode = this.mainResult.getNodeByName(clickedNodeId);
+      this.selectedNode = this.mainResults.find(res => res.getNodeByName(clickedNodeId)).getNodeByName(clickedNodeId);
     }
   }
 
@@ -521,7 +614,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     this.dataService.getImpactAnalysis(
       this.selectedNode.name,
       this.form.get('allowRfc').value,
-      this.form.get('allowSubmodules').value
+      this.form.get('allowSubmodules').value,
+      this.selectedNode.revision
     ).pipe(
       finalize(() => this.loadingResults = false),
       takeUntil(this.componentDestroyed)
@@ -541,7 +635,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
             this.visData.nodes.push(newNode);
             newNodes.push(newNode);
 
-            const newLink = new ImpactVisLinkModel(dep['name'] + '_' + impactResult.name, dep.name, impactResult['name'], 'rgba(0,0,0,1)', 'to');
+            const newLink = new ImpactVisLinkModel(dep['name'] + '_' + impactResult.name, dep['name'], impactResult['name'], 'rgba(0,0,0,1)', 'from');
             this.visData.links.push(newLink);
             newLinks.push(newLink);
           }
@@ -552,7 +646,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
             const newNode = new ImpactVisNodeModel(dep['name'], dep['name'], dep.organization, dep.maturity, this.orgColors[dep.organization], this.matColors[dep.maturity], true, false);
             this.visData.nodes.push(newNode);
             newNodes.push(newNode);
-            const newLink = new ImpactVisLinkModel(impactResult.name + '_' + dep.name, impactResult['name'], dep.name, 'rgba(0,0,0,1)', 'from');
+
+            const newLink = new ImpactVisLinkModel(impactResult.name + '_' + dep['name'], impactResult['name'], dep['name'], 'rgba(0,0,0,1)', 'from');
             this.visData.links.push(newLink);
             newLinks.push(newLink);
           }
@@ -582,9 +677,27 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     }).componentInstance;
 
     if (selectedClusterId.indexOf('_org_') !== -1) {
-      modalNodeDetail.nodesList = this.mainResult.getOrganizationMembers(selectedClusterId.replace('cluster_org_', ''));
+      let organizationNodes: ImpactAnalysisModel[] = [];
+
+      this.mainResults.forEach((res: ImpactAnalysisModel) => {
+        const orgMembers = res.getOrganizationMembers(selectedClusterId.replace('cluster_org_', ''));
+        const orgMembersNoMains = orgMembers.filter(orgMember => this.mainResults.findIndex(mainRes => mainRes.name === orgMember.name) === -1);
+        const uniqueOrgMembers = orgMembersNoMains.filter(org => organizationNodes.findIndex(node => node.name === org.name) === -1);
+        organizationNodes.push(...uniqueOrgMembers);
+      });
+
+      modalNodeDetail.nodesList = organizationNodes;
     } else {
-      modalNodeDetail.nodesList = this.mainResult.getMaturityMembers(selectedClusterId.replace('cluster_mat_', ''));
+      let maturityNodes: ImpactAnalysisModel[] = [];
+
+      this.mainResults.forEach((res: ImpactAnalysisModel) => {
+        const matMembers = res.getMaturityMembers(selectedClusterId.replace('cluster_mat_', ''));
+        const matMembersNoMains = matMembers.filter(matMember => this.mainResults.findIndex(mainRes => mainRes.name === matMember.name) === -1);
+        const uniqueMatMembers = matMembersNoMains.filter(mat => maturityNodes.findIndex(node => node.name === mat.name) === -1);
+        maturityNodes.push(...uniqueMatMembers);
+      });
+
+      modalNodeDetail.nodesList = maturityNodes;
     }
 
     this.selectedCluster = null;
@@ -600,8 +713,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       size: 'lg',
     }).componentInstance;
 
-    warningsComp.warnings = this.mainResult.warnings;
-
+    warningsComp.warnings = this.warnings;
   }
 
   onCloseWarnings() {
@@ -611,7 +723,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   updateURL() {
     this.updateQueryParams();
     const url = this.router.createUrlTree(
-      ['yang-search', 'impact_analysis', this.params['module']],
+      ['yang-search', 'impact_analysis'],
       {
         queryParams: this.queryParams
       }).toString();
@@ -639,6 +751,9 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       }
     }
     this.queryParams['orgtags'] = queryOrganizations.length > 0 ? queryOrganizations.join(',') : null;
+
+    const queryModules = this.form.get('moduleNamesList').value.map(module => module.value + '.yang');
+    this.queryParams['modtags'] = queryModules.length > 0 ? queryModules.join(',') : null;
   }
 
   updateTopologyByQueryParams() {
@@ -647,14 +762,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
     switch (this.queryParams['show_dir']) {
       case 'dependencies':
-        this.dirSelected = { dependencies: true, dependents: false };
-        const dependentsNodes = this.visData.nodes.filter(node => (node['isDependent'] && node['label'] !== this.mainResult.name));
-        dependentsNodes.forEach(node => node['hidden'] = true);
+        this.onDirToggle(false, 'dependents');
         break;
       case 'dependents':
-        this.dirSelected = { dependencies: false, dependents: true };
-        const dependciesNodes = this.visData.nodes.filter(node => (node['isDependency'] && node['label'] !== this.mainResult.name));
-        dependciesNodes.forEach(node => node['hidden'] = true);
+        this.onDirToggle(false, 'dependencies');
         break;
       default:
         this.dirSelected = { dependencies: true, dependents: true };
@@ -663,13 +774,10 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
     if (this.queryParams['orgtags']) {
       const queryOrganizations = this.queryParams['orgtags'].split(',');
-      const nodes = this.visData.nodes.filter(node => !queryOrganizations.includes(node['organization']) && node['label'] !== this.mainResult.name);
-      nodes.forEach(node => node['hidden'] = true);
-
       const uncheckedOrgs = this.organizations.filter(org => !queryOrganizations.includes(org));
       for (const org in this.orgSelected) {
         if (uncheckedOrgs.includes(org)) {
-          this.orgSelected[org] = false;
+          this.onOrgToggle(false, org);
         }
       }
     }

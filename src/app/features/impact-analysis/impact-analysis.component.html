@@ -11,9 +11,22 @@
 
           <label class="control-label" for="moduleNameInput">Module Name</label>
           <div class="form-inline">
+            <tag-input
+              [onTextChangeDebounce]="200"
+              formControlName="moduleNamesList"
+              theme="bootstrap"
+              placeholder="Add next module name"
+              secondaryPlaceholder="Fill the module name"
+              class="form-control"
+              (onAdd)="updateURL()"
+              (onRemove)="updateURL()">
+              <tag-input-dropdown [autocompleteObservable]="tagAutocomplete" [minimumTextLength]="3"></tag-input-dropdown>
+            </tag-input>
+            <!--
             <input id="moduleNameInput" formControlName="moduleName" type="text" class="form-control"
                    [ngbTypeahead]="autocomplete"
                    placeholder="Fill the module name"/>
+            -->
             <label for="allowRfc" class="checkbox">
               <input id="allowRfc" formControlName="allowRfc" type="checkbox"/>
               <i class="skin"></i> <span>Include Ratified Standards</span>
@@ -24,8 +37,8 @@
             </label>
           </div>
 
-          <br *ngIf="mainResult">
-          <ngb-alert type="warning" (close)="onCloseWarnings()" role="alert" *ngIf="mainResult && showWarnings && mainResult.warnings.length > 0">
+          <br *ngIf="warnings">
+          <ngb-alert type="warning" (close)="onCloseWarnings()" role="alert" *ngIf="warnings && showWarnings && warnings.length > 0">
             Data has been loaded with some warnings. <a (click)="onShowWarningsClick()">Show warnings</a>
           </ngb-alert>
 
@@ -58,8 +71,8 @@
         <strong>Cluster by</strong>
         <ul class="vis-legend">
           <li>
-            <label for="cluster_company" class="checkbox">
-              <input id="cluster_company" type="checkbox" [(ngModel)]="clusterByCompany" (change)="onClusterCompaniesToggle($event.target['checked'])" />
+            <label for="cluster_organization" class="checkbox">
+              <input id="cluster_organization" type="checkbox" [(ngModel)]="clusterByOrganization" (change)="onClusterOrganizationsToggle($event.target['checked'])" />
               <i class="skin"></i> <span>organization</span>
             </label>
           </li>
@@ -75,7 +88,7 @@
         <ul class="vis-legend">
           <li *ngFor="let org of organizations; let i=index">
             <label for="org_{{org}}" class="checkbox" (mouseout)="onOrgMouseOut()" (mousemove)="onOrgMouseMove(org)">
-              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
+              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
               <i class="skin"></i> <span style="color: {{orgColors[org]}}">{{org}}</span>
             </label>
           </li>
@@ -84,7 +97,7 @@
         <ul class="vis-legend">
           <li *ngFor="let mat of maturities">
             <label for="mat_{{mat}}" class="checkbox" (mouseout)="onMatMouseOut()" (mousemove)="onMatMouseMove(mat)">
-              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
+              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
               <i class="skin"></i> <span>{{mat}}</span>
             </label>
           </li>
@@ -93,7 +106,7 @@
         <ul class="vis-legend">
           <li *ngFor="let dir of directions">
             <label for="mat_{{dir}}" class="checkbox" (mouseout)="onDirMouseOut()" (mousemove)="onDirMouseMove(dir)">
-              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByCompany || clusterByMaturity" [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
+              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
               <i class="skin"></i> <span>{{dir}}</span>
             </label>
           </li>
