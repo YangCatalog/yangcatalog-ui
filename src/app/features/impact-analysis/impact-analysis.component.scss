@@ -1,8 +1,12 @@
 
 :host {
   .form-inline {
-    input {
+    tag-input {
       width: 50%;
+
+      ::ng-deep .ng2-tag-input.bootstrap tag {
+        z-index: 0;
+      }
     }
 
     label.checkbox {
@@ -12,8 +16,6 @@
 
   label {
     display: inline;
-
-
 
     input[type=checkbox] {
       width: 18px;
@@ -30,7 +32,6 @@
     z-index: 99;
     width: 140px;
     margin-top: 15px;
-
   }
 
   ul.vis-legend {
@@ -45,7 +46,6 @@
     }
   }
 
-
   .node-context-menu {
     background: white;
     width: auto;
@@ -55,5 +55,4 @@
     padding: 9px;
     box-shadow: 3px 3px 8px gray;
   }
-
 }

@@ -1,4 +1,3 @@
-import { ImpactVisNodeModel } from './impact-vis-node-model';
 
 export class ImpactAnalysisModel {
   dependencies: ImpactAnalysisModel[];
@@ -31,14 +30,14 @@ export class ImpactAnalysisModel {
     this.warnings = [];
     this.warnings = this.warnings.concat(
       data['dependencies'] ? data['dependencies']
-          .filter(dep => dep.hasOwnProperty('warning'))
-          .map(dep => dep['warning'])
+        .filter(dep => dep.hasOwnProperty('warning'))
+        .map(dep => dep['warning'])
         : []
     );
     this.warnings = this.warnings.concat(
       data['dependents'] ? data['dependents']
-          .filter(dep => dep.hasOwnProperty('warning'))
-          .map(dep => dep['warning'])
+        .filter(dep => dep.hasOwnProperty('warning'))
+        .map(dep => dep['warning'])
         : []
     );
   }
@@ -63,7 +62,7 @@ export class ImpactAnalysisModel {
     return result;
   }
 
-  getOrganizationMembers(orgName: string): ImpactVisNodeModel[] {
+  getOrganizationMembers(orgName: string): ImpactAnalysisModel[] {
 
     let result = [];
     if (this.organization === orgName) {
@@ -76,7 +75,7 @@ export class ImpactAnalysisModel {
     return result;
   }
 
-  getMaturityMembers(maturity: string): ImpactVisNodeModel[] {
+  getMaturityMembers(maturity: string): ImpactAnalysisModel[] {
 
     let result = [];
     if (this.maturity === maturity) {
@@ -115,7 +114,7 @@ export class ImpactAnalysisModel {
     } else {
       let dep = this.dependents.find(d => d.name === nodeName);
       if (dep) {
-          return dep;
+        return dep;
       }
       dep = this.dependencies.find(d => d.name === nodeName);
       if (dep) {
