@@ -113,7 +113,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let requestModuleName = this.form.get('moduleName').value;
+    let requestModuleName = this.form.get('moduleName').value.trim();;
     if (this.form.get('moduleRevision').value) {
       requestModuleName += '@' + this.form.get('moduleRevision').value;
     }
@@ -141,13 +141,13 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   }
 
   onGetDetailsClick() {
-    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value;
+    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value.trim();
     // this.router.navigate([newRoute]);
     window.location.href = newRoute;
   }
 
   onRevisionSelectChange(event: Event) {
-    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value + '@' + this.form.get('moduleRevision').value;
+    const newRoute = this.myBaseUrl + '/yang-search/module_details/' + this.form.get('moduleName').value.trim() + '@' + this.form.get('moduleRevision').value;
     // this.router.navigate([newRoute]);
     window.location.href = newRoute;
   }

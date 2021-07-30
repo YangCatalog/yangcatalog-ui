@@ -1,18 +1,17 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { YangValidatorService } from './yang-validator.service';
-import { finalize, mergeMap, takeUntil } from 'rxjs/operators';
-import { merge, Subject } from 'rxjs';
-import { ValidationOutput } from './models/validation-output';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorMessage } from 'ng-bootstrap-form-validation';
+import { merge, Subject } from 'rxjs';
+import { finalize, mergeMap, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { YcValidationsService } from '../../core/yc-validations.service';
+import { FileUploadFormComponent } from '../../shared/file-upload-form/file-upload-form.component';
 import { MissingModulesSelectionComponent } from './missing-modules-confirmation/missing-modules-selection.component';
 import { ChosenMissingRevsInput } from './models/chosen-missing-revs-input';
-import { FileUploadFormComponent } from '../../shared/file-upload-form/file-upload-form.component';
-import { YcValidationsService } from '../../core/yc-validations.service';
-import { ErrorMessage } from 'ng-bootstrap-form-validation';
-import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { ValidationResultComponent } from './validation-result/validation-result.component';
+import { ValidationOutput } from './models/validation-output';
+import { YangValidatorService } from './yang-validator.service';
 
 
 @Component({
@@ -158,7 +157,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.validationOutput = null;
     this.error = null;
 
-    this.dataService.validateRfcByNumber(this.rfcNumberForm.get('rfcNumber').value)
+    this.dataService.validateRfcByNumber(this.rfcNumberForm.get('rfcNumber').value.trim())
       .pipe(
         finalize(() => this.validatingRfcNumberProgress = false),
         takeUntil(merge(this.formTypeChanged, this.componentDestroyed))
@@ -183,14 +182,14 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       finalize(() => this.validatingRfcNumberProgress = false),
                       takeUntil(this.componentDestroyed)
                     ).subscribe(
-                    () => {
-                      this.validationOutput = output;
-                      this.scrollToResults();
-                    },
-                    err => this.rfcError = err
-                  );
+                      () => {
+                        this.validationOutput = output;
+                        this.scrollToResults();
+                      },
+                      err => this.rfcError = err
+                    );
                 } else {
-                  this.dataService.validateRfcByNumberWithLatestRevisions(this.rfcNumberForm.get('rfcNumber').value)
+                  this.dataService.validateRfcByNumberWithLatestRevisions(this.rfcNumberForm.get('rfcNumber').value.trim())
                     .pipe(
                       finalize(() => this.validatingRfcNumberProgress = false),
                       takeUntil(this.componentDestroyed)
@@ -225,7 +224,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.validationOutput = null;
     this.error = null;
 
-    this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value)
+    this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value.trim())
       .pipe(
         finalize(() => this.validatingDraftNameProgress = false),
         takeUntil(merge(this.componentDestroyed, this.formTypeChanged))
@@ -250,14 +249,14 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       finalize(() => this.validatingDraftNameProgress = false),
                       takeUntil(this.componentDestroyed)
                     ).subscribe(
-                    () => {
-                      this.validationOutput = output;
-                      this.scrollToResults();
-                    },
-                    err => this.draftNameError = err
-                  );
+                      () => {
+                        this.validationOutput = output;
+                        this.scrollToResults();
+                      },
+                      err => this.draftNameError = err
+                    );
                 } else {
-                  this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value)
+                  this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value.trim())
                     .pipe(
                       finalize(() => this.validatingDraftNameProgress = false),
                       takeUntil(this.componentDestroyed)
@@ -304,41 +303,41 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         finalize(() => this.validatingFilesProgress = false),
         takeUntil(merge(this.filesForm.selection, this.formTypeChanged, this.componentDestroyed))
       ).subscribe(
-      output => {
-        this.validatingFilesProgress = false;
-        if (output.isFinal()) {
-          this.validationOutput = output;
-          this.scrollToResults();
-        } else {
-          const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
-          const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
-          modalComponent.validationOutput = output;
+        output => {
+          this.validatingFilesProgress = false;
+          if (output.isFinal()) {
+            this.validationOutput = output;
+            this.scrollToResults();
+          } else {
+            const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+            const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+            modalComponent.validationOutput = output;
 
-          modalRef.result.then(
-            (choosedRevisionsInput: ChosenMissingRevsInput) => {
-              this.validatingFilesProgress = true;
-              this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
-                .pipe(
-                  finalize(() => this.validatingFilesProgress = false),
-                  takeUntil(this.componentDestroyed)
-                ).subscribe(
-                () => {
-                  this.validationOutput = output;
-                  this.scrollToResults();
-                },
-                err => this.filesError = err
-              );
-            },
-            () => {
-            }
-          );
+            modalRef.result.then(
+              (choosedRevisionsInput: ChosenMissingRevsInput) => {
+                this.validatingFilesProgress = true;
+                this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                  .pipe(
+                    finalize(() => this.validatingFilesProgress = false),
+                    takeUntil(this.componentDestroyed)
+                  ).subscribe(
+                    () => {
+                      this.validationOutput = output;
+                      this.scrollToResults();
+                    },
+                    err => this.filesError = err
+                  );
+              },
+              () => {
+              }
+            );
+          }
+        },
+        err => {
+          console.error(err);
+          this.error = err;
         }
-      },
-      err => {
-        console.error(err);
-        this.error = err;
-      }
-    );
+      );
 
   }
 
@@ -364,41 +363,41 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
         finalize(() => this.validatingDraftFileProgress = false),
         takeUntil(merge(this.draftFileForm.selection, this.formTypeChanged, this.componentDestroyed))
       ).subscribe(
-      output => {
-        this.validatingDraftFileProgress = false;
-        if (output.isFinal()) {
-          this.validationOutput = output;
-          this.scrollToResults();
-        } else {
-          const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
-          const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
-          modalComponent.validationOutput = output;
+        output => {
+          this.validatingDraftFileProgress = false;
+          if (output.isFinal()) {
+            this.validationOutput = output;
+            this.scrollToResults();
+          } else {
+            const modalRef: NgbModalRef = this.modalService.open(MissingModulesSelectionComponent);
+            const modalComponent: MissingModulesSelectionComponent = modalRef.componentInstance;
+            modalComponent.validationOutput = output;
 
-          modalRef.result.then(
-            (choosedRevisionsInput: ChosenMissingRevsInput) => {
-              this.validatingDraftFileProgress = true;
-              this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
-                .pipe(
-                  finalize(() => this.validatingDraftFileProgress = false),
-                  takeUntil(this.componentDestroyed)
-                ).subscribe(
-                () => {
-                  this.validationOutput = output;
-                  this.scrollToResults();
-                },
-                err => this.draftError = err
-              );
-            },
-            () => {
-            }
-          );
+            modalRef.result.then(
+              (choosedRevisionsInput: ChosenMissingRevsInput) => {
+                this.validatingDraftFileProgress = true;
+                this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
+                  .pipe(
+                    finalize(() => this.validatingDraftFileProgress = false),
+                    takeUntil(this.componentDestroyed)
+                  ).subscribe(
+                    () => {
+                      this.validationOutput = output;
+                      this.scrollToResults();
+                    },
+                    err => this.draftError = err
+                  );
+              },
+              () => {
+              }
+            );
+          }
+        },
+        err => {
+          console.error(err);
+          this.error = err;
         }
-      },
-      err => {
-        console.error(err);
-        this.error = err;
-      }
-    );
+      );
 
   }
 
