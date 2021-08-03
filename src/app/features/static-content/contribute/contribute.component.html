@@ -73,8 +73,8 @@
     PUT https://yangcatalog.org/api/modules
     Content-type: application/json
 
-                          &#123;
-                          "modules": &#123;
+      &#123;
+      "modules": &#123;
              "module": [
                           &#123;
                           "name": "example-jukebox",
@@ -99,13 +99,14 @@
           For example: <br>
           <pre>
     &#123;
-      "info": "Verification successful",
-      "job-id": "88bd8c4c-8809-4de8-85c8-39d522d4bcdf"
+          "info": "Verification successful",
+          "job-id": "88bd8c4c-8809-4de8-85c8-39d522d4bcdf"
     &#125;
           </pre>
         </li>
         <li>
-          Perform an HTTP GET request to https://yangcatalog.org/api/job/{{{job_id} to get the status of the job. The
+          Perform an HTTP GET request to <strong>https://yangcatalog.org/api/job/{{{job_id}</strong> to get the status of the
+          job. The
           job
           result will remain "In progress" until the job completes. When the job has completed, you will receive either
           a "Finished" (on success) or "Failed" (on failure) result. Reason will remain null if the result is other then
@@ -124,7 +125,7 @@
         </li>
         <li>
           Once the job has completed successfully, test the result by querying the <a
-          href="https://yangcatalog.org/contribute.html#model_get">search API</a>.
+          href="{{myBasePath}}/contribute.html#model_get">search API</a>.
         </li>
         <li>
           Contact <a href="mailto:info@yangcatalog.org">info@yangcatalog.org</a> if you run into problems.
@@ -146,7 +147,7 @@
       </p>
       <ol>
         <li>
-          <a href="https://yangcatalog.org/create.html">Request</a> a new YANG Catalog API account if you do not have
+          <a href="{{myBasePath}}/create.html">Request</a> a new YANG Catalog API account if you do not have
           one already.
         </li>
         <li>
@@ -204,11 +205,11 @@
                   "software-flavor": "ALL",
                   "software-version": "1.2.3",
                   "os-type": "bazOS"
-                  &#125;
-                  ]
-                  &#125;
-                  &#125;
-                    </pre>
+              &#125;
+            ]
+        &#125;
+    &#125;
+            </pre>
         </li>
         <li>
           After submitting the request, if you are authorized, you will receive a job ID in the JSON-formatted reply.
@@ -216,13 +217,14 @@
           <br>
           <pre>
   &#123;
-                        "info": "Verification successful",
-                        "job-id": "88bd8c4c-8809-4de8-85c8-39d522d4bcdf"
+          "info": "Verification successful",
+          "job-id": "88bd8c4c-8809-4de8-85c8-39d522d4bcdf"
   &#125;
           </pre>
         </li>
         <li>
-          Perform an HTTP GET request to https://yangcatalog.org/api/job/{job_id} to get the status of the job. The job
+          Perform an HTTP GET request to <strong>https://yangcatalog.org/api/job/{job_id}</strong> to get the status of the job.
+          The job
           result will remain "In progress" until the job completes. When the job has completed you will receive either a
           "Finished" (on success) or "Failed" (on failure) result. For example, after obtaining the job ID above,
           perform an HTTP GET to https://yangcatalog.org/api/job/88bd8c4c-8809-4de8-85c8-39d522d4bcdf to get the current
@@ -239,7 +241,7 @@
         </li>
         <li>
           Once the job has completed successfully, test the result by querying the <a
-          href="https://yangcatalog.org/contribute.html#model_get">search API</a>.
+          href="{{myBasePath}}/contribute.html#model_get">search API</a>.
         </li>
         <li>
           Contact <a href="mailto:info@yangcatalog.org">info@yangcatalog.org</a> if you run into problems.
@@ -254,7 +256,7 @@
 
       <ol>
         <li>
-          <a href="https://yangcatalog.org/create.html">Request</a> a new YANG Catalog API account if you do not have
+          <a href="{{myBasePath}}/create.html">Request</a> a new YANG Catalog API account if you do not have
           one already.
         </li>
         <li>
@@ -262,11 +264,11 @@
         </li>
         <li>
           Use an HTTP DELETE request to delete specific module:
-          <strong>https://yangcatalog.org/api/modules/module/{{{name},{{{revision},{{{organization}</strong>
+          <strong>https://yangcatalog.org/api/modules/module/{name},{revision},{organization}</strong>
         </li>
         <li>
           Use an HTTP DELETE request to delete modules on specific implementation metadata
-          <strong> https://yangcatalog.org/api/vendors/vendor/{{{name}</strong>. You can continue deeper on the vendors
+          <strong> https://yangcatalog.org/api/vendors/vendor/{name}</strong>. You can continue deeper on the vendors
           branch up to software-flavor
         </li>
       </ol>
@@ -283,8 +285,6 @@
       <ul>
         <li>YANG Catalog API and backend in <a href="https://github.com/YangCatalog/backend">https://github.com/YangCatalog/backend</a>
         </li>
-        <li>YANG Catalog Search in <a
-          href="https://github.com/YangCatalog/search">https://github.com/YangCatalog/search</a></li>
         <li>YANG Catalog Regex validator in <a href="https://github.com/YangCatalog/yangre">https://github.com/YangCatalog/yangre</a>
         </li>
         <li>YANG Catalog static web pages in <a href="https://github.com/YangCatalog/web_root">https://github.com/YangCatalog/web_root</a>
