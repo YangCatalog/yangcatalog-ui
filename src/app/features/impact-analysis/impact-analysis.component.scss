@@ -24,13 +24,12 @@
   }
 
   #impactAnalysisSubmit {
-    margin-top: 10px;
-    margin-left: 0;
+    margin: 10px 0;
   }
 
   .impact-vis-toolbar {
     z-index: 99;
-    width: 140px;
+    width: 170px;
     margin-top: 15px;
   }
 
@@ -54,5 +53,9 @@
     border-radius: 5px;
     padding: 9px;
     box-shadow: 3px 3px 8px gray;
+  }
+
+  .info-text {
+    float: right;
   }
 }

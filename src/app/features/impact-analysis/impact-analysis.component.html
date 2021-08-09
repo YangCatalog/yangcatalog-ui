@@ -42,15 +42,20 @@
             Data has been loaded with some warnings. <a (click)="onShowWarningsClick()">Show warnings</a>
           </ngb-alert>
 
-          <button id="impactAnalysisSubmit" class="btn btn-outline-primary px-ml-5" (click)="submitModuleName()">
-            <div class="spinner-border text-primary" role="status" *ngIf="loadingResults"></div>
-            Show Impact Analysis
-          </button>
+          <div class="yc-col flex-fill">
+            <button id="impactAnalysisSubmit" class="btn btn-outline-primary px-ml-5" (click)="submitModuleName()">
+              <div class="spinner-border text-primary" role="status" *ngIf="loadingResults"></div>
+              Show Impact Analysis
+            </button>
+            <div *ngIf="visData" class="info-text">
+              INFO: Use <strong>scroll</strong> to zoom in/out the topology. <strong>Click</strong> on the node to display details. <strong>Drag</strong> and move nodes to change the topology.
+            </div>
+          </div>
         </div>
       </form>
     </div>
-    <div class="yc-col flex-fill yc-relative" >
-      <div class="vis-container" style="position: absolute; top: 0; left: 140px; width: calc(100% - 140px); height: 100%;">
+    <div class="yc-col flex-fill yc-relative">
+      <div class="vis-container" style="position: absolute; top: 0; left: 170px; width: calc(100% - 170px); height: 100%;">
         <yc-impact-analysis-visualisation topologyId="yang-impact-analysis-vis"
                                           [topologyData]="visData"
                                           [topologyOptions]="visOptions"
@@ -61,24 +66,27 @@
         </yc-impact-analysis-visualisation>
       </div>
 
-      <div class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;" *ngIf="selectedNode">
+      <div *ngIf="selectedNode" class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;">
         <yc-node-context-menu [node]="selectedNode" (loadMore)="onLoadMore()"></yc-node-context-menu>
       </div>
-      <div class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;" *ngIf="selectedCluster">
-        <yc-cluster-context-menu [clusterId]="selectedCluster" (showNodes)="onShowClusterNodesList(selectedCluster)"></yc-cluster-context-menu>
+      <div *ngIf="selectedCluster" class="node-context-menu" style="top: {{contextMenuTop}}px; left: {{contextMenuLeft}}px;">
+        <yc-cluster-context-menu [clusterId]="selectedCluster" (showNodes)="onShowClusterNodesList(selectedCluster)">
+        </yc-cluster-context-menu>
       </div>
       <div class="impact-vis-toolbar" *ngIf="visData" (click)="onToolbarClick()">
         <strong>Cluster by</strong>
         <ul class="vis-legend">
           <li>
             <label for="cluster_organization" class="checkbox">
-              <input id="cluster_organization" type="checkbox" [(ngModel)]="clusterByOrganization" (change)="onClusterOrganizationsToggle($event.target['checked'])" />
+              <input id="cluster_organization" type="checkbox" [(ngModel)]="clusterByOrganization"
+                (change)="onClusterOrganizationsToggle($event.target['checked'])" />
               <i class="skin"></i> <span>organization</span>
             </label>
           </li>
           <li>
             <label for="cluster_maturity" class="checkbox">
-              <input id="cluster_maturity" type="checkbox" [(ngModel)]="clusterByMaturity" (change)="onClusterMaturityToggle($event.target['checked'])" />
+              <input id="cluster_maturity" type="checkbox" [(ngModel)]="clusterByMaturity"
+                (change)="onClusterMaturityToggle($event.target['checked'])" />
               <i class="skin"></i> <span>maturity</span>
             </label>
           </li>
@@ -88,7 +96,8 @@
         <ul class="vis-legend">
           <li *ngFor="let org of organizations; let i=index">
             <label for="org_{{org}}" class="checkbox" (mouseout)="onOrgMouseOut()" (mousemove)="onOrgMouseMove(org)">
-              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
+              <input id="org_{{org}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity"
+                [(ngModel)]="orgSelected[org]" (change)="onOrgToggle($event.target['checked'], org)" />
               <i class="skin"></i> <span style="color: {{orgColors[org]}}">{{org}}</span>
             </label>
           </li>
@@ -97,7 +106,8 @@
         <ul class="vis-legend">
           <li *ngFor="let mat of maturities">
             <label for="mat_{{mat}}" class="checkbox" (mouseout)="onMatMouseOut()" (mousemove)="onMatMouseMove(mat)">
-              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
+              <input id="mat_{{mat}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity"
+                [(ngModel)]="matSelected[mat]" (change)="onMatToggle($event.target['checked'], mat)" />
               <i class="skin"></i> <span>{{mat}}</span>
             </label>
           </li>
@@ -106,7 +116,8 @@
         <ul class="vis-legend">
           <li *ngFor="let dir of directions">
             <label for="mat_{{dir}}" class="checkbox" (mouseout)="onDirMouseOut()" (mousemove)="onDirMouseMove(dir)">
-              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity" [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
+              <input id="mat_{{dir}}" type="checkbox" [disabled]="clusterByOrganization || clusterByMaturity"
+                [(ngModel)]="dirSelected[dir]" (change)="onDirToggle($event.target['checked'], dir)" />
               <i class="skin"></i> <span>{{dir}}</span>
             </label>
           </li>
@@ -117,7 +128,6 @@
         </button>
 
       </div>
-
 
     </div>
   </div>
