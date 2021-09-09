@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DataService } from '../../core/data.service';
 import { YangStatsModel } from '../statistics/models/yang-stats-model';
 
 @Injectable({
@@ -23,14 +23,12 @@ export class PrivateService extends DataService {
 
   }
 
-
   getPrivateJson(): Observable<any> {
     return this.customGet('private/private.json');
   }
 
   loadData(jsonFile: string): Observable<any> {
     return this.customGet('private/' + jsonFile);
-
   }
 
   loadAndTransformObjData(jsonFile: string): Observable<any> {

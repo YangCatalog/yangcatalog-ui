@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { PrivateService } from './private.service';
-import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
-import { Lightbox } from 'ngx-lightbox';
-import { ColDef, GridOptions } from 'ag-grid-community';
-import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { ActivatedRoute } from '@angular/router';
+import { ColDef, GridOptions } from 'ag-grid-community';
+import { Lightbox } from 'ngx-lightbox';
+import { Subject } from 'rxjs';
+import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { YangStatsModel } from '../statistics/models/yang-stats-model';
+import { PrivateService } from './private.service';
 
 @Component({
   selector: 'yc-private',
@@ -35,19 +35,19 @@ export class PrivateComponent implements OnInit, OnDestroy {
   sdoPieData = [];
 
   collDefsSdo: ColDef[] = [
-    {colId: 'name', field: 'name', headerName: 'SDOs and Opensource'},
-    {colId: 'numGithub', field: 'numGithub', headerName: 'Number in Gituhub'},
-    {colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog'},
-    {colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation'},
-    {colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata'},
+    { colId: 'name', field: 'name', headerName: 'SDOs and Opensource' },
+    { colId: 'numGithub', field: 'numGithub', headerName: 'Number in Github' },
+    { colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog' },
+    { colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation' },
+    { colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata' },
   ];
 
   collDefsVendor: ColDef[] = [
-    {colId: 'name', field: 'name', headerName: 'Vendor'},
-    {colId: 'numGithub', field: 'numGithub', headerName: 'Number in Gituhub'},
-    {colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog'},
-    {colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation'},
-    {colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata'},
+    { colId: 'name', field: 'name', headerName: 'Vendor' },
+    { colId: 'numGithub', field: 'numGithub', headerName: 'Number in Github' },
+    { colId: 'numCatalog', field: 'numCatalog', headerName: 'Number in Catalog' },
+    { colId: 'percentageCompile', field: 'percentageCompile', headerName: '% that pass Compilation' },
+    { colId: 'percentageExtra', field: 'percentageExtra', headerName: '% with Metadata' },
   ];
 
   stats: YangStatsModel;
@@ -93,10 +93,10 @@ export class PrivateComponent implements OnInit, OnDestroy {
     autoHeight: true,
     resizable: false,
     sortable: true,
-    cellStyle: {'white-space': 'normal'},
+    cellStyle: { 'white-space': 'normal' },
     headerComponentParams: this.headerComponentParams
   };
-  jsonfile = '' ;
+  jsonfile = '';
 
   jsonPreviewHeader = '';
 
@@ -110,10 +110,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
   privateError = null;
 
 
-  constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute
-  ) {
-
-  }
+  constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute) { }
 
 
   ngOnInit(): void {
@@ -210,12 +207,12 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = this.jsonfile;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model'},
-      {colId: '1', field: '1', maxWidth: 100, headerName: 'Draft Name'},
-      {colId: '2', field: '2', maxWidth: 100, headerName: 'Email'},
-      {colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model'},
-      {colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation'},
-      {colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0'},
+      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
+      { colId: '1', field: '1', maxWidth: 100, headerName: 'Draft Name' },
+      { colId: '2', field: '2', maxWidth: 100, headerName: 'Email' },
+      { colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model' },
+      { colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation' },
+      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
       {
         colId: '7',
         field: '8',
@@ -263,10 +260,10 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = 'General Statistics Data';
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models'},
-      {colId: '1', field: '1', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation'},
-      {colId: '2', field: '2', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation with warnings'},
-      {colId: '3', field: '3', maxWidth: 300, headerName: 'Number of YANG data models that failed compilation'},
+      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models' },
+      { colId: '1', field: '1', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation' },
+      { colId: '2', field: '2', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation with warnings' },
+      { colId: '3', field: '3', maxWidth: 300, headerName: 'Number of YANG data models that failed compilation' },
     ];
 
     this.dataService.loadAndTransformStatisticsObjData('stats/AllYANGPageMain.json').pipe(
@@ -284,10 +281,10 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = 'Statistics ' + statsType;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models'},
-      {colId: '1', field: '1', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation'},
-      {colId: '2', field: '2', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation with warnings'},
-      {colId: '3', field: '3', maxWidth: 300, headerName: 'Number of YANG data models that failed compilation'},
+      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models' },
+      { colId: '1', field: '1', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation' },
+      { colId: '2', field: '2', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation with warnings' },
+      { colId: '3', field: '3', maxWidth: 300, headerName: 'Number of YANG data models that failed compilation' },
     ];
 
     this.dataService.loadAndGetStatisticsForOneType('stats/AllYANGPageMain.json', statsType).pipe(
@@ -305,9 +302,9 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = this.jsonfile;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model'},
-      {colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation'},
-      {colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0'},
+      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
+      { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
       {
         colId: '3',
         field: '3',
@@ -354,9 +351,9 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = this.jsonfile;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model'},
-      {colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation'},
-      {colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0'},
+      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
+      { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
       {
         colId: '3',
         field: '3',
@@ -403,11 +400,11 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = this.jsonfile;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Model'},
-      {colId: '1', field: '1', maxWidth: 300, headerName: 'Draft Name'},
-      {colId: '2', field: '2', maxWidth: 300, headerName: 'Email'},
-      {colId: '3', field: '3', maxWidth: 200, headerName: 'Compilation'},
-      {colId: '4', field: '4', maxWidth: 400, headerName: 'Compilation Result (pyang --ietf'},
+      { colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Model' },
+      { colId: '1', field: '1', maxWidth: 300, headerName: 'Draft Name' },
+      { colId: '2', field: '2', maxWidth: 300, headerName: 'Email' },
+      { colId: '3', field: '3', maxWidth: 200, headerName: 'Compilation' },
+      { colId: '4', field: '4', maxWidth: 400, headerName: 'Compilation Result (pyang --ietf' },
       {
         colId: '5',
         field: '5',
@@ -437,8 +434,8 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = this.jsonfile;
 
     this.jsonPreviewColdefs = [
-      {colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Model (and Submodel)'},
-      {colId: '1', field: '1', maxWidth: 300, headerName: 'RFC'},
+      { colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Model (and Submodel)' },
+      { colId: '1', field: '1', maxWidth: 300, headerName: 'RFC' },
     ];
 
     this.templateMap = {
