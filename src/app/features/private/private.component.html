@@ -6,8 +6,6 @@
         <h3 *ngIf="jsonfile">{{ jsonPreviewHeader }}</h3>
       </div>
 
-
-
       <ngb-alert type="danger" *ngIf="privateError" [dismissible]="false">
         {{ privateError['error'] && privateError['error']['description'] ?  privateError['error']['description'] : privateError.message || 'The application has encountered an unknown error.' }}
       </ngb-alert>
@@ -30,12 +28,18 @@
 
               <ng-container *ngIf="!loading && !statsError && stats">
                 <div class="gen-stats">
-                  <!--                <div class="gen-stat-number vendor"><span>{{ stats.general.numYangFilesVendor | number }}</span><p>Yang Files in Vendor</p></div>-->
-                  <div class="gen-stat-number vendor-unique"><span>{{ stats.general.numYangFilesVendorNdp | number }}</span><p>Unique Yang Files in Vendor</p></div>
-                  <!--                <div class="gen-stat-number standard"><span>{{ stats.general.numYangFilesStandard | number }}</span><p>Yang Files in Standard</p></div>-->
-                  <div class="gen-stat-number standard-unique"><span>{{ stats.general.numYangFilesStandardNdp | number }}</span><p>Unique Yang Files in Standard </p></div>
-                  <!--                <div class="gen-stat-number parsed"><span>{{ stats.general.numParsedFiles | number }}</span><p>Yang Files Parsed into Yangcatalog</p></div>-->
-                  <div class="gen-stat-number parsed-unique"><span>{{ stats.general.numUniqueParsedFiles | number }}</span><p>Unique Yang Files Parsed into Yangcatalog</p></div>
+                  <!--                <div class="gen-stat-number vendor"><span>{{ stats.general.numYangFilesVendor | number }}</span><p>YANG Files in Vendor</p></div>-->
+                  <div class="gen-stat-number vendor-unique"><span>{{ stats.general.numYangFilesVendorNdp | number }}</span>
+                    <p>Unique YANG Files in Vendor</p>
+                  </div>
+                  <!--                <div class="gen-stat-number standard"><span>{{ stats.general.numYangFilesStandard | number }}</span><p>YANG Files in Standard</p></div>-->
+                  <div class="gen-stat-number standard-unique"><span>{{ stats.general.numYangFilesStandardNdp | number }}</span>
+                    <p>Unique YANG Files in Standard </p>
+                  </div>
+                  <!--                <div class="gen-stat-number parsed"><span>{{ stats.general.numParsedFiles | number }}</span><p>YANG Files Parsed into Yangcatalog</p></div>-->
+                  <div class="gen-stat-number parsed-unique"><span>{{ stats.general.numUniqueParsedFiles | number }}</span>
+                    <p>Unique YANG Files Parsed into Yangcatalog</p>
+                  </div>
                 </div>
 
                 <div class="charts">
@@ -43,7 +47,7 @@
                     [results]="sdoToVendorPieData"
                     [view]="[300, 300]"
                     [legend]="true"
-                    [legendTitle]="'Yang files in Github'"
+                    [legendTitle]="'YANG files in Github'"
                     gradient="true"
                     [labels]="false" >
                   </ngx-charts-pie-chart>
@@ -53,7 +57,7 @@
                     [view]="[300, 300]"
                     [legend]="true"
                     gradient="true"
-                    [legendTitle]="'SDO and Opensource Yang files in Github'"
+                    [legendTitle]="'SDO and Opensource YANG files in Github'"
                     [labels]="false" >
                   </ngx-charts-pie-chart>
 
@@ -62,13 +66,12 @@
                     [view]="[300, 300]"
                     [scheme]="{domain: ['#eee213', '#2222d2', '#4fb84f', '#db9813', '#c32828']}"
                     [legend]="true"
-                    [legendTitle]="'Vendor Yang files in Github'"
+                    [legendTitle]="'Vendor YANG files in Github'"
                     gradient="true"
                     [labels]="false" >
                   </ngx-charts-pie-chart>
-
-
                 </div>
+
                 <div class="results-grid-container">
                   <yc-ag-grid tableId="sdoResults"
                               domLayout="autoHeight"
@@ -79,8 +82,8 @@
                               [allColumnDefs]="collDefsSdo"
                               [rowData]="stats.sdoContribs">
                   </yc-ag-grid>
-
                 </div>
+
                 <div class="results-grid-container">
                   <yc-ag-grid tableId="vendorResults"
                               domLayout="autoHeight"
@@ -91,9 +94,7 @@
                               [allColumnDefs]="collDefsVendor"
                               [rowData]="stats.vendorContribs">
                   </yc-ag-grid>
-
                 </div>
-
               </ng-container>
               <p>
                 <br>
@@ -101,6 +102,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="3">
             <a ngbNavLink>SDO</a>
             <ng-template ngbNavContent>
@@ -109,10 +111,10 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="4">
             <a ngbNavLink>Dependency Graphs</a>
             <ng-template ngbNavContent>
-
               <div class="thumbs dependency-thumbs">
                 <div class="thumb-container" *ngFor="let image of dependencyGraphsThumbs; let i=index">
 
@@ -120,9 +122,9 @@
                   <p>{{ image.caption }}</p>
                 </div>
               </div>
-
             </ng-template>
           </li>
+
           <li [ngbNavItem]="5">
             <a ngbNavLink>CISCO </a>
             <ng-template ngbNavContent>
@@ -168,6 +170,7 @@
               </div>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="6">
             <a ngbNavLink>JUNIPER</a>
             <ng-template ngbNavContent>
@@ -179,6 +182,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="7">
             <a ngbNavLink>HUAWEI</a>
             <ng-template ngbNavContent>
@@ -190,6 +194,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="8">
             <a ngbNavLink>CIENA</a>
             <ng-template ngbNavContent>
@@ -201,6 +206,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="9">
             <a ngbNavLink>FUJITSU</a>
             <ng-template ngbNavContent>
@@ -212,6 +218,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="10">
             <a ngbNavLink>NOKIA</a>
             <ng-template ngbNavContent>
@@ -223,6 +230,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="11">
             <a ngbNavLink>YUMAWORKS</a>
             <ng-template ngbNavContent>
@@ -234,6 +242,7 @@
               </p>
             </ng-template>
           </li>
+
           <li [ngbNavItem]="12">
             <a ngbNavLink>OPENROADM </a>
             <ng-template ngbNavContent>
@@ -247,7 +256,6 @@
           </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="search-options"></div>
-
       </ng-container>
 
       <ng-container *ngIf="jsonfile && !showStatsOnly">

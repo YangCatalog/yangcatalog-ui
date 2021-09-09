@@ -12,8 +12,7 @@
         {{ error['error'] ? error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
       </ngb-alert>
 
-      <div class="results-grid-container" *ngIf="!loading && treeRows" [ngStyle]="{minWidth: resultsContainerWidth}">
-
+      <div *ngIf="!loading && treeRows">
         <div id="collapseExpandDiv" style="display: none;">
           <a (click)="expandAll()" id="expandAllSpan" title="Expand All">
             <fa-icon [icon]="faPlusSquare"></fa-icon>
@@ -39,51 +38,54 @@
           INFO: This yang file does not contain any tree.
         </ngb-alert>
 
-        <yc-ag-grid *ngIf="treeRows.length > 1"
-                    tableId="yangTreeResults"
-                    entityName="Module"
-                    entityNamePlural="Modules"
-                    [suppressHorizontalScroll]="false"
-                    [pagination]="false"
-                    [gridOptions]="gridOptions"
-                    [defaultColDef]="defaultColDef"
-                    [allColumnDefs]="allColDefs"
-                    (gridReady)="onGridReady($event)"
-                    [rowData]="treeRows" #resultsGrid>
-          <ng-template let-row #pathColumnTemplate>
-            {{ row['path'] }}
-            <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['path']"
-                    *ngIf="row['path'].length > 0" title="Copy Path">
-              <fa-icon [icon]="faCopy"></fa-icon>
-            </button>
-          </ng-template>
+        <div class="results-grid-container" [ngStyle]="{minWidth: resultsContainerWidth}">
+          <yc-ag-grid *ngIf="treeRows.length > 1"
+                      tableId="yangTreeResults"
+                      entityName="Module"
+                      entityNamePlural="Modules"
+                      domLayout="autoHeight"
+                      [suppressHorizontalScroll]="false"
+                      [pagination]="false"
+                      [gridOptions]="gridOptions"
+                      [defaultColDef]="defaultColDef"
+                      [allColumnDefs]="allColDefs"
+                      (gridReady)="onGridReady($event)"
+                      [rowData]="treeRows" #resultsGrid>
 
-          <ng-template let-row #sensorPathColumnTemplate>
-            {{ row['sensorPath'] }}
-            <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['sensorPath']"
-                    *ngIf=" row['sensorPath'] && row['sensorPath'].length > 0" title="Copy Sensor Path">
-              <fa-icon [icon]="faCopy"></fa-icon>
-            </button>
-          </ng-template>
+            <ng-template let-row #pathColumnTemplate>
+              {{ row['path'] }}
+              <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['path']"
+                      *ngIf="row['path'].length > 0" title="Copy Path">
+                <fa-icon [icon]="faCopy"></fa-icon>
+              </button>
+            </ng-template>
 
-          <ng-template let-row #elementColumnTemplate>
-            <span *ngFor="let in of counter(row['level']) ;let i = index ">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <a title="{{row['title']}}" class="element"
-              (click)="row['groupCollapsed'] ?  expandGroup(row) : collapseGroup(row)"
-              *ngIf="row['children'].length > 0">
-              <fa-icon [icon]="faFolder" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === true"></fa-icon>
-              <fa-icon [icon]="faFolderOpen" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
-              {{row['text']}}
-            </a>
-            <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0 && row['type'] !== 'module'"
-              (click)="openNodeDetail(row)">
-              <fa-icon [icon]="faLeaf" class="green"></fa-icon>
-              {{row['text']}}
-            </a>
-          </ng-template>
-        </yc-ag-grid>
+            <ng-template let-row #sensorPathColumnTemplate>
+              {{ row['sensorPath'] }}
+              <button class="btn btn-sm btn-no-focus" ngxClipboard [cbContent]="row['sensorPath']"
+                      *ngIf=" row['sensorPath'] && row['sensorPath'].length > 0" title="Copy Sensor Path">
+                <fa-icon [icon]="faCopy"></fa-icon>
+              </button>
+            </ng-template>
+
+            <ng-template let-row #elementColumnTemplate>
+              <span *ngFor="let in of counter(row['level']) ;let i = index ">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <a title="{{row['title']}}" class="element"
+                (click)="row['groupCollapsed'] ?  expandGroup(row) : collapseGroup(row)"
+                *ngIf="row['children'].length > 0">
+                <fa-icon [icon]="faFolder" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === true"></fa-icon>
+                <fa-icon [icon]="faFolderOpen" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
+                {{row['text']}}
+              </a>
+              <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0 && row['type'] !== 'module'"
+                (click)="openNodeDetail(row)">
+                <fa-icon [icon]="faLeaf" class="green"></fa-icon>
+                {{row['text']}}
+              </a>
+            </ng-template>
+          </yc-ag-grid>
+        </div>
       </div>
-
     </div>
   </div>
 </div>
