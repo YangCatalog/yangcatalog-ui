@@ -1,16 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { YangSearchService } from './yang-search.service';
-import { finalize, takeUntil } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
-import { ColDef, GridOptions } from 'ag-grid-community';
-import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
-import { environment } from '../../../environments/environment';
-import { YangRegexAboutComponent } from '../yang-regex-validator/yang-regex-about/yang-regex-about.component';
-import { YangModuleDetailsComponent } from '../yang-module-details/yang-module-details.component';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { YangShowNodeComponent } from '../yang-show-node/yang-show-node.component';
+import { ColDef, GridOptions } from 'ag-grid-community';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
+import { YangSearchService } from './yang-search.service';
 
 @Component({
   selector: 'yc-yang-search',
@@ -50,17 +47,17 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   allColDefs: ColDef[] = [
-    {colId: 'name', field: 'name', maxWidth: 150, headerName: 'Name'},
-    {colId: 'revision', field: 'revision', maxWidth: 90, headerName: 'Revision'},
-    {colId: 'schemaType', field: 'schema-type', maxWidth: 130, headerName: 'Schematype'},
-    {colId: 'path', field: 'path', maxWidth: 270, headerName: 'Path'},
-    {colId: 'module', field: 'module-name', headerName: 'Module', maxWidth: 150},
-    {colId: 'origin', field: 'origin', maxWidth: 130, headerName: 'Origin'},
-    {colId: 'organization', field: 'organization', maxWidth: 140, headerName: 'Organization'},
-    {colId: 'maturity', field: 'maturity', maxWidth: 100, headerName: 'Maturity'},
-    {colId: 'importedByNumberModules', field: 'dependents', maxWidth: 120, headerName: 'Imported by # Modules'},
-    {colId: 'compilationStatus', field: 'compilation-status', maxWidth: 130, headerName: 'Compilation Status'},
-    {colId: 'description', field: 'description', headerName: 'Description', maxWidth: 400},
+    { colId: 'name', field: 'name', maxWidth: 150, headerName: 'Name' },
+    { colId: 'revision', field: 'revision', maxWidth: 90, headerName: 'Revision' },
+    { colId: 'schemaType', field: 'schema-type', maxWidth: 130, headerName: 'Schema type' },
+    { colId: 'path', field: 'path', maxWidth: 270, headerName: 'Path' },
+    { colId: 'module', field: 'module-name', headerName: 'Module', maxWidth: 150 },
+    { colId: 'origin', field: 'origin', maxWidth: 130, headerName: 'Origin' },
+    { colId: 'organization', field: 'organization', maxWidth: 140, headerName: 'Organization' },
+    { colId: 'maturity', field: 'maturity', maxWidth: 100, headerName: 'Maturity' },
+    { colId: 'importedByNumberModules', field: 'dependents', maxWidth: 120, headerName: 'Imported by # Modules' },
+    { colId: 'compilationStatus', field: 'compilation-status', maxWidth: 130, headerName: 'Compilation Status' },
+    { colId: 'description', field: 'description', headerName: 'Description', maxWidth: 400 },
   ];
   currentColDefs = [];
 
@@ -68,16 +65,16 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     autoHeight: true,
     resizable: false,
     sortable: true,
-    cellStyle: {'white-space': 'normal'},
+    cellStyle: { 'white-space': 'normal' },
     headerComponentParams: this.headerComponentParams
   };
   gridOptions: GridOptions = {
-    onFirstDataRendered: () => {return this.headerHeightGetter},
-    onColumnResized: () => {return this.headerHeightGetter}
+    onFirstDataRendered: () => { return this.headerHeightGetter; },
+    onColumnResized: () => { return this.headerHeightGetter; }
   };
   resultsMaximized = false;
   searchedTermToBeHighlighted = '';
-  columnsList: { name: string; value: string }[];
+  columnsList: { name: string; value: string; }[];
 
   constructor(
     private fb: FormBuilder,
@@ -89,27 +86,22 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     const columnHeaderTexts = [
       document.querySelectorAll('.ag-header-cell-text')
     ];
-    const  clientHeights = columnHeaderTexts.map(
+    const clientHeights = columnHeaderTexts.map(
       headerText => headerText['clientHeight']
     );
     const tallestHeaderTextHeight = Math.max(...clientHeights);
 
     return tallestHeaderTextHeight;
-  }
+  };
 
   ngOnInit() {
     this.setColumnsList();
     this.initForm();
-    // this.form.get('searchFields').setValue(['module']);
-
   }
 
   ngAfterViewInit(): void {
-    // this.initForm();
     this.adjustColumnsOutput();
-
   }
-
 
   private adjustColumnsOutput() {
     let screenWidth = 0;
@@ -122,19 +114,16 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     const allCols = formArray.controls.map(ctrl => ctrl.value);
     const smallScreenCols = ['name', 'revision', 'schema-type', 'path', 'module', 'description'];
 
-
-
     let i = 0;
     if (screenWidth < 1000) {
       allCols.forEach((col) => {
-        if (smallScreenCols.indexOf(col) === -1 ) {
+        if (smallScreenCols.indexOf(col) === -1) {
           const index = formArray.controls.indexOf(col);
           formArray.removeAt(index);
         }
         i++;
       });
     }
-
 
   }
 
@@ -197,7 +186,6 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
           )
         ])
       ])
-
     });
 
     this.adjustColumnsOutput();
@@ -205,12 +193,6 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.componentDestroyed.next();
-  }
-
-
-
-  goHome() {
-
   }
 
   onCloseError() {
@@ -272,10 +254,10 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onGridReady(event: any) {
-    setTimeout(() => {
-      const newSize = this.resultsGrid.getColsViewportScrollWidth() + 25;
-      this.resultsContainerWidth = (newSize) + 'px';
-    });
+    // setTimeout(() => {
+    //   const newSize = this.resultsGrid.getColsViewportScrollWidth() + 25;
+    //   this.resultsContainerWidth = (newSize) + 'px';
+    // });
   }
 
   onMaximizeResultsClick() {
@@ -289,7 +271,7 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   setColumnsList() {
     this.columnsList = this.allColDefs.map(
       c => {
-        return {value: c['field'], name: c['headerName']};
+        return { value: c['field'], name: c['headerName'] };
       }
     );
   }
@@ -324,14 +306,9 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     return result;
   }
 
-  private encodeUriStr(input: string): string {
-    return encodeURIComponent(input.replace(/\//g, '|'));
-  }
-
   prepareNodeDetailUri(row: any) {
     let result = this.myBaseUrl + '/yang-search/show_node/';
     result = result + encodeURIComponent(row['module-name']) + '/' + encodeURIComponent(row['path']) + '/' + encodeURIComponent(row['revision']);
-    // console.log(result);
     return result;
   }
 
@@ -339,11 +316,11 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     const advancedFormArray: FormArray = this.form.get('advanced') as FormArray;
     const advGroupArray: FormArray = advancedFormArray.at(groupIndex) as FormArray;
     const newGroup = this.fb.group({
-        index: [groupIndex + 1],
-        term: [''],
-        col: ['name'],
-        op: ['and'],
-      }
+      index: [groupIndex + 1],
+      term: [''],
+      col: ['name'],
+      op: ['and'],
+    }
     );
     advGroupArray.insert((termIndex + 1), newGroup);
   }

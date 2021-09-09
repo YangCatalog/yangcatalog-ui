@@ -51,8 +51,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
   ];
 
   stats: YangStatsModel;
-
-
   privateData: any;
   ciscoThumbs: any[] = [];
   dependencyGraphsThumbs: any[] = [];
@@ -109,7 +107,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
   statsError = null;
   privateError = null;
 
-
   constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute) { }
 
 
@@ -147,9 +144,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
         console.error(err);
       }
     );
-
-
-
 
   }
 
@@ -491,12 +485,11 @@ export class PrivateComponent implements OnInit, OnDestroy {
   }
 
   onGridReady(event: any) {
-    setTimeout(() => {
-      const newSize = this.ciscoAuthorsGrid.getColsViewportScrollWidth() + 25;
-      this.jsonfileResultsContainerWidth = (newSize) + 'px';
-    });
+    // setTimeout(() => {
+    //   const newSize = this.ciscoAuthorsGrid.getColsViewportScrollWidth() + 25;
+    //   this.jsonfileResultsContainerWidth = (newSize) + 'px';
+    // });
   }
-
 
   private initJsonFilePreview() {
 
