@@ -261,6 +261,7 @@
       <ng-container *ngIf="jsonfile && !showStatsOnly">
         <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}" style="flex: 1 1 auto;">
           <yc-ag-grid tableId="jsonFileResults"
+                      domLayout="autoHeight"
                       [suppressHorizontalScroll]="false"
                       [gridOptions]="gridOptions"
                       [defaultColDef]="defaultColDef"
