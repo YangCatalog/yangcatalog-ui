@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>YANG CATALOG</title>
+<title>YANG Catalog</title>
 <base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <script>
 
   if (window.location.pathname.match('/yangcatalog-ui/[^/]+')) {
-      window['myBasePath'] = '/yangcatalog-ui';
+    window['myBasePath'] = '/yangcatalog-ui';
   } else {
     window['myBasePath'] = '';
   }
@@ -36,16 +36,15 @@
   .w3-bar .w3-button {
     padding: 16px;
   }
-
 </style>
-<body>
 
+<body>
 
   <div class="yc-top yc-center">
     <div class="yc-bar yc-card yc-relative" id="myNavbar">
       <h1>
         <script>document.write('<a href="' + window['myBasePath'] + '/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">' +
-          '          <span>YANG CATALOG</span></a>');</script>
+                  '          <span>YANG Catalog</span></a>');</script>
 
 
       </h1>
@@ -74,8 +73,9 @@
   </div>
 
   <nav class="yc-sidebar yc-bar-block yc-black yc-card yc-animate-left yc-hide-medium yc-hide-large" style="display:none"
-       id="mySidebar">
-    <a href="' + window['myBasePath'] + 'javascript:void(0)" onclick="w3_close()" class="yc-bar-item yc-button yc-large yc-padding-16">Close ×</a>
+    id="mySidebar">
+    <a href="' + window['myBasePath'] + 'javascript:void(0)" onclick="w3_close()"
+      class="yc-bar-item yc-button yc-large yc-padding-16">Close ×</a>
     <script>document.write('<a href="' + window['myBasePath'] + '/home.html" onclick="w3_close()" class="yc-bar-item yc-button">HOME</a>');</script>
     <script>document.write('<a href="' + window['myBasePath'] + '/about.html" onclick="w3_close()" class="yc-bar-item yc-button">ABOUT</a>');</script>
     <script>document.write('<a href="' + window['myBasePath'] + '/use.html" onclick="w3_close()" class="yc-bar-item yc-button">USE</a>');</script>
@@ -95,17 +95,14 @@
   <yc-root></yc-root>
 
 
-
-
-<script>
-  // Modal Image Gallery
-  function onClick(element) {
-    document.getElementById("img01").src = element.src;
-    document.getElementById("modal01").style.display = "block";
-    var captionText = document.getElementById("caption");
-    captionText.innerHTML = element.alt;
-  }
-
+  <script>
+    // Modal Image Gallery
+    function onClick(element) {
+      document.getElementById("img01").src = element.src;
+      document.getElementById("modal01").style.display = "block";
+      var captionText = document.getElementById("caption");
+      captionText.innerHTML = element.alt;
+    }
 
   // Toggle between showing and hiding the sidebar when clicking the menu icon
   var mySidebar = document.getElementById("mySidebar");
@@ -126,4 +123,5 @@
 
 
 </body>
+
 </html>
