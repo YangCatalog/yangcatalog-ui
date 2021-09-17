@@ -206,18 +206,18 @@ export class PrivateComponent implements OnInit, OnDestroy {
       { colId: '2', field: '2', maxWidth: 100, headerName: 'Email' },
       { colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model' },
       { colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation' },
-      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
+      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.0' },
       {
         colId: '7',
         field: '8',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.4.0'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.0'
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.5'
+        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
       },
       {
         colId: '8',
@@ -298,18 +298,18 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.0' },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.4.0'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.0'
       },
       {
         colId: '4',
         field: '4',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.5'
+        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
       },
       {
         colId: '5',
@@ -347,18 +347,18 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.4.0' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.0' },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.4.0'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.0'
       },
       {
         colId: '4',
         field: '4',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.5'
+        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
       },
       {
         colId: '5',
