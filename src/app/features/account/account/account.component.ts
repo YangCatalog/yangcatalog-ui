@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from './account.service';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { AccountService } from './account.service';
 
 @Component({
   selector: 'yc-account',
@@ -14,6 +14,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   error: any;
   progress = false;
   result: any;
+  fieldValidators = [Validators.required, Validators.maxLength(255)];
 
   private componentDestroyed: Subject<void> = new Subject<void>();
 
@@ -23,20 +24,20 @@ export class AccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordConfirm: ['', Validators.required],
-      email: ['', Validators.required],
-      company: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      username: ['', this.fieldValidators],
+      password: ['', this.fieldValidators],
+      passwordConfirm: ['', this.fieldValidators],
+      email: ['', this.fieldValidators],
+      company: ['', this.fieldValidators],
+      firstName: ['', this.fieldValidators],
+      lastName: ['', this.fieldValidators],
+      motivation: ['', this.fieldValidators]
     });
   }
 
   ngOnDestroy(): void {
     this.componentDestroyed.next();
   }
-
 
   onCloseError() {
     this.error = null;
@@ -59,6 +60,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       company: this.form.get('company').value,
       'first-name': this.form.get('firstName').value,
       'last-name': this.form.get('lastName').value,
+      motivation: this.form.get('motivation').value
     }).pipe(
       finalize(() => this.progress = false),
       takeUntil(this.componentDestroyed)
