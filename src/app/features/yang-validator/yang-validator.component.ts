@@ -54,12 +54,12 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     }
   ];
 
-
   private componentDestroyed: Subject<void> = new Subject<void>();
   private formTypeChanged: Subject<void> = new Subject<void>();
   draftError = null;
   rfcError = null;
   draftNameError = null;
+  versions = {};
 
 
   constructor(
@@ -87,6 +87,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.subscribeRouteParams();
 
+    this.getVersions();
   }
 
 
@@ -99,6 +100,16 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   private initRfcNumberForm() {
     this.rfcNumberForm = this.formBuilder.group({
       rfcNumber: ['', [Validators.required, this.ycValidations.getNumberValidation()]]
+    });
+  }
+
+  private getVersions() {
+    this.dataService.getValidatorsVersion().subscribe(versions => {
+      this.versions = Object.keys(versions).reduce((acc, key) => {
+        let new_key = key.split('-version')[0];
+        acc[new_key] = versions[key].split(' ').pop();
+        return acc;
+      }, {});
     });
   }
 

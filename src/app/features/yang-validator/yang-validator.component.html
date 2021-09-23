@@ -325,6 +325,13 @@ POST /yangvalidator/v2/upload-files-setup
 
       <hr *ngIf="!apiOverview">
 
+      <div>
+        <strong>Validators versions</strong>:
+        <span *ngFor="let item of versions | keyvalue"><strong>{{item.key}}:</strong>
+          {{item.value}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <hr *ngIf="!apiOverview">
+
       <a [routerLink]="'api'" *ngIf="!apiOverview">I want to use the REST API for validating the IETF RFCs >></a>
 
 
