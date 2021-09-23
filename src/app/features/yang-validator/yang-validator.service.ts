@@ -1,17 +1,15 @@
-import { Injectable } from '@angular/core';
-import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ValidationOutput } from './models/validation-output';
 import { map } from 'rxjs/operators';
+import { DataService } from '../../core/data.service';
 import { ChosenMissingRevsInput } from './models/chosen-missing-revs-input';
-import { isArray } from 'rxjs/internal-compatibility';
+import { ValidationOutput } from './models/validation-output';
 
 @Injectable({
   providedIn: 'root'
 })
 export class YangValidatorService extends DataService {
-
 
   constructor(httpClient: HttpClient) {
     super(httpClient);
@@ -62,7 +60,6 @@ export class YangValidatorService extends DataService {
     return this.post('yangvalidator/v2/validator/' + cache, formData)
       .pipe(
         map(output => {
-
           if (output.hasOwnProperty('Error')) {
             throw new Error(output['Error']);
           } else {
@@ -82,7 +79,6 @@ export class YangValidatorService extends DataService {
             throw new Error(output['output']['error']);
           } else {
             return new ValidationOutput(output[0]['output']);
-
           }
         })
       );
@@ -108,4 +104,7 @@ export class YangValidatorService extends DataService {
     );
   }
 
+  getValidatorsVersion(): Observable<any> {
+    return this.customGet('yangvalidator/v2/versions');
+  }
 }
