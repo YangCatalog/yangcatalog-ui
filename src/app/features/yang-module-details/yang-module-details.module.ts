@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { YangModuleDetailsComponent } from './yang-module-details.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbAlertModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
-import { RouterModule } from '@angular/router';
 import { CoreModule } from '../../core/core.module';
+import { YangModuleDetailsComponent } from './yang-module-details.component';
 
 
 @NgModule({
@@ -19,8 +19,7 @@ import { CoreModule } from '../../core/core.module';
     NgBootstrapFormValidationModule,
     NgbTooltipModule,
     RouterModule,
-    CoreModule,
-
+    CoreModule
   ]
 })
 export class YangModuleDetailsModule { }

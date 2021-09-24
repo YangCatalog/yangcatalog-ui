@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
-import { ModuleDetailsModel } from './models/module-details-model';
 import { map } from 'rxjs/operators';
+import { DataService } from '../../core/data.service';
+import { ModuleDetailsModel } from './models/module-details-model';
+import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +35,6 @@ export class YangModuleDetailsService extends DataService {
   }
 
   getModuleDetails(moduleName: string): Observable<ModuleDetailsModel> {
-    // return this.getOneModel('/localhost:8085/assets/ietf-isis.json?' + moduleName, ModuleDetailsModel);
     return this.getOneModel('api/yang-search/v2/module-details/' + moduleName, ModuleDetailsModel);
-
   }
 }

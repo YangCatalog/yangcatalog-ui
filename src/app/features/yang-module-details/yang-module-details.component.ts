@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { merge, Observable, of, Subject, zip } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
@@ -53,7 +53,6 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private dataService: YangModuleDetailsService,
-    private router: Router,
     private route: ActivatedRoute
   ) {
   }
@@ -113,7 +112,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let requestModuleName = this.form.get('moduleName').value.trim();;
+    let requestModuleName = this.form.get('moduleName').value.trim();
     if (this.form.get('moduleRevision').value) {
       requestModuleName += '@' + this.form.get('moduleRevision').value;
     }
@@ -186,13 +185,13 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   }
 
   getNonexistingValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors> => {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.dataService.getModuleAutocomplete(control.value).pipe(
         map(result => {
-          if (result.length !== 1) {
+          if (result.indexOf(control.value) === -1) {
             return { nonexistingModule: true };
           } else {
-            return {};
+            return null;
           }
         })
       );
