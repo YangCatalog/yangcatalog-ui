@@ -1,4 +1,4 @@
-<div class="yc-container yc-app-container" style="padding:128px 16px;" >
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
   <div class="yc-row-padding">
     <div class="yc-col">
       <form [formGroup]="form">
@@ -35,6 +35,12 @@
           <div class="form-group pt25">
             <label class="control-label" for="lastNameInput">Last Name</label>
             <input id="lastNameInput" formControlName="lastName" type="text" class="form-control" />
+          </div>
+          <div class="form-group pt25">
+            <label class="control-label" for="motivationInput">Your Motivation</label>
+            <i class="bi bi-question-circle" ngbTooltip="Brief motivation of why you are requesting API access"
+              placement="right" [openDelay]="300" [closeDelay]="500"></i>
+            <input id="motivationInput" formControlName="motivation" type="text" class="form-control" />
           </div>
 
           <div class="pt25">
