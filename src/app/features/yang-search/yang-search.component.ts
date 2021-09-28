@@ -248,7 +248,7 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     const input = {
       'searched-term': this.form.get('searchTerm').value,
       'case-sensitive': this.form.get('searchOptions').get('caseSensitive').value,
-      type: 'term',
+      'type': this.form.get('searchOptions').get('regularExpression').value ? 'regexp' : 'term',
       'include-mibs': this.form.get('searchOptions').get('includeMibs').value,
       'latest-revision': this.form.get('searchOptions').get('onlyLatestRevs').value,
       'searched-fields': this.form.get('searchFields').value,
