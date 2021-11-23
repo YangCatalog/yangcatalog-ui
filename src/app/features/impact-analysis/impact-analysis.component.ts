@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClusteringService, TopologyData } from '@pt/pt-topology';
+import { TopologyData } from '@pt/pt-topology';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,6 @@ import { ImpactWarningsComponent } from './impact-analysis-visualisation/impact-
 import { ImpactAnalysisModel } from './impact-analysis-visualisation/models/impact-analysis-model';
 import { ImpactVisLinkModel } from './impact-analysis-visualisation/models/impact-vis-link-model';
 import { ImpactVisNodeModel } from './impact-analysis-visualisation/models/impact-vis-node-model';
-import { SvgIconService } from './impact-analysis-visualisation/svg-icon.service';
 import { ImpactAnalysisService } from './impact-analysis.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   errors = [];
   warnings = [];
 
-
   highlightedOrg = '';
   highlightedMat = '';
   highlightedDir = '';
@@ -53,7 +51,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     'rgba(231,14,14,1)',
     'rgba(214,214,214,1)',
   ];
-
   colorForMats = [
     'rgba(100,32,32,1)', 'rgba(34,83,22,1)', 'rgba(37,90,110,1)', 'rgba(105,23,96,1)'
   ];
@@ -83,7 +80,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
   private componentDestroyed: Subject<void> = new Subject<void>();
   visOptions = {
-
     autoResize: true,
     height: '100%',
     width: '100%',
@@ -115,13 +111,12 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   clusterByMaturity = false;
   selectedCluster: any;
   showWarnings = true;
+  noModulesWarning = true;
 
 
   constructor(
     private fb: FormBuilder,
     private dataService: ImpactAnalysisService,
-    private svgService: SvgIconService,
-    private clusteringService: ClusteringService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private router: Router,
@@ -231,25 +226,35 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     });
   }
 
-  submitModuleName(fromURL = false) {
-    let allModules = [];
-    if (this.form.get('moduleNamesList').value) {
-      allModules = this.form.get('moduleNamesList').value.map(module => module.value.split('@'));
-    }
-
-    this.showWarnings = true;
+  clearVisualization() {
     this.mainResults = [];
     this.mainResultsNames = [];
-    this.errors = [];
-    this.warnings = [];
     this.visData = null;
-    this.loadingResults = true;
     this.selectedNode = null;
     this.organizations = [];
     this.orgColors = {};
     this.maturities = [];
     this.matColors = {};
+  }
 
+  submitModuleName(fromURL = false) {
+    let allModules = [];
+    if (this.form.get('moduleNamesList').value) {
+      allModules = this.form.get('moduleNamesList').value.map(module => module.value.split('@'));
+    }
+    
+    this.showWarnings = true;
+    this.errors = [];
+    this.warnings = [];
+    this.clearVisualization();
+
+    if (allModules.length === 0) {
+      this.noModulesWarning = true;
+      return;
+    }
+
+    this.noModulesWarning = false;
+    this.loadingResults = true;
     this.visData = new TopologyData();
 
     from(allModules).pipe(
@@ -323,6 +328,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       err => {
         console.error(err);
         this.errors.push(err);
+        this.clearVisualization();
       }
     );
   }
