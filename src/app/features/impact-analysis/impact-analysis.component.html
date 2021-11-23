@@ -13,6 +13,7 @@
           <div class="form-inline">
             <tag-input
               [onTextChangeDebounce]="200"
+              [onlyFromAutocomplete]="true"
               formControlName="moduleNamesList"
               theme="bootstrap"
               placeholder="Add next module name"
@@ -22,11 +23,6 @@
               (onRemove)="updateURL()">
               <tag-input-dropdown [autocompleteObservable]="tagAutocomplete" [minimumTextLength]="3"></tag-input-dropdown>
             </tag-input>
-            <!--
-            <input id="moduleNameInput" formControlName="moduleName" type="text" class="form-control"
-                   [ngbTypeahead]="autocomplete"
-                   placeholder="Fill the module name"/>
-            -->
             <label for="allowRfc" class="checkbox">
               <input id="allowRfc" formControlName="allowRfc" type="checkbox"/>
               <i class="skin"></i> <span>Include Ratified Standards</span>
@@ -42,9 +38,17 @@
             Data has been loaded with some warnings. <a (click)="onShowWarningsClick()">Show warnings</a>
           </ngb-alert>
 
+          <div *ngIf="noModulesWarning">
+            <strong>INFO:</strong> Select one or more module names from the list to show impact analysis.
+          </div>
+
           <div class="yc-col flex-fill">
-            <button id="impactAnalysisSubmit" class="btn btn-outline-primary px-ml-5" (click)="submitModuleName()">
-              <div class="spinner-border text-primary" role="status" *ngIf="loadingResults"></div>
+            <button 
+              id="impactAnalysisSubmit" 
+              class="btn btn-outline-primary px-ml-5" 
+              [disabled]="loadingResults" 
+              (click)="submitModuleName()">
+              <div *ngIf="loadingResults" class="spinner-border text-primary" role="status"></div>
               Show Impact Analysis
             </button>
             <div *ngIf="visData" class="info-text">
