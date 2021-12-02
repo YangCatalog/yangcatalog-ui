@@ -1,5 +1,5 @@
 ### Build Angular app ###
-FROM node:10.15.0
+FROM node:14
 
 ARG YANG_ID
 ARG YANG_GID
@@ -9,9 +9,10 @@ ENV YANG_GID "$YANG_GID"
 
 WORKDIR /usr/src
 COPY package.json ./
+COPY package-lock.json ./
 COPY .npmrc ./
 COPY ./tmp ./tmp
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run build-prod
 
