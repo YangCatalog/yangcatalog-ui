@@ -2,6 +2,10 @@
 
 * ##### vm.m.p - 2021-MM-DD
 
+* ##### v4.3.0 - 2021-12-03
+
+  * Node base image version updated to version 14 [#30](https://github.com/YangCatalog/yangcatalog-ui/issues/30)
+  * Bugfix: Loader spinning even if nothing is being fetch from backend [#27](https://github.com/YangCatalog/yangcatalog-ui/issues/27)
 * ##### v4.2.1 - 2021-10-06
 
   * Bugfix: YANG search form fixes [#26](https://github.com/YangCatalog/yangcatalog-ui/issues/26)
