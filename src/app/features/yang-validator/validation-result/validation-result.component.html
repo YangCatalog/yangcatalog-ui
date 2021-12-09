@@ -6,12 +6,33 @@
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
   <ngb-panel title="{{moduleName}}" *ngFor="let moduleName of validationOutput.getValidatedModules()">
     <ng-template ngbPanelContent>
-      <h4>Pyang Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stderr'] || 'No warnings or errors' }}</pre>
-      <h4>Pyang Output</h4><pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stdout'] || 'No warnings or errors' }}</pre>
-      <h4>Confdc Output</h4><pre>{{ validationOutput.validationOutput[moduleName]['confd']['stderr'] || 'No warnings or errors' }}</pre>
-      <h4>Yanglint Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['yanglint']['stderr'] || 'No warnings or errors' }}</pre>
-      <h4>Yangdump-pro Validation</h4><pre>{{ validationOutput.validationOutput[moduleName]['yangdump-pro']['stderr'] || 'No warnings or errors' }}</pre>
+      <h4>Pyang Validation</h4>
+      <pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stderr'] || 'No warnings or errors' }}</pre>
+      <div *ngIf="validationOutput.validationOutput[moduleName]['pyang']['stdout']">
+        <h4>Pyang Output</h4>
+        <pre>{{ validationOutput.validationOutput[moduleName]['pyang']['stdout'] }}</pre>
+      </div>
+
+      <h4>Confdc Validation</h4>
+      <pre>{{ validationOutput.validationOutput[moduleName]['confd']['stderr'] || 'No warnings or errors' }}</pre>
+      <div *ngIf="validationOutput.validationOutput[moduleName]['confd']['stdout']">
+        <h4>Confdc Output</h4>
+        <pre>{{ validationOutput.validationOutput[moduleName]['confd']['stdout'] }}</pre>
+      </div>
+
+      <h4>Yanglint Validation</h4>
+      <pre>{{ validationOutput.validationOutput[moduleName]['yanglint']['stderr'] || 'No warnings or errors' }}</pre>
+      <div *ngIf="validationOutput.validationOutput[moduleName]['yanglint']['stdout']">
+        <h4>Yanglint Output</h4>
+        <pre>{{ validationOutput.validationOutput[moduleName]['yanglint']['stdout'] }}</pre>
+      </div>
+
+      <h4>Yangdump-pro Output</h4>
+      <pre>{{ validationOutput.validationOutput[moduleName]['yangdump-pro']['stdout']  || 'No warnings or errors' }}</pre>
+      <div *ngIf="validationOutput.validationOutput[moduleName]['yangdump-pro']['stderr']">
+        <h4>Yangdump-pro Validation</h4>
+        <pre>{{ validationOutput.validationOutput[moduleName]['yangdump-pro']['stderr'] }}</pre>
+      </div>
     </ng-template>
   </ngb-panel>
-
 </ngb-accordion>

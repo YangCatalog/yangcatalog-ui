@@ -30,7 +30,7 @@ export class YangValidatorService extends DataService {
     );
   }
 
-  validateByDraftName(draftName: string): Observable<ValidationOutput> {
+  validateDraftByName(draftName: string): Observable<ValidationOutput> {
     return this.post('yangvalidator/v2/draft', {
       draft: draftName,
       latest: false
