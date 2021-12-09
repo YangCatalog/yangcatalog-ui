@@ -235,7 +235,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.validationOutput = null;
     this.error = null;
 
-    this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value.trim())
+    this.dataService.validateDraftByName(this.draftNameForm.get('draftName').value.trim())
       .pipe(
         finalize(() => this.validatingDraftNameProgress = false),
         takeUntil(merge(this.componentDestroyed, this.formTypeChanged))
@@ -252,7 +252,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
             modalRef.result.then(
               (choosedRevisionsInput: ChosenMissingRevsInput) => {
-                this.validatingRfcNumberProgress = true;
+                this.validatingDraftNameProgress = true;
 
                 if (choosedRevisionsInput !== null) {
                   this.dataService.chooseMissingRevsForPreviousRequest(output, choosedRevisionsInput)
@@ -267,7 +267,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
                       err => this.draftNameError = err
                     );
                 } else {
-                  this.dataService.validateByDraftName(this.draftNameForm.get('draftName').value.trim())
+                  this.dataService.validateDraftByName(this.draftNameForm.get('draftName').value.trim())
                     .pipe(
                       finalize(() => this.validatingDraftNameProgress = false),
                       takeUntil(this.componentDestroyed)
