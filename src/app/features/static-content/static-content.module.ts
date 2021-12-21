@@ -9,14 +9,15 @@ import { StaticContentRoutingModule } from './static-content-routing.module';
 import { CoreModule } from '../../core/core.module';
 import { ContactComponent } from './contact/contact.component';
 import { UseComponent } from './use/use.component';
+import { QueryComponent } from './query/query.component';
 
 @NgModule({
-  declarations: [YangCatalogComponent, AboutComponent, ContributeComponent, StaticContentComponent, ContactComponent, UseComponent],
-    imports: [
-        CommonModule,
-        RouterModule,
-        StaticContentRoutingModule,
-        CoreModule
-    ]
+  declarations: [YangCatalogComponent, AboutComponent, ContributeComponent, StaticContentComponent, ContactComponent, UseComponent, QueryComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    StaticContentRoutingModule,
+    CoreModule
+  ]
 })
 export class StaticContentModule { }
