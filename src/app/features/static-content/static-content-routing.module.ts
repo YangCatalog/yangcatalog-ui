@@ -5,6 +5,7 @@ import { AboutComponent } from './about/about.component';
 import { ContributeComponent } from './contribute/contribute.component';
 import { ContactComponent } from './contact/contact.component';
 import { UseComponent } from './use/use.component';
+import { QueryComponent } from './query/query.component';
 
 const staticRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ const staticRoutes: Routes = [
   {
     path: 'contribute.html',
     component: ContributeComponent
+  },
+  {
+    path: 'query.html',
+    component: QueryComponent,
   }
 ];
 
