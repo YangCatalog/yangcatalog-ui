@@ -34,7 +34,8 @@ export class AccountComponent implements OnInit, OnDestroy {
       company: ['', this.fieldValidators],
       firstName: ['', this.fieldValidators],
       lastName: ['', this.fieldValidators],
-      motivation: ['', this.fieldValidators]
+      motivation: ['', this.fieldValidators],
+      recaptcha: ['', Validators.required]
     });
   }
 
