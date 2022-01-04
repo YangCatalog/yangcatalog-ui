@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   REST_BASE_URL: '/',
   WEBROOT_BASE_URL: '',
-  CAPTCHA_SECRET_KEY: ''
+  CAPTCHA_SECRET_KEY: '@CAPTCHA_SECRET_KEY'
 };
 
 /*

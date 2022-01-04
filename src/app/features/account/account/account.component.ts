@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
-import { Observable, Subject } from 'rxjs';
-import { finalize, map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
 
@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      username: ['', this.fieldValidators, this.checkExistingUsernameValidator()],
+      username: ['', this.fieldValidators],
       password: ['', this.fieldValidators],
       passwordConfirm: ['', this.fieldValidators],
       email: ['', this.emailValidator],
@@ -87,22 +87,11 @@ export class AccountComponent implements OnInit, OnDestroy {
       err => {
         console.log(err);
         this.error = err;
+        if (err.status === 409) {
+          this.form.controls['username'].setErrors({ 'existingUsername': true });
+        }
       }
     );
-  }
-
-  private checkExistingUsernameValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.dataService.checkExistingUsername(control.value).pipe(
-        map(result => {
-          if (result['exists'] === true) {
-            return { existingUsername: true };
-          } else {
-            return null;
-          }
-        })
-      );
-    };
   }
 
   private noWhitespaceValidator(control: FormControl) {
