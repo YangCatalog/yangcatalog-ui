@@ -42,6 +42,10 @@
               placement="right" [openDelay]="300" [closeDelay]="500"></i>
             <input id="motivationInput" formControlName="motivation" type="text" class="form-control" />
           </div>
+          <div class="form-group pt25">
+            <ngx-recaptcha2 [siteKey]="siteKey" formControlName="recaptcha">
+            </ngx-recaptcha2>
+          </div>          
 
           <div class="pt25">
             <button id="registerUser" class="btn btn-outline-primary px-ml-5" (click)="onCreateAccountClick()">

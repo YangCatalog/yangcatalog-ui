@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
 
 @Component({
@@ -14,11 +15,13 @@ export class AccountComponent implements OnInit, OnDestroy {
   error: any;
   progress = false;
   result: any;
+  siteKey: string;
   fieldValidators = [Validators.required, Validators.maxLength(255)];
 
   private componentDestroyed: Subject<void> = new Subject<void>();
 
   constructor(private fb: FormBuilder, private dataService: AccountService) {
+    this.siteKey = environment.CAPTCHA_SECRET_KEY;
   }
 
   ngOnInit(): void {
