@@ -15,8 +15,4 @@ export class AccountService extends DataService {
   createUser(input: any): Observable<any> {
     return this.post('api/register-user', input);
   }
-
-  checkExistingUsername(username: string): Observable<any> {
-    return this.post('api/user-exists', { username });
-  }
 }
