@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ErrorMessage } from 'ng-bootstrap-form-validation';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
 
@@ -16,7 +17,17 @@ export class AccountComponent implements OnInit, OnDestroy {
   progress = false;
   result: any;
   siteKey: string;
-  fieldValidators = [Validators.required, Validators.maxLength(255)];
+  fieldValidators = [Validators.required, Validators.maxLength(255), this.noWhitespaceValidator];
+  emailValidator = this.fieldValidators.concat(Validators.email)
+  minLengthValidator = this.fieldValidators.concat(Validators.minLength(25))
+
+
+  customPatternErrorMessages: ErrorMessage[] = [
+    {
+      error: 'existingUsername',
+      format: (label, error) => `User with this username already exists`
+    }
+  ];
 
   private componentDestroyed: Subject<void> = new Subject<void>();
 
@@ -27,14 +38,14 @@ export class AccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      username: ['', this.fieldValidators],
+      username: ['', this.fieldValidators, this.checkExistingUsernameValidator()],
       password: ['', this.fieldValidators],
       passwordConfirm: ['', this.fieldValidators],
-      email: ['', this.fieldValidators],
+      email: ['', this.emailValidator],
       company: ['', this.fieldValidators],
       firstName: ['', this.fieldValidators],
       lastName: ['', this.fieldValidators],
-      motivation: ['', this.fieldValidators],
+      motivation: ['', this.minLengthValidator],
       recaptcha: ['', Validators.required]
     });
   }
@@ -78,5 +89,25 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.error = err;
       }
     );
+  }
+
+  private checkExistingUsernameValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.dataService.checkExistingUsername(control.value).pipe(
+        map(result => {
+          if (result['exists'] === true) {
+            return { existingUsername: true };
+          } else {
+            return null;
+          }
+        })
+      );
+    };
+  }
+
+  private noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'required': true };
   }
 }
