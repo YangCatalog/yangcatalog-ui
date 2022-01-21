@@ -1,7 +1,8 @@
+import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { merge, Subject } from 'rxjs';
@@ -29,7 +30,6 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
   rfcNumberForm: FormGroup;
   draftNameForm: FormGroup;
-  rfcNameForm: FormGroup;
 
   rfcNumberValidation = true;
   draftNameValidation = true;
@@ -61,13 +61,19 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   draftNameError = null;
   versions = {};
 
+  queryParams = {
+    rfc: '',
+    draft: ''
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private dataService: YangValidatorService,
     private modalService: NgbModal,
     private ycValidations: YcValidationsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
   ) {
   }
 
@@ -81,11 +87,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.initDraftNameForm();
 
-    this.rfcNameForm = this.formBuilder.group({
-      rfcName: ['', Validators.required]
-    });
-
-    this.subscribeRouteParams();
+    this.subscribeQueryParams()
 
     this.getVersions();
   }
@@ -165,7 +167,10 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.dataService.validateRfcByNumber(this.rfcNumberForm.get('rfcNumber').value.trim())
       .pipe(
-        finalize(() => this.validatingRfcNumberProgress = false),
+        finalize(() => {
+          this.validatingRfcNumberProgress = false
+          this.updateURL();
+        }),
         takeUntil(merge(this.formTypeChanged, this.componentDestroyed))
       )
       .subscribe(
@@ -237,7 +242,10 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.dataService.validateDraftByName(this.draftNameForm.get('draftName').value.trim())
       .pipe(
-        finalize(() => this.validatingDraftNameProgress = false),
+        finalize(() => {
+          this.validatingDraftNameProgress = false
+          this.updateURL();
+        }),
         takeUntil(merge(this.componentDestroyed, this.formTypeChanged))
       )
       .subscribe(
@@ -430,19 +438,20 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.validationOutput.warning = '';
   }
 
-  private subscribeRouteParams() {
-    this.route.params.subscribe(params => {
-      if (params.hasOwnProperty('validating')) {
-        const validatingActions = {
-          files: 'showFilesForm',
-          'draft-file': 'showDraftFileForm',
-          'rfc-number': 'showRfcNumberForm',
-          'draft-name': 'showDraftNameForm',
-          api: 'showApiOverview'
-        };
-        if (validatingActions.hasOwnProperty(params['validating'])) {
-          this[validatingActions[params['validating']]]();
-        }
+  private subscribeQueryParams() {
+    this.route.queryParams.subscribe(params => {
+      if (params.hasOwnProperty('rfc')) {
+        this.queryParams['rfc'] = params['rfc'];
+        this.rfcNumberForm.get('rfcNumber').setValue(params['rfc']);
+        this.setActiveForm('rfcNumber');
+        this.validateRfcNumber();
+        return;
+      }
+      if (params.hasOwnProperty('draft')) {
+        this.queryParams['draft'] = params['draft'];
+        this.draftNameForm.get('draftName').setValue(params['draft']);
+        this.setActiveForm('draftName');
+        this.validateDraftName();
       }
     });
   }
@@ -459,6 +468,34 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   scrollToResults() {
     if (this.validationResults) {
       setTimeout(() => this.validationResults.nativeElement.scrollIntoView(), 100);
+    }
+  }
+
+  updateURL() {
+    this.updateQueryParams();
+    const url = this.router.createUrlTree(
+      [],
+      {
+        queryParams: this.queryParams
+      }).toString();
+
+    this.location.go(url);
+  }
+
+  updateQueryParams() {
+    this.queryParams = null;
+    const rfcNumber = this.rfcNumberForm.get('rfcNumber').value.trim();
+    const draftName = this.draftNameForm.get('draftName').value.trim();
+    if (this.activeForm === 'rfcNumber') {
+      this.queryParams = {
+        'rfc': rfcNumber,
+        'draft': null
+      }
+    } else {
+      this.queryParams = {
+        'rfc': null,
+        'draft': draftName
+      }
     }
   }
 }
