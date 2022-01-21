@@ -279,7 +279,7 @@ POST /yangvalidator/v2/upload-files-setup
       <hr *ngIf="!apiOverview">
 
       <form [formGroup]="rfcNumberForm" *ngIf="!apiOverview"
-            [ngClass]="{'inactive': activeForm && activeForm !== 'number'}" (click)="setActiveForm('number')">
+            [ngClass]="{'inactive': activeForm && activeForm !== 'rfcNumber'}" (click)="setActiveForm('rfcNumber')">
         <div class="form-group" [customErrorMessages]="customErrorMessages">
           <p>
             I know the number of IETF RFC and I want to validate it
@@ -288,10 +288,10 @@ POST /yangvalidator/v2/upload-files-setup
           <label class="control-label" for="rfcNumberInput">IETF RFC number</label>
           <div class="form-inline">
             <input id="rfcNumberInput" formControlName="rfcNumber" type="text" class="form-control"
-                   (click)="setActiveForm('number')" (blur)="setActiveForm('number')"
+                   (click)="setActiveForm('rfcNumber')" (blur)="setActiveForm('rfcNumber')"
                    placeholder="RFC number, e.g. 7223"/>
             <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5"
-                    (click)="setActiveForm('number'); validateRfcNumber()">
+                    (click)="setActiveForm('rfcNumber'); validateRfcNumber()">
               <div class="spinner-border text-primary" role="status" *ngIf="validatingRfcNumberProgress"></div>
               Validate
             </button>
