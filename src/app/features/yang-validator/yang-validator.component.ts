@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -44,8 +45,6 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   validatingDraftFileProgress = false;
 
   validationOutput: ValidationOutput;
-  error: any;
-  filesError = null;
 
   customErrorMessages: ErrorMessage[] = [
     {
@@ -56,6 +55,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
   private componentDestroyed: Subject<void> = new Subject<void>();
   private formTypeChanged: Subject<void> = new Subject<void>();
+  filesError = null;
   draftError = null;
   rfcError = null;
   draftNameError = null;
@@ -114,35 +114,30 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
   }
 
   showRfcNumberForm() {
-    this.error = null;
     this.formTypeChanged.next();
     this.rfcNumberValidation = true;
     this.initRfcNumberForm();
   }
 
   showFilesForm() {
-    this.error = null;
     this.formTypeChanged.next();
     this.filesValidation = true;
   }
 
   showDraftFileForm() {
-    this.error = null;
     this.formTypeChanged.next();
     this.draftFileValidation = true;
   }
 
   showDraftNameForm() {
-    this.draftNameValidation = true;
-    this.error = null;
     this.formTypeChanged.next();
+    this.draftNameValidation = true;
     this.initDraftNameForm();
   }
 
   showApiOverview() {
-    this.apiOverview = true;
-    this.error = null;
     this.formTypeChanged.next();
+    this.apiOverview = true;
   }
 
   noFormDisplayed() {
@@ -166,7 +161,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.validatingRfcNumberProgress = true;
     this.validationOutput = null;
-    this.error = null;
+    this.rfcError = null;
 
     this.dataService.validateRfcByNumber(this.rfcNumberForm.get('rfcNumber').value.trim())
       .pipe(
@@ -220,8 +215,13 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          console.error(err);
-          this.error = err;
+          if (err instanceof (HttpErrorResponse)) {
+            this.rfcError = {
+              'message': err.error['Error']
+            }
+          } else {
+            this.rfcError = err;
+          }
         }
       );
   }
@@ -233,7 +233,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.validatingDraftNameProgress = true;
     this.validationOutput = null;
-    this.error = null;
+    this.draftNameError = null;
 
     this.dataService.validateDraftByName(this.draftNameForm.get('draftName').value.trim())
       .pipe(
@@ -287,7 +287,13 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          this.error = err;
+          if (err instanceof (HttpErrorResponse)) {
+            this.draftNameError = {
+              'message': err.error['Error']
+            }
+          } else {
+            this.draftNameError = err;
+          }
         }
       );
   }
@@ -299,7 +305,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.validatingFilesProgress = true;
     this.validationOutput = null;
-    this.error = null;
+    this.filesError = null;
 
     const formData: FormData = new FormData();
     this.filesForm.form.get('attachments').value.forEach(
@@ -345,11 +351,15 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          console.error(err);
-          this.error = err;
+          if (err instanceof (HttpErrorResponse)) {
+            this.filesError = {
+              'message': err.error['Error']
+            }
+          } else {
+            this.filesError = err;
+          }
         }
       );
-
   }
 
   validateDraftFile() {
@@ -359,7 +369,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.validatingDraftFileProgress = true;
     this.validationOutput = null;
-    this.error = null;
+    this.draftError = null;
 
     const formData: FormData = new FormData();
     this.draftFileForm.form.get('attachments').value.forEach(
@@ -405,13 +415,16 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          console.error(err);
-          this.error = err;
+          if (err instanceof (HttpErrorResponse)) {
+            this.draftError = {
+              'message': err.error['Error']
+            }
+          } else {
+            this.draftError = err;
+          }
         }
       );
-
   }
-
 
   onCloseWarning() {
     this.validationOutput.warning = '';
@@ -434,8 +447,13 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     });
   }
 
+  private clearErrors() {
+    this.filesError = this.draftError = this.rfcError = this.draftNameError = null;
+  }
+
   setActiveForm(form: string) {
     this.activeForm = form;
+    this.clearErrors()
   }
 
   scrollToResults() {

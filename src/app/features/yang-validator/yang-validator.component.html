@@ -267,7 +267,7 @@ POST /yangvalidator/v2/upload-files-setup
         </p>
 
         <yc-validation-error [error]="draftError"></yc-validation-error>
-        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.*']" [multipleFiles]="false"
+        <yc-file-upload-form [filesPropertyName]="'attachments'" [allowedFileTypes]="['.txt']" [multipleFiles]="false"
                              #draftFileForm (click)="setActiveForm('draft')"></yc-file-upload-form>
         <button id="draftFilesSubmit" class="btn btn-outline-primary mb-30" (click)="validateDraftFile()"
                 *ngIf="draftFileForm.attachments.length">
@@ -308,7 +308,7 @@ POST /yangvalidator/v2/upload-files-setup
             I know the name of IETF Draft and I want to validate it
           </p>
           <yc-validation-error [error]="draftNameError"></yc-validation-error>
-          <label class="control-label" for="rfcNumberInput">IETF Draft name</label>
+          <label class="control-label" for="draftNameInput">IETF Draft name</label>
           <div class="form-inline">
             <input id="draftNameInput" formControlName="draftName" type="text" class="form-control"
                    (click)="setActiveForm('draftName')" (blur)="setActiveForm('draftName')"

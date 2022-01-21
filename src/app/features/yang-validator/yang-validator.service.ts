@@ -78,7 +78,7 @@ export class YangValidatorService extends DataService {
           } else if (output.hasOwnProperty('output') && output['output'].hasOwnProperty('error')) {
             throw new Error(output['output']['error']);
           } else {
-            return new ValidationOutput(output[0]['output']);
+            return new ValidationOutput(output['output']);
           }
         })
       );

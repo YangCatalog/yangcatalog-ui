@@ -16,4 +16,4 @@ RUN npm ci
 COPY . .
 RUN npm run build-prod
 
-CMD cp -r  /usr/src/dist/yangcatalog-ui/* /usr/share/nginx/html/. && chown -R ${YANG_ID}:${YANG_GID} /usr/share/nginx/html
+CMD cp -r /usr/src/dist/yangcatalog-ui/* /usr/share/nginx/html/. && chown -R ${YANG_ID}:${YANG_GID} /usr/share/nginx/html
