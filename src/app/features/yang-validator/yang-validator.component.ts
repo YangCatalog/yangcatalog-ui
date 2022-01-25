@@ -87,6 +87,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.initDraftNameForm();
 
+    this.subscribeRouteParams();
     this.subscribeQueryParams()
 
     this.getVersions();
@@ -438,6 +439,23 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
     this.validationOutput.warning = '';
   }
 
+  private subscribeRouteParams() {
+    this.route.params.subscribe(params => {
+      if (params.hasOwnProperty('validating')) {
+        const validatingActions = {
+          files: 'showFilesForm',
+          'draft-file': 'showDraftFileForm',
+          'rfc-number': 'showRfcNumberForm',
+          'draft-name': 'showDraftNameForm',
+          api: 'showApiOverview'
+        };
+        if (validatingActions.hasOwnProperty(params['validating'])) {
+          this[validatingActions[params['validating']]]();
+        }
+      }
+    });
+  }
+  
   private subscribeQueryParams() {
     this.route.queryParams.subscribe(params => {
       if (params.hasOwnProperty('rfc')) {
