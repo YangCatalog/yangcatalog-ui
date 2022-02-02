@@ -1,6 +1,17 @@
 ## YANG Catalog UI Release Notes
 
-* ##### vm.m.p - 2021-MM-DD
+* ##### vm.m.p - 2022-MM-DD
+
+* ##### v5.0.0 - 2022-02-02
+  
+  * Improvements for displaying errors in the YANG Validator form [#45](https://github.com/YangCatalog/yangcatalog-ui/issues/45)
+  * YANG Catalog API overview moved into separate component [#44](https://github.com/YangCatalog/yangcatalog-ui/issues/44)
+  * Query parameters added for YANG Validator [#39](https://github.com/YangCatalog/yangcatalog-ui/issues/39)
+  * Updates to headers after pyang 2.5.2 update [deployment #113](https://github.com/YangCatalog/deployment/issues/113)
+  * Various improvements to the registration form [#37](https://github.com/YangCatalog/yangcatalog-ui/issues/37)
+  * reCAPTCHA validation added to the registration form [#34](https://github.com/YangCatalog/yangcatalog-ui/issues/34)
+  * Query tab added to the navigation menu [#32](https://github.com/YangCatalog/yangcatalog-ui/issues/32)
+  * Bugfix: Display output of validation correctly [#29](https://github.com/YangCatalog/yangcatalog-ui/issues/29)
 
 * ##### v4.3.0 - 2021-12-03
 
