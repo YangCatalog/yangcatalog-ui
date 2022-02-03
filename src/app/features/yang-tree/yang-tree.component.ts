@@ -5,6 +5,7 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faFolderOpen } from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import { faMinusSquare } from '@fortawesome/free-regular-svg-icons/faMinusSquare';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons/faPlusSquare';
+import { faInfo } from '@fortawesome/free-solid-svg-icons/faInfo';
 import { faLeaf } from '@fortawesome/free-solid-svg-icons/faLeaf';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, RowNode } from 'ag-grid-community';
@@ -39,6 +40,7 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   faPlusSquare = faPlusSquare;
   faMinusSquare = faMinusSquare;
   faCopy = faCopy;
+  faInfo = faInfo;
 
   tree: TreeModel;
   treeRows: TreeItemTableRowModel[];
@@ -85,8 +87,10 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   error: any;
 
 
-  constructor(private dataService: YangTreeService, private route: ActivatedRoute,
-              private modalService: NgbModal) {
+  constructor(
+    private dataService: YangTreeService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -172,8 +176,8 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   }
 
   prepareNodeDetailUri(row: any) {
-    let result = this.myBaseUrl + '/yang-search/yang_tree/show_node/';
-    result = result + this.moduleName + '/' + encodeURIComponent(row['showNodePath']) + '/' + this.revision;
+    let result = this.myBaseUrl + '/yang-search/show_node/';
+    result += this.moduleName + '/' + encodeURIComponent(row['showNodePath']) + '/' + this.revision;
     return result;
   }
 
@@ -184,6 +188,7 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     modalNodeDetail.node = this.moduleName;
     modalNodeDetail.path = row['showNodePath'];
     modalNodeDetail.revision = this['revision'];
+    modalNodeDetail.uriPath = this.prepareNodeDetailUri(row);
     modalNodeDetail.paramsSetManually.next(true);
   }
 }

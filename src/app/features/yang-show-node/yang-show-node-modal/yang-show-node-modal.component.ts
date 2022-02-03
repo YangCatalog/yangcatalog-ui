@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { YangShowNodeComponent } from '../yang-show-node.component';
 import { ActivatedRoute } from '@angular/router';
-import { YangSearchService } from '../../yang-search/yang-search.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { YangSearchService } from '../../yang-search/yang-search.service';
+import { YangShowNodeComponent } from '../yang-show-node.component';
 
 @Component({
   selector: 'yc-yang-show-node-modal',
@@ -11,11 +12,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class YangShowNodeModalComponent extends YangShowNodeComponent {
 
+  uriPath: string;
   constructor(
     protected route: ActivatedRoute,
     protected dataService: YangSearchService,
+    protected location: Location,
     protected modal: NgbActiveModal) {
-    super(route, dataService);
+    super(route, dataService, location);
   }
 
   isModal(): boolean {
