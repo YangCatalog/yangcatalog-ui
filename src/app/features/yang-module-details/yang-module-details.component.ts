@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { merge, Observable, of, Subject, zip } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { ModuleDetailsModel } from './models/module-details-model';
 import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
 import { YangModuleDetailsService } from './yang-module-details.service';
+import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-property-help-modal.component';
 
 @Component({
   selector: 'yc-yang-module-details',
@@ -53,7 +55,8 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private dataService: YangModuleDetailsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {
   }
 
@@ -196,5 +199,13 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
         })
       );
     };
+  }
+
+  openPropertyHelpModal(property: string[]) {
+    const modalNodeDetail: YangPropertyHelpModalComponent = this.modalService.open(YangPropertyHelpModalComponent, {
+      size: 'lg',
+    }).componentInstance;
+    modalNodeDetail.property = property.join(' >> ');
+    modalNodeDetail.help = this.metaData.getPropertyHelpText(property);
   }
 }
