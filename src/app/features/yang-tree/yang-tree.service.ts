@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { DataService } from '../../core/data.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TreeModel } from './models/tree-model';
 import { map } from 'rxjs/operators';
-import { TreeItemTableRowModel } from './models/tree-item-table-row-model';
-import { TreeItemModel } from './models/tree-item-model';
 import { environment } from '../../../environments/environment';
+import { DataService } from '../../core/data.service';
+import { TreeItemModel } from './models/tree-item-model';
+import { TreeItemTableRowModel } from './models/tree-item-table-row-model';
+import { TreeModel } from './models/tree-model';
 
 @Injectable({
   providedIn: 'root'

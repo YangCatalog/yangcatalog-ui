@@ -42,17 +42,9 @@ const routes: Routes = [
     path: 'yang-search',
     component: YangSearchComponent
   },
-  // {
-  //   path: 'yang-search/impact_analysis',
-  //   component: YangImpactAnalysisComponent
-  // },
   {
     path: 'yang-search/module_details/:module',
     component: YangModuleDetailsComponent
-  },
-  {
-    path: 'yang-search/yang_tree/show_node/:node/:path/:revision',
-    component: YangShowNodeComponent,
   },
   {
     path: 'yang-search/yang_tree/:module',

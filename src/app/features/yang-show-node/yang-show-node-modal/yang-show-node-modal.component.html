@@ -6,9 +6,9 @@
 </div>
 <div class="modal-body">
   <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
-    {{ error['error'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+    {{ error['error'] ? error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
   </ngb-alert>
 
-
   <pre [innerHTML]="resultStr" *ngIf="!error"></pre>
+  
 </div>

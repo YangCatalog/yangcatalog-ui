@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { YangTreeComponent } from './yang-tree.component';
-import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
+import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CoreModule } from '../../core/core.module';
-import { ClipboardModule } from 'ngx-clipboard';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
+import { CoreModule } from '../../core/core.module';
+import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
+import { YangTreeComponent } from './yang-tree.component';
 
 
 @NgModule({

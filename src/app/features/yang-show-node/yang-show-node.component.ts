@@ -1,7 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { filter, merge, mergeMap, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { YangSearchService } from '../yang-search/yang-search.service';
 
 @Component({
@@ -16,15 +18,18 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
   node = '';
   path = '';
   revision = '';
+  uriPath = '';
   resultStr = 'Loading content...';
   nodeName = '';
   nodeType = '';
   error: any;
+  myBaseUrl = environment.WEBROOT_BASE_URL;
   paramsSetManually: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     protected route: ActivatedRoute,
     protected dataService: YangSearchService,
+    protected location: Location
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +38,7 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
       .pipe(
         filter(params => params.hasOwnProperty('node')),
         mergeMap(params => {
+          // If accessed from 'yang-search/show_node/:node/:path/:revision'
           this.node = params['node'];
           this.path = params['path'];
           this.revision = params['revision'];
@@ -41,8 +47,10 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
         }
         ),
         merge(this.paramsSetManually.pipe((set) => {
+          // If displayed as modal window
           if (this.node) {
             this.parseNodeDetails();
+            this.location.go(this.uriPath)
             return this.dataService.getNodeDetails(this.node, this.path, this.revision);
           } else {
             return of(null);
@@ -63,10 +71,8 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
       );
   }
 
-
-
-
   ngOnDestroy(): void {
+    this.location.go('yang-search/yang_tree/' + this.node + '@' + this.revision)
     this.componentDestroyed.next();
   }
 
@@ -105,9 +111,5 @@ export class YangShowNodeComponent implements OnInit, OnDestroy {
     const nodeNameArr = lastPathElemArr[0].split(':');
     this.nodeName = nodeNameArr.length > 1 ? nodeNameArr[nodeNameArr.length - 1] : nodeNameArr[0];
     this.nodeType = lastPathElemArr[lastPathElemArr.length - 1];
-  }
-
-  onCloseError() {
-
   }
 }

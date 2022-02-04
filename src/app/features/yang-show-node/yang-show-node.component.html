@@ -3,10 +3,13 @@
 
     <div class="yc-col">
       <h2 class="flex-fill">YANG Definition for {{path}}</h2>
+      <a href="{{myBaseUrl}}/yang-search/yang_tree/{{node}}@{{revision}}">
+        <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{node}}" border="0">
+        Tree View
+      </a>
       <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
-        {{ error['error'] ?  error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
+        {{ error['error'] ? error['error']['description'] : error.message || 'The application has encountered an unknown error.' }}
       </ngb-alert>
-
 
       <pre [innerHTML]="resultStr" *ngIf="!error"></pre>
 

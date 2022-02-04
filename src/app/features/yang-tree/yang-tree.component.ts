@@ -85,8 +85,10 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   error: any;
 
 
-  constructor(private dataService: YangTreeService, private route: ActivatedRoute,
-              private modalService: NgbModal) {
+  constructor(
+    private dataService: YangTreeService,
+    private route: ActivatedRoute,
+    private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -172,8 +174,8 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   }
 
   prepareNodeDetailUri(row: any) {
-    let result = this.myBaseUrl + '/yang-search/yang_tree/show_node/';
-    result = result + this.moduleName + '/' + encodeURIComponent(row['showNodePath']) + '/' + this.revision;
+    let result = this.myBaseUrl + '/yang-search/show_node/';
+    result += this.moduleName + '/' + encodeURIComponent(row['showNodePath']) + '/' + this.revision;
     return result;
   }
 
@@ -184,6 +186,7 @@ export class YangTreeComponent implements OnInit, OnDestroy {
     modalNodeDetail.node = this.moduleName;
     modalNodeDetail.path = row['showNodePath'];
     modalNodeDetail.revision = this['revision'];
+    modalNodeDetail.uriPath = this.prepareNodeDetailUri(row);
     modalNodeDetail.paramsSetManually.next(true);
   }
 }
