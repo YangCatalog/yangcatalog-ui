@@ -79,9 +79,11 @@
             <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
               <th scope="row" class="col-md-2">
                 {{property}}
-                <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
-                   [openDelay]="300"
-                   [closeDelay]="500"></i>
+                <i class="bi bi-question-circle" 
+                  (click)="openPropertyHelpModal([mainProperty, property])"
+                  ngbTooltip="Click to show details"
+                  [openDelay]="300"
+                  [closeDelay]="500"></i>
               </th>
               <td *ngIf="infoData.data[mainProperty]">
                 <ng-container
@@ -102,9 +104,11 @@
                 <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData[mainProperty]); index as i">
                   <th scope="row" class="col-md-2">
                     {{property}}
-                    <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText([mainProperty, property])"
-                       [openDelay]="300"
-                       [closeDelay]="500"></i>
+                    <i class="bi bi-question-circle" 
+                      (click)="openPropertyHelpModal([mainProperty, property])"  
+                      ngbTooltip="Click to show details"
+                      [openDelay]="300"
+                      [closeDelay]="500"></i>
                   </th>
                   <td>
                     <ng-container
@@ -129,8 +133,11 @@
             <tr *ngFor="let property of metaData.getPropertiesSorted(metaData.metaData); index as i">
               <th scope="row" class="col-md-2">
                 {{property}}
-                <i class="bi bi-question-circle" [ngbTooltip]="metaData.getPropertyHelpText(property)" [openDelay]="300"
-                   [closeDelay]="500"></i>
+                <i class="bi bi-question-circle" 
+                  (click)="openPropertyHelpModal([property])"
+                  ngbTooltip="Click to show details"
+                  [openDelay]="300"
+                  [closeDelay]="500"></i>
               </th>
               <td>
                 <ng-container

@@ -6,10 +6,11 @@ import { NgbAlertModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootst
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { CoreModule } from '../../core/core.module';
 import { YangModuleDetailsComponent } from './yang-module-details.component';
+import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-property-help-modal.component';
 
 
 @NgModule({
-  declarations: [YangModuleDetailsComponent],
+  declarations: [YangModuleDetailsComponent, YangPropertyHelpModalComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
