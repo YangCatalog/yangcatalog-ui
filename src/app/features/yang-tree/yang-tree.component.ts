@@ -5,7 +5,6 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faFolderOpen } from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import { faMinusSquare } from '@fortawesome/free-regular-svg-icons/faMinusSquare';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons/faPlusSquare';
-import { faInfo } from '@fortawesome/free-solid-svg-icons/faInfo';
 import { faLeaf } from '@fortawesome/free-solid-svg-icons/faLeaf';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, RowNode } from 'ag-grid-community';
@@ -40,7 +39,6 @@ export class YangTreeComponent implements OnInit, OnDestroy {
   faPlusSquare = faPlusSquare;
   faMinusSquare = faMinusSquare;
   faCopy = faCopy;
-  faInfo = faInfo;
 
   tree: TreeModel;
   treeRows: TreeItemTableRowModel[];

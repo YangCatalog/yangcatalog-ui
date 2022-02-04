@@ -77,6 +77,7 @@
                 <fa-icon [icon]="faFolderOpen" *ngIf="row['children'].length > 0 && row['groupCollapsed'] === false"></fa-icon>
                 {{row['text']}}
               </a>
+              <i *ngIf="row['showNodePath'] && row['children'].length > 0" class="bi bi-question-circle" (click)="openNodeDetail(row)"></i>
               <a title="{{row['title']}}" class="element" *ngIf="row['children'].length === 0 && row['type'] !== 'module'"
                 (click)="openNodeDetail(row)">
                 <fa-icon [icon]="faLeaf" class="green"></fa-icon>
