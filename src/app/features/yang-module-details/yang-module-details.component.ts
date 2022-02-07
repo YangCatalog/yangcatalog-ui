@@ -24,8 +24,8 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('ietfDataTemplate') public ietfDataTemplate: TemplateRef<any>;
   @ViewChild('mailTemplate') public mailTemplate: TemplateRef<any>;
   @ViewChild('formatedTextTemplate') public formatedTextTemplate: TemplateRef<any>;
-  @ViewChild('nestedObjectTemplate') public nestedDataTemplate: TemplateRef<any>;
   @ViewChild('nestedListOfObjectsTemplate') public nestedListOfObjectsTemplate: TemplateRef<any>;
+  @ViewChild('deviationTemplate') public deviationTemplate: TemplateRef<any>;
 
   myBaseUrl = environment.WEBROOT_BASE_URL;
 
@@ -170,6 +170,7 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
       dependents: 'nestedListOfObjectsTemplate',
       'author-email': 'mailTemplate',
       implementations: 'nestedListOfObjectsTemplate',
+      deviation: 'deviationTemplate'
     };
 
     if (templatesMapping.hasOwnProperty(property)) {
