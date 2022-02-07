@@ -10,7 +10,7 @@
       <form [formGroup]="form">
         <div class="form-group" [customErrorMessages]="customPatternErrorMessages">
           <ngb-alert type="danger" (close)="onCloseError()" role="alert" 
-                     *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
+                     *ngIf="error">{{ error.description || 'The application has encountered an unknown error.'}}</ngb-alert>
 
           <label class="control-label" for="moduleNameInput">Module Name</label>
           <div class="form-inline">

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -136,8 +137,8 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
         this.infoData = info;
         this.form.get('moduleRevision').setValue(this.infoData.data['revision']);
       },
-      err => {
-        this.error = err;
+      (err: HttpErrorResponse) => {
+        this.error = err.error;
       }
     );
   }
