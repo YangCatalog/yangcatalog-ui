@@ -223,13 +223,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '8',
         field: '7',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-6'
+        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
       },
       {
         colId: '9',
         field: '8',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint SO 1.10.17'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
       },
     ];
 
@@ -315,13 +315,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '5',
         field: '5',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-6'
+        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint SO 1.10.17'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
       },
     ];
 
@@ -364,13 +364,13 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '5',
         field: '5',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-6'
+        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint SO 1.10.17'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
       },
     ];
 
