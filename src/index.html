@@ -16,6 +16,21 @@
   }
 
 </script>
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function () {
+    var u = '//analytics.ietf.org/';
+    _paq.push(['setTrackerUrl', u + 'matomo.php']);
+    _paq.push(['setSiteId', '4']);
+    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+    g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+  })();
+</script>
+<!-- End Matomo Code -->
 <style>
   h1, h2, h3, h4, h5, h6 {
     font-family: "Raleway", sans-serif
@@ -44,7 +59,7 @@
     <div class="yc-bar yc-card yc-relative" id="myNavbar">
       <h1>
         <script>document.write('<a href="' + window['myBasePath'] + '/home.html" class="yc-bar-item yc-wide yc-logo yc-hover-none">' +
-                  '          <span>YANG Catalog</span></a>');</script>
+            '          <span>YANG Catalog</span></a>');</script>
 
 
       </h1>
@@ -73,8 +88,8 @@
 
   </div>
 
-  <nav class="yc-sidebar yc-bar-block yc-black yc-card yc-animate-left yc-hide-medium yc-hide-large" style="display:none"
-    id="mySidebar">
+  <nav class="yc-sidebar yc-bar-block yc-black yc-card yc-animate-left yc-hide-medium yc-hide-large"
+    style="display:none" id="mySidebar">
     <a href="' + window['myBasePath'] + 'javascript:void(0)" onclick="w3_close()"
       class="yc-bar-item yc-button yc-large yc-padding-16">Close ×</a>
     <script>document.write('<a href="' + window['myBasePath'] + '/home.html" onclick="w3_close()" class="yc-bar-item yc-button">HOME</a>');</script>
@@ -96,7 +111,6 @@
 
   <yc-root></yc-root>
 
-
   <script>
     // Modal Image Gallery
     function onClick(element) {
@@ -106,23 +120,22 @@
       captionText.innerHTML = element.alt;
     }
 
-  // Toggle between showing and hiding the sidebar when clicking the menu icon
-  var mySidebar = document.getElementById("mySidebar");
+    // Toggle between showing and hiding the sidebar when clicking the menu icon
+    var mySidebar = document.getElementById("mySidebar");
 
-  function w3_open() {
-    if (mySidebar.style.display === 'block') {
-      mySidebar.style.display = 'none';
-    } else {
-      mySidebar.style.display = 'block';
+    function w3_open() {
+      if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+      } else {
+        mySidebar.style.display = 'block';
+      }
     }
-  }
 
-  // Close the sidebar with the close button
-  function w3_close() {
-    mySidebar.style.display = "none";
-  }
-</script>
-
+    // Close the sidebar with the close button
+    function w3_close() {
+      mySidebar.style.display = "none";
+    }
+  </script>
 
 </body>
 
