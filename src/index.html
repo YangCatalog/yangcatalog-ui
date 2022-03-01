@@ -15,6 +15,34 @@
     window['myBasePath'] = '';
   }
 
+  // Set Link Header if requesting use.html -> this allow image preload
+  console.log(window.location.pathname)
+  if (window.location.pathname === '/use.html') {
+    var designerImg = document.createElement('link');
+    var userImg = document.createElement('link');
+    designerImg.setAttribute('href', '/assets/img/yang-module-designer.jpg');
+    userImg.setAttribute('href', '/assets/img/yang-module-user.jpg');
+    designerImg.setAttribute('as', 'image');
+    userImg.setAttribute('as', 'image');
+    userImg.setAttribute('type', 'image/jpeg');
+    if (window.location.hostname !== 'localhost') {
+      designerImg.setAttribute('rel', 'preload');
+      userImg.setAttribute('rel', 'preload');
+    }
+    document.head.appendChild(designerImg);
+    document.head.appendChild(userImg);
+  }
+
+  if (window.location.pathname === '/home.html' || window.location.pathname === '/') {
+    var headerImg = document.createElement('link');
+    headerImg.setAttribute('href', '/assets/img/yang-catalog-header.png');
+    headerImg.setAttribute('as', 'image');
+    if (window.location.hostname !== 'localhost') {
+      headerImg.setAttribute('rel', 'preload');
+    }
+    document.head.appendChild(headerImg);
+  }
+
 </script>
 <!-- Matomo -->
 <script>
