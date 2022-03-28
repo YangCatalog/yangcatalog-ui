@@ -2,6 +2,18 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.1.0 - 2022-03-28
+
+  * Bugfix: Formatting of newlines at private-page tables [#58](https://github.com/YangCatalog/yangcatalog-ui/issues/58)  
+  * Link headers added for certain resources to enable preloading [#57](https://github.com/YangCatalog/yangcatalog-ui/issues/57)
+  * Size of the backgroud image decreased [#56](https://github.com/YangCatalog/yangcatalog-ui/issues/56)
+  * Matomo tracker added to the YANG Catalog UI [#52](https://github.com/YangCatalog/yangcatalog-ui/issues/52)
+  * Validators versions updated in private component
+  * Error messages contains more user-friendly code in the Modules details tab
+  * Bugfix: Deviations list display fixed [#49](https://github.com/YangCatalog/yangcatalog-ui/issues/49)
+  * Module detail properties tooltips moved into modal window [#47](https://github.com/YangCatalog/yangcatalog-ui/issues/47)
+  * Unique URI for nodes/leaves of individuals module parts [#43](https://github.com/YangCatalog/yangcatalog-ui/issues/43)
+
 * ##### v5.0.0 - 2022-02-02
   
   * Improvements for displaying errors in the YANG Validator form [#45](https://github.com/YangCatalog/yangcatalog-ui/issues/45)

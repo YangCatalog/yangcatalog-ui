@@ -229,7 +229,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '9',
         field: '8',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
       },
     ];
 
@@ -321,7 +321,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
       },
     ];
 
@@ -370,7 +370,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.112'
+        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
       },
     ];
 
