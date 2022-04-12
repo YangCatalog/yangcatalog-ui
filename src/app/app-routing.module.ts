@@ -21,58 +21,71 @@ const routes: Routes = [
   {
     path: 'private-page',
     component: PrivateComponent,
+    data: { title: 'YANG Modules Stats' }
   },
   {
     path: 'private-page/:jsonfile',
     component: PrivateComponent,
+    data: { title: 'YANG Modules Stats' }
   },
   {
     path: 'yangvalidator/:validating',
     component: YangValidatorComponent,
+    data: { title: 'YANG Validator' }
   },
   {
     path: 'yangvalidator',
-    component: YangValidatorComponent
+    component: YangValidatorComponent,
+    data: { title: 'YANG Validator' }
   },
   {
     path: 'yang-search/show_node/:node/:path/:revision',
-    component: YangShowNodeComponent,
+    component: YangShowNodeComponent
   },
   {
     path: 'yang-search',
-    component: YangSearchComponent
-  },
-  {
-    path: 'yang-search/module_details/:module',
-    component: YangModuleDetailsComponent
-  },
-  {
-    path: 'yang-search/yang_tree/:module',
-    component: YangTreeComponent
+    component: YangSearchComponent,
+    data: { title: 'YANG Search' }
   },
   {
     path: 'yang-search/module_details',
-    component: YangModuleDetailsComponent
+    component: YangModuleDetailsComponent,
+    data: { title: 'YANG Module Details' }
+  },
+  {
+    path: 'yang-search/module_details/:module',
+    component: YangModuleDetailsComponent,
+    data: { title: 'YANG Module Details' }
+  },
+  {
+    path: 'yang-search/yang_tree/:module',
+    component: YangTreeComponent,
+    data: { title: 'YANG Tree' }
   },
   {
     path: 'yang-search/impact_analysis/:module',
-    component: ImpactAnalysisComponent
+    component: ImpactAnalysisComponent,
+    data: { title: 'YANG Impact Analysis' }
   },
   {
     path: 'yang-search/impact_analysis',
-    component: ImpactAnalysisComponent
+    component: ImpactAnalysisComponent,
+    data: { title: 'YANG Impact Analysis' }
   },
   {
     path: 'yangre',
-    component: YangRegexValidatorComponent
+    component: YangRegexValidatorComponent,
+    data: { title: 'YANG Regex Validator' }
   },
   {
     path: 'stats/statistics.html',
-    component: YangStatsComponent
+    component: YangStatsComponent,
+    data: { title: 'Statistics' }
   },
   {
     path: 'create.html',
-    component: AccountComponent
+    component: AccountComponent,
+    data: { title: 'Create Account' }
   }
 ];
 
