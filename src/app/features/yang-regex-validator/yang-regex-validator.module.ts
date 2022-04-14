@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { CoreModule } from 'src/app/core/core.module';
 import { YangRegexAboutComponent } from './yang-regex-about/yang-regex-about.component';
 import { YangRegexValidatorRoutingModule } from './yang-regex-validator-routing.module';
 import { YangRegexValidatorComponent } from './yang-regex-validator.component';
@@ -16,7 +17,8 @@ import { YangRegexValidatorComponent } from './yang-regex-validator.component';
     ReactiveFormsModule,
     NgbTooltipModule,
     NgBootstrapFormValidationModule,
-    NgbAlertModule
+    NgbAlertModule,
+    CoreModule
   ]
 })
 export class YangRegexValidatorModule { }
