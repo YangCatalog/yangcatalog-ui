@@ -87,8 +87,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.initDraftNameForm();
 
-    this.subscribeRouteParams();
-    this.subscribeQueryParams()
+    this.subscribeQueryParams();
 
     this.getVersions();
   }
@@ -455,7 +454,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   private subscribeQueryParams() {
     this.route.queryParams.subscribe(params => {
       if (params.hasOwnProperty('rfc')) {

@@ -112,21 +112,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.dataService.getStats().pipe(
-      finalize(() => this.loading = false),
-      takeUntil(this.componentDestroyed)
-    ).subscribe(
-      stats => {
-        this.stats = stats;
-        this.sdoToVendorPieData = this.stats.getSdoToVendorSums();
-        this.vendorPieData = this.stats.getVendorGithubNumbers();
-        this.sdoPieData = this.stats.getSdoGighubNumbers();
-      },
-      err => {
-        this.statsError = err;
-      }
-    );
-
     this.loadGeneralPrivateData().pipe(
       mergeMap(() => this.route.params),
       takeUntil(this.componentDestroyed)
@@ -145,6 +130,20 @@ export class PrivateComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.dataService.getStats().pipe(
+      finalize(() => this.loading = false),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(
+      stats => {
+        this.stats = stats;
+        this.sdoToVendorPieData = this.stats.getSdoToVendorSums();
+        this.vendorPieData = this.stats.getVendorGithubNumbers();
+        this.sdoPieData = this.stats.getSdoGighubNumbers();
+      },
+      err => {
+        this.statsError = err;
+      }
+    );
   }
 
   private loadGeneralPrivateData() {
