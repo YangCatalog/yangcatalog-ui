@@ -5,6 +5,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CoreModule } from '../../core/core.module';
 import { AppAgGridModule } from '../../shared/ag-grid/app-ag-grid.module';
+import { YangTreeRoutingModule } from './yang-tree-routing.module';
 import { YangTreeComponent } from './yang-tree.component';
 
 
@@ -12,6 +13,7 @@ import { YangTreeComponent } from './yang-tree.component';
   declarations: [YangTreeComponent],
   imports: [
     CommonModule,
+    YangTreeRoutingModule,
     AppAgGridModule,
     FontAwesomeModule,
     CoreModule,

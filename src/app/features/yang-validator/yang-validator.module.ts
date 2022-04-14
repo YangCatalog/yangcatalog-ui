@@ -10,26 +10,31 @@ import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { MissingModulesSelectionComponent } from './missing-modules-confirmation/missing-modules-selection.component';
 import { ValidationErrorComponent } from './validation-error/validation-error.component';
 import { ValidationResultComponent } from './validation-result/validation-result.component';
+import { YangValidatorRoutingModule } from './yang-validator-routing.module';
 import { YangValidatorComponent } from './yang-validator.component';
-import { YangValidatorService } from './yang-validator.service';
+
 
 @NgModule({
-  declarations: [YangValidatorComponent, MissingModulesSelectionComponent, ValidationResultComponent, ValidationErrorComponent, ApiOverviewComponent],
-  providers: [
-    YangValidatorService
+  declarations: [
+    YangValidatorComponent,
+    MissingModulesSelectionComponent,
+    ValidationResultComponent,
+    ValidationErrorComponent,
+    ApiOverviewComponent
   ],
-    imports: [
-        CommonModule,
-        NgbTabsetModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgBootstrapFormValidationModule,
-        NgbAccordionModule,
-        NgbAlertModule,
-        FileUploadFormModule,
-        RouterModule,
-        CoreModule
-    ]
+  entryComponents: [MissingModulesSelectionComponent],
+  imports: [
+    CommonModule,
+    YangValidatorRoutingModule,
+    NgbTabsetModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgBootstrapFormValidationModule,
+    NgbAccordionModule,
+    NgbAlertModule,
+    FileUploadFormModule,
+    RouterModule,
+    CoreModule
+  ]
 })
-export class YangValidatorModule {
-}
+export class YangValidatorModule { }

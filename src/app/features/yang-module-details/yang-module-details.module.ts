@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbAlertModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { CoreModule } from '../../core/core.module';
+import { YangModuleDetailsRoutingModule } from './yang-module-details-routing.module';
 import { YangModuleDetailsComponent } from './yang-module-details.component';
 import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-property-help-modal.component';
 
@@ -13,6 +14,7 @@ import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-
   declarations: [YangModuleDetailsComponent, YangPropertyHelpModalComponent],
   imports: [
     CommonModule,
+    YangModuleDetailsRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     NgbAlertModule,

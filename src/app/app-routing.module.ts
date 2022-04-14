@@ -1,18 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountComponent } from './features/account/account/account.component';
-import { ImpactAnalysisComponent } from './features/impact-analysis/impact-analysis.component';
-import { PrivateComponent } from './features/private/private.component';
 import { YangCatalogComponent } from './features/static-content/yang-catalog/yang-catalog.component';
-import { YangStatsComponent } from './features/statistics/yang-stats.component';
-import { YangModuleDetailsComponent } from './features/yang-module-details/yang-module-details.component';
-import { YangRegexValidatorComponent } from './features/yang-regex-validator/yang-regex-validator.component';
-import { YangSearchComponent } from './features/yang-search/yang-search.component';
-import { YangShowNodeComponent } from './features/yang-show-node/yang-show-node.component';
-import { YangTreeComponent } from './features/yang-tree/yang-tree.component';
-import { YangValidatorComponent } from './features/yang-validator/yang-validator.component';
 
-// todo: move child routes to child modules
 const routes: Routes = [
   {
     path: '',
@@ -20,71 +9,51 @@ const routes: Routes = [
   },
   {
     path: 'private-page',
-    component: PrivateComponent,
+    loadChildren: () => import('./features/private/private.module').then(mod => mod.PrivateModule),
     data: { title: 'YANG Modules Stats' }
-  },
-  {
-    path: 'private-page/:jsonfile',
-    component: PrivateComponent,
-    data: { title: 'YANG Modules Stats' }
-  },
-  {
-    path: 'yangvalidator/:validating',
-    component: YangValidatorComponent,
-    data: { title: 'YANG Validator' }
   },
   {
     path: 'yangvalidator',
-    component: YangValidatorComponent,
+    loadChildren: () => import('./features/yang-validator/yang-validator.module').then(mod => mod.YangValidatorModule),
     data: { title: 'YANG Validator' }
   },
   {
     path: 'yang-search/show_node/:node/:path/:revision',
-    component: YangShowNodeComponent
+    loadChildren: () => import('./features/yang-show-node/yang-show-node.module').then(mod => mod.YangShowNodeModule)
   },
   {
     path: 'yang-search',
-    component: YangSearchComponent,
+    loadChildren: () => import('./features/yang-search/yang-search.module').then(mod => mod.YangSearchModule),
     data: { title: 'YANG Search' }
   },
   {
     path: 'yang-search/module_details',
-    component: YangModuleDetailsComponent,
-    data: { title: 'YANG Module Details' }
-  },
-  {
-    path: 'yang-search/module_details/:module',
-    component: YangModuleDetailsComponent,
+    loadChildren: () => import('./features/yang-module-details/yang-module-details.module').then(mod => mod.YangModuleDetailsModule),
     data: { title: 'YANG Module Details' }
   },
   {
     path: 'yang-search/yang_tree/:module',
-    component: YangTreeComponent,
+    loadChildren: () => import('./features/yang-tree/yang-tree.module').then(mod => mod.YangTreeModule),
     data: { title: 'YANG Tree' }
   },
   {
-    path: 'yang-search/impact_analysis/:module',
-    component: ImpactAnalysisComponent,
-    data: { title: 'YANG Impact Analysis' }
-  },
-  {
     path: 'yang-search/impact_analysis',
-    component: ImpactAnalysisComponent,
+    loadChildren: () => import('./features/impact-analysis/impact-analysis.module').then(mod => mod.ImpactAnalysisModule),
     data: { title: 'YANG Impact Analysis' }
   },
   {
     path: 'yangre',
-    component: YangRegexValidatorComponent,
+    loadChildren: () => import('./features/yang-regex-validator/yang-regex-validator.module').then(mod => mod.YangRegexValidatorModule),
     data: { title: 'YANG Regex Validator' }
   },
   {
     path: 'stats/statistics.html',
-    component: YangStatsComponent,
+    loadChildren: () => import('./features/statistics/yang-stats.module').then(mod => mod.YangStatsModule),
     data: { title: 'Statistics' }
   },
   {
     path: 'create.html',
-    component: AccountComponent,
+    loadChildren: () => import('./features/account/account.module').then(mod => mod.AccountModule),
     data: { title: 'Create Account' }
   }
 ];

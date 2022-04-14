@@ -4,13 +4,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { AccountComponent } from './account/account.component';
+import { AccountRoutingModule } from './account-routing.module';
+import { AccountComponent } from './account.component';
 
 
 @NgModule({
   declarations: [AccountComponent],
   imports: [
     CommonModule,
+    AccountRoutingModule,
     ReactiveFormsModule,
     NgbTooltipModule,
     NgBootstrapFormValidationModule,
