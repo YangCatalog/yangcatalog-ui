@@ -7,33 +7,12 @@
 <link rel="stylesheet preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway" crossorigin>
 <link rel="stylesheet preload" as="style"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin>
-<link rel="preload" as="image" type="image/svg+xml" href="assets/img/ietf-logo.svg">
 <script>
 
   if (window.location.pathname.match('/yangcatalog-ui/[^/]+')) {
     window['myBasePath'] = '/yangcatalog-ui';
   } else {
     window['myBasePath'] = '';
-  }
-
-  // Set Link Header if requesting use.html -> this allow image preload
-  if (window.location.pathname === '/use.html') {
-    var images = ['yang-module-designer.jpg', 'yang-module-user.jpg']
-    images.forEach(image => {
-      var link = document.createElement('link');
-      link.setAttribute('href', '/assets/img/' + image);
-      link.setAttribute('as', 'image');
-      link.setAttribute('rel', 'preload');
-      document.head.appendChild(link)
-    });
-  }
-
-  if (window.location.pathname === '/home.html' || window.location.pathname === '/') {
-    var headerImg = document.createElement('link');
-    headerImg.setAttribute('href', '/assets/img/yang-catalog-header.png');
-    headerImg.setAttribute('as', 'image');
-    headerImg.setAttribute('rel', 'preload');
-    document.head.appendChild(headerImg);
   }
 
 </script>
