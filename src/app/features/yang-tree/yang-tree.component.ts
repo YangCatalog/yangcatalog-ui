@@ -119,7 +119,11 @@ export class YangTreeComponent implements OnInit, OnDestroy {
 
   private loadTreedata() {
     this.loading = true;
-    this.dataService.getTree(this.moduleName, this.revision).pipe(
+    let requestModuleName = this.moduleName;
+    if (this.revision) {
+      requestModuleName += '@' + this.revision;
+    }
+    this.dataService.getTree(requestModuleName).pipe(
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
