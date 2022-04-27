@@ -10,5 +10,9 @@
   "/yangre/v1/*": {
     "target": "http://127.0.0.1/",
     "secure": false
+  },
+  "/private/private.json": {
+    "target": "http://127.0.0.1/",
+    "secure": false
   }
 }

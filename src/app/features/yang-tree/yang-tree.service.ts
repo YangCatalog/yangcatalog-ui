@@ -17,8 +17,8 @@ export class YangTreeService extends DataService {
     super(httpClient);
   }
 
-  getTree(modelName: string, revision: string): Observable<TreeModel> {
-    return this.httpClient.get(environment.REST_BASE_URL + 'api/yang-search/v2/tree/' + modelName + '@' + revision)
+  getTree(moduleName: string): Observable<TreeModel> {
+    return this.httpClient.get(environment.REST_BASE_URL + 'api/yang-search/v2/tree/' + moduleName)
       .pipe(
         map(
           response => {
