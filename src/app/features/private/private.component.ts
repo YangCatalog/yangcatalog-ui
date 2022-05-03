@@ -205,12 +205,12 @@ export class PrivateComponent implements OnInit, OnDestroy {
       { colId: '2', field: '2', maxWidth: 100, headerName: 'Email' },
       { colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model' },
       { colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation' },
-      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.2' },
+      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
       {
         colId: '7',
         field: '8',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.2'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
       },
       {
         colId: '6',
@@ -297,12 +297,12 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.2' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.2'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
       },
       {
         colId: '4',
@@ -346,12 +346,12 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.2' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.2'
+        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
       },
       {
         colId: '4',
