@@ -2,9 +2,18 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.2.0 - 2022-05-03
+
+  * Updates to headers after pyang 2.5.2 update [deployment #124](https://github.com/YangCatalog/deployment/issues/124)
+  * Footer added on some pages where missing [#71](https://github.com/YangCatalog/yangcatalog-ui/issues/71)
+  * Angular modules lazy-loading introduced [#70](https://github.com/YangCatalog/yangcatalog-ui/issues/70)
+  * Bugfix: Fixed display of YANG Trees if revision is not available [#68](https://github.com/YangCatalog/yangcatalog-ui/issues/68)
+  * Set page titles for individual pages [#60](https://github.com/YangCatalog/yangcatalog-ui/issues/60)
+  * Improved images and fonts preloading [#57](https://github.com/YangCatalog/yangcatalog-ui/issues/57)
+
 * ##### v5.1.0 - 2022-03-28
 
-  * Bugfix: Formatting of newlines at private-page tables [#58](https://github.com/YangCatalog/yangcatalog-ui/issues/58)  
+  * Bugfix: Formatting of newlines at private-page tables [#58](https://github.com/YangCatalog/yangcatalog-ui/issues/58)
   * Link headers added for certain resources to enable preloading [#57](https://github.com/YangCatalog/yangcatalog-ui/issues/57)
   * Size of the backgroud image decreased [#56](https://github.com/YangCatalog/yangcatalog-ui/issues/56)
   * Matomo tracker added to the YANG Catalog UI [#52](https://github.com/YangCatalog/yangcatalog-ui/issues/52)
