@@ -42,6 +42,10 @@ const staticRoutes: Routes = [
     path: 'query.html',
     component: QueryComponent,
     data: { title: 'Query' }
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 
