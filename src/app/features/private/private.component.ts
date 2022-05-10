@@ -106,6 +106,14 @@ export class PrivateComponent implements OnInit, OnDestroy {
   currentStats = {};
   statsError = null;
   privateError = null;
+  // TODO: Fetch this using dataService.getValidatorsVersions() method
+  validatorsVersion = {
+    'confd-version': 'confd-7.6',
+    'pyang-version': '2.5.3',
+    'xym-version': '0.5',
+    'yangdump-version': 'yangdump-pro 20.10-9',
+    'yanglint-version': 'yanglint 2.0.194'
+  }
 
   constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute) { }
 
@@ -205,30 +213,35 @@ export class PrivateComponent implements OnInit, OnDestroy {
       { colId: '2', field: '2', maxWidth: 100, headerName: 'Email' },
       { colId: '3', field: '3', maxWidth: 100, headerName: 'Download the YANG model' },
       { colId: '5', field: '3', maxWidth: 140, headerName: 'Compilation' },
-      { colId: '6', field: '4', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
+      {
+        colId: '6',
+        field: '4',
+        maxWidth: 250,
+        headerName: `Compilation Result (pyang --ietf). ${this.validatorsVersion['pyang-version']}`
+      },
       {
         colId: '7',
         field: '8',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
+        headerName: `Compilation Result (pyang). Note: also generates errors for imported files. ${this.validatorsVersion['pyang-version']}`
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
+        headerName: `Compilation Results (confdc) Note: also generates errors for imported files. ${this.validatorsVersion['confd-version']}`
       },
       {
         colId: '8',
         field: '7',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
+        headerName: `Compilation Results (yangdump-pro). Note: also generates errors for imported files. ${this.validatorsVersion['yangdump-version']}`
       },
       {
         colId: '9',
         field: '8',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
+        headerName: `Compilation Results (yanglint -V -i). Note: also generates errors for imported files. ${this.validatorsVersion['yanglint-version']}`
       },
     ];
 
@@ -297,30 +310,35 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
+      {
+        colId: '2',
+        field: '2',
+        maxWidth: 250,
+        headerName: `Compilation Result (pyang --ietf). ${this.validatorsVersion['pyang-version']}`
+      },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
+        headerName: `Compilation Result (pyang). Note: also generates errors for imported files. ${this.validatorsVersion['pyang-version']}`
       },
       {
         colId: '4',
         field: '4',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
+        headerName: `Compilation Results (confdc) Note: also generates errors for imported files. ${this.validatorsVersion['confd-version']}`
       },
       {
         colId: '5',
         field: '5',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
+        headerName: `Compilation Results (yangdump-pro). Note: also generates errors for imported files. ${this.validatorsVersion['yangdump-version']}`
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
+        headerName: `Compilation Results (yanglint -V -i). Note: also generates errors for imported files. ${this.validatorsVersion['yanglint-version']}`
       },
     ];
 
@@ -346,30 +364,35 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Model' },
       { colId: '1', field: '1', maxWidth: 250, headerName: 'Compilation' },
-      { colId: '2', field: '2', maxWidth: 250, headerName: 'Compilation Result (pyang --ietf). 2.5.3' },
+      {
+        colId: '2',
+        field: '2',
+        maxWidth: 250,
+        headerName: `Compilation Result (pyang --ietf). ${this.validatorsVersion['pyang-version']}`
+      },
       {
         colId: '3',
         field: '3',
         maxWidth: 250,
-        headerName: 'Compilation Result (pyang). Note: also generates errors for imported files. 2.5.3'
+        headerName: `Compilation Result (pyang). Note: also generates errors for imported files. ${this.validatorsVersion['pyang-version']}`
       },
       {
         colId: '4',
         field: '4',
         maxWidth: 250,
-        headerName: 'Compilation Results (confdc) Note: also generates errors for imported files. confd-7.6'
+        headerName: `Compilation Results (confdc) Note: also generates errors for imported files. ${this.validatorsVersion['confd-version']}`
       },
       {
         colId: '5',
         field: '5',
         maxWidth: 300,
-        headerName: 'Compilation Results (yangdump-pro). Note: also generates errors for imported files. yangdump-pro 20.10-9'
+        headerName: `Compilation Results (yangdump-pro). Note: also generates errors for imported files. ${this.validatorsVersion['yangdump-version']}`
       },
       {
         colId: '6',
         field: '6',
         maxWidth: 300,
-        headerName: 'Compilation Results (yanglint -V -i). Note: also generates errors for imported files. yanglint 2.0.164'
+        headerName: `Compilation Results (yanglint -V -i). Note: also generates errors for imported files. ${this.validatorsVersion['yanglint-version']}`
       },
     ];
 
