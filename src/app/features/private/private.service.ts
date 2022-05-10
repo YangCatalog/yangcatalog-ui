@@ -27,6 +27,10 @@ export class PrivateService extends DataService {
     return this.customGet('private/private.json');
   }
 
+  getValidatorsVersions(): Observable<any> {
+    return this.customGet('yangvalidator/v2/versions');
+  }
+
   loadData(jsonFile: string): Observable<any> {
     return this.customGet('private/' + jsonFile);
   }
