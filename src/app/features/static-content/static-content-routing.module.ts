@@ -11,7 +11,8 @@ const staticRoutes: Routes = [
   {
     path: '',
     component: YangCatalogComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: { title: 'Home' }
   },
   {
     path: 'home.html',

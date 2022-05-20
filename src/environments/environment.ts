@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   REST_BASE_URL: '/',
   WEBROOT_BASE_URL: '',
-  CAPTCHA_SECRET_KEY: '@CAPTCHA_SECRET_KEY'
+  CAPTCHA_SECRET_KEY: '',
+  MATOMO_SITE_ID: '1',
+  MATOMO_TRACKER_URL: 'http://localhost:8384/'
 };
 
 /*

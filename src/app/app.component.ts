@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { MatomoTracker } from '@ngx-matomo/tracker';
+import { TitleService } from './shared/title/title.service';
+
 
 @Component({
   selector: 'yc-root',
@@ -9,35 +10,19 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  defaulTitle = 'YANG Catalog';
+  defaultTitle = 'YANG Catalog';
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title
-  ) { }
+    private titleService: TitleService,
+    private title: Title,
+    private tracker: MatomoTracker) { }
 
   ngOnInit() {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        map(() => {
-          let routeTitle = '';
-          while (this.activatedRoute!.firstChild) {
-            this.activatedRoute = this.activatedRoute.firstChild;
-          }
-          if (this.activatedRoute.snapshot.data['title']) {
-            routeTitle = this.activatedRoute!.snapshot.data['title'];
-          }
-          return routeTitle;
-        })
-      )
+    this.titleService.boot()
       .subscribe((title: string) => {
-        if (title) {
-          this.titleService.setTitle(`${title} - ${this.defaulTitle}`);
-        } else {
-          this.titleService.setTitle(this.defaulTitle);
-        }
+        const pageTitle = title ? `${title} - ${this.defaultTitle}` : this.defaultTitle;
+        this.title.setTitle(pageTitle);
+        this.tracker.trackPageView(pageTitle);
       });
   }
 }
