@@ -5,13 +5,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { StaticContentModule } from './features/static-content/static-content.module';
 import { AppAgGridModule } from './shared/ag-grid/app-ag-grid.module';
+import { TitleService } from './shared/title/title.service';
+
 
 
 @NgModule({
@@ -30,9 +34,13 @@ import { AppAgGridModule } from './shared/ag-grid/app-ag-grid.module';
     FontAwesomeModule,
     NgxChartsModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMatomoTrackerModule.forRoot({
+      siteId: environment.MATOMO_SITE_ID,
+      trackerUrl: environment.MATOMO_TRACKER_URL,
+    }),
   ],
-  providers: [],
+  providers: [TitleService],
   exports: [],
   bootstrap: [AppComponent]
 })
