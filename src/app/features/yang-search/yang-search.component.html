@@ -116,6 +116,13 @@
 
       </form>
 
+      <br *ngIf="warnings">
+      <ngb-alert type="warning" (close)="onCloseWarnings()" role="alert" *ngIf="warnings && showWarnings && warnings.length > 0">
+        <p *ngFor="let w of warnings">
+          {{ w }}
+        </p>
+      </ngb-alert>
+
       <div *ngIf="results">
         <div class="results-header">
           <h4>Search results</h4>
