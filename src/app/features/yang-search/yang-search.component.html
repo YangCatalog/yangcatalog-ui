@@ -109,7 +109,7 @@
           </ul>
           <div [ngbNavOutlet]="nav" class="search-options"></div>
 
-          <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="form.valid && onSearchClick()">
+          <button id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5 search-submit" (click)="form.valid && onSearchClick()" [disabled]="searchingProgress">
             <div class="spinner-border text-primary" role="status" *ngIf="searchingProgress"></div>
             Search
           </button>
