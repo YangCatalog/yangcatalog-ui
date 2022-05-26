@@ -23,6 +23,8 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   form: FormGroup;
   searchingProgress = false;
   error: any;
+  warnings = [];
+  showWarnings = true;
 
   resultsContainerWidth = '100%';
 
@@ -226,6 +228,8 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.error = null;
     this.searchedTermToBeHighlighted = this.form.get('searchTerm').value;
     this.results = null;
+    this.showWarnings = true;
+    this.warnings = []
     this.currentColDefs = this.allColDefs.filter((col: ColDef) => this.form.get('outputColumns').value.indexOf(col.field) !== -1);
     const input = {
       'searched-term': this.form.get('searchTerm').value,
@@ -244,6 +248,12 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       results => {
+        if (results['max-hits']) {
+          this.warnings.push('Maximum number of results reached. Not all results will be shown.')
+        }
+        if (results['timeout']) {
+          this.warnings.push('Timeout while searching. Please try searching for something more specific.')
+        }
         this.results = results;
       },
       err => {
@@ -357,5 +367,9 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     ]));
 
+  }
+
+  onCloseWarnings() {
+    this.showWarnings = false;
   }
 }
