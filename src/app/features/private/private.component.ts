@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { Lightbox } from 'ngx-lightbox';
-import { Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
@@ -114,25 +115,63 @@ export class PrivateComponent implements OnInit, OnDestroy {
     'yangdump-version': 'yangdump-pro 20.10-9',
     'yanglint-version': 'yanglint 2.0.194'
   }
+  tabIds = {
+    'Statistics': 1,
+    'SDO': 2,
+    'Graphs': 3,
+    'Cisco': 4,
+    'Juniper': 5,
+    'Huawei': 6,
+    'Ciena': 7,
+    'Fujitsu': 8,
+    'Nokia': 9,
+    'OpenROADM': 11
+  }
+  queryParams = {
+    'tab': 'Statistics'
+  }
 
-  constructor(private dataService: PrivateService, private lightbox: Lightbox, private route: ActivatedRoute) { }
+  constructor(
+    private dataService: PrivateService,
+    private lightbox: Lightbox,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) { }
 
 
   ngOnInit(): void {
 
-    this.loadGeneralPrivateData().pipe(
-      mergeMap(() => this.route.params),
+    combineLatest([this.route.params, this.route.queryParams]).pipe(
+      map(results => ({ params: results[0], query: results[1] })),
       takeUntil(this.componentDestroyed)
-    ).subscribe(
-      params => {
-        if (params.hasOwnProperty('jsonfile')) {
-          this.jsonfile = params['jsonfile'].replace('.html', '').replace('YANGPageCompilation', '');
-          this.initJsonFilePreview();
-        } else {
-          this.initCiscoAuthorsThumbs();
-          this.initDependenczGraphsThumbs();
+    ).subscribe(results => {
+      // params
+      this.loadGeneralPrivateData().pipe(
+        mergeMap(() => this.route.params),
+        takeUntil(this.componentDestroyed)
+      ).subscribe(
+        params => {
+          if (params.hasOwnProperty('jsonfile')) {
+            this.jsonfile = params['jsonfile'].replace('.html', '').replace('YANGPageCompilation', '');
+            this.initJsonFilePreview();
+          } else {
+            this.initCiscoAuthorsThumbs();
+            this.initDependenczGraphsThumbs();
+          }
         }
-      },
+      );
+
+      // query params
+      if (results.query.hasOwnProperty('tab')) {
+        this.queryParams['tab'] = results.query['tab'];
+        if (results.query['tab'] in this.tabIds) {
+          this.active = this.tabIds[results.query['tab']]
+        } else {
+          this.queryParams['tab'] = null;
+        }
+      }
+    },
       err => {
         console.error(err);
       }
@@ -551,5 +590,21 @@ export class PrivateComponent implements OnInit, OnDestroy {
 
   jsonExtractFileName(file: string) {
     return file.replace('.json', '');
+  }
+
+  onNavTabChange(event: any) {
+    const newTabName = Object.keys(this.tabIds).find(key => this.tabIds[key] === event.nextId);
+    this.queryParams['tab'] = newTabName
+    this.updateURL();
+  }
+
+  updateURL() {
+    const url = this.router.createUrlTree(
+      [],
+      {
+        queryParams: this.queryParams
+      }).toString();
+
+    this.location.go(url);
   }
 }
