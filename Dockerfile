@@ -13,6 +13,7 @@ COPY package-lock.json ./
 COPY .npmrc ./
 COPY ./tmp ./tmp
 RUN npm ci
+RUN ./node_modules/.bin/ngcc
 COPY . .
 RUN npm run build-prod
 
