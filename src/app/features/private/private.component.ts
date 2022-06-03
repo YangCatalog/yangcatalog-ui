@@ -266,10 +266,11 @@ export class PrivateComponent implements OnInit, OnDestroy {
     this.jsonPreviewHeader = 'General Statistics Data';
 
     this.jsonPreviewColdefs = [
-      { colId: '0', field: '0', maxWidth: 200, headerName: 'YANG Models' },
-      { colId: '1', field: '1', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation' },
-      { colId: '2', field: '2', maxWidth: 300, headerName: 'Number of YANG data models that passed compilation with warnings' },
-      { colId: '3', field: '3', maxWidth: 300, headerName: 'Number of YANG data models that failed compilation' },
+      { colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Models' },
+      { colId: '1', field: '2', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation' },
+      { colId: '2', field: '4', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation with warnings' },
+      { colId: '3', field: '1', maxWidth: 250, headerName: 'Number of YANG data models that failed compilation' },
+      { colId: '4', field: '3', maxWidth: 250, headerName: 'Total number of YANG data models' }
     ];
 
     this.dataService.loadAndTransformStatisticsObjData('stats/AllYANGPageMain.json').pipe(
