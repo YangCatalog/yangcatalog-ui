@@ -38,6 +38,7 @@ import { TitleService } from './shared/title/title.service';
     NgxMatomoTrackerModule.forRoot({
       siteId: environment.MATOMO_SITE_ID,
       trackerUrl: environment.MATOMO_TRACKER_URL,
+      disabled: !environment.production // Remove this line to use Matomo on DEV environment
     }),
   ],
   providers: [TitleService],
