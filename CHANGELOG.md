@@ -2,9 +2,20 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.3.0 - 2022-06-06
+
+  * Update to headers after yanglint v2.0.194 update [deployment #127](https://github.com/YangCatalog/deployment/issues/127)
+  * Query params for navigation tabs [#86](https://github.com/YangCatalog/yangcatalog-ui/issues/86)
+  * Bugfix: Displaying data in AllYANGPageMain table fixed [#84](https://github.com/YangCatalog/yangcatalog-ui/issues/84)
+  * Bugfix: Results table slow rendering fixed [#81](https://github.com/YangCatalog/yangcatalog-ui/issues/81)
+  * Notification to user if there was timeout during search [#78](https://github.com/YangCatalog/yangcatalog-ui/issues/78)
+  * Notification to user if there are many search results [#76](https://github.com/YangCatalog/yangcatalog-ui/issues/76)
+  * Redirect to home page if page does not exist [#73](https://github.com/YangCatalog/yangcatalog-ui/issues/73)
+  * Bugfix: Title rendering fixed - now works correctly with Matomo [#65](https://github.com/YangCatalog/yangcatalog-ui/issues/65)
+
 * ##### v5.2.0 - 2022-05-03
 
-  * Updates to headers after pyang 2.5.2 update [deployment #124](https://github.com/YangCatalog/deployment/issues/124)
+  * Update to headers after pyang 2.5.2 update [deployment #124](https://github.com/YangCatalog/deployment/issues/124)
   * Footer added on some pages where missing [#71](https://github.com/YangCatalog/yangcatalog-ui/issues/71)
   * Angular modules lazy-loading introduced [#70](https://github.com/YangCatalog/yangcatalog-ui/issues/70)
   * Bugfix: Fixed display of YANG Trees if revision is not available [#68](https://github.com/YangCatalog/yangcatalog-ui/issues/68)
@@ -38,6 +49,7 @@
 
   * Node base image version updated to version 14 [#30](https://github.com/YangCatalog/yangcatalog-ui/issues/30)
   * Bugfix: Loader spinning even if nothing is being fetch from backend [#27](https://github.com/YangCatalog/yangcatalog-ui/issues/27)
+
 * ##### v4.2.1 - 2021-10-06
 
   * Bugfix: YANG search form fixes [#26](https://github.com/YangCatalog/yangcatalog-ui/issues/26)
