@@ -125,6 +125,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
     'Ciena': 7,
     'Fujitsu': 8,
     'Nokia': 9,
+    'Etsi': 10,
     'OpenROADM': 11
   }
   queryParams = {
@@ -306,9 +307,9 @@ export class PrivateComponent implements OnInit, OnDestroy {
 
     this.jsonPreviewColdefs = [
       { colId: '0', field: '0', maxWidth: 300, headerName: 'YANG Models' },
-      { colId: '1', field: '2', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation' },
-      { colId: '2', field: '4', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation with warnings' },
-      { colId: '3', field: '1', maxWidth: 250, headerName: 'Number of YANG data models that failed compilation' },
+      { colId: '1', field: '1', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation' },
+      { colId: '2', field: '2', maxWidth: 250, headerName: 'Number of YANG data models that passed compilation with warnings' },
+      { colId: '3', field: '4', maxWidth: 250, headerName: 'Number of YANG data models that failed compilation' },
       { colId: '4', field: '3', maxWidth: 250, headerName: 'Total number of YANG data models' }
     ];
 
