@@ -116,6 +116,7 @@
                 <option value="XR">CISCO IOS-XR</option>
                 <option value="XE">CISCO IOS-XE</option>
                 <option value="NX">CISCO NX-OS</option>
+                <option value="SVO">CISCO IOS-SVO</option>
               </select>
 
               <div class="links-list">
@@ -155,6 +156,21 @@
                   <p><a target="_blank"
                       href="https://github.com/YangModels/yang/blob/main/vendor/cisco/nx/7.0-3-F1-1/README.md">
                       IMPORTANT NOTE regarding the compliance of the native NX-OS models (check for the right version)
+                    </a></p>
+                  <p *ngFor="let cs of privateData[ciscoStatsSelection]">
+                    <span>CISCO NX-OS {{ cs['allCharacters'] }} native models </span> -
+                    <a
+                      [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a>
+                    -
+                    <a
+                      [routerLink]="['Cisco' + ciscoStatsSelection + cs['alphaNumeric'] + 'YANGPageMain.html']">statistics</a>
+                    -
+                    <a href="{{myBaseUrl}}/private/Cisco{{ciscoStatsSelection}}{{cs['alphaNumeric']}}.json">download</a>
+                  </p>
+                </ng-container>
+                <ng-container *ngIf="ciscoStatsSelection==='SVO'">
+                  <p><a target="_blank" href="https://github.com/YangModels/yang/blob/main/vendor/cisco/svo/README.md">
+                      IMPORTANT NOTE regarding the compliance of those CISCO native IOS-SVO models
                     </a></p>
                   <p *ngFor="let cs of privateData[ciscoStatsSelection]">
                     <span>CISCO NX-OS {{ cs['allCharacters'] }} native models </span> -
@@ -243,6 +259,18 @@
             </ng-template>
           </li>
           -->
+          <li [ngbNavItem]="10">
+            <a ngbNavLink>ETSI</a>
+            <ng-template ngbNavContent>
+              <p *ngFor="let s of privateData['etsi']">
+                <span>ETSI v{{ s['allCharacters'] }} native models </span> -
+                <a [routerLink]="['ETSI' +  s['alphaNumeric'] + 'YANGPageCompilation.html']">preview</a> -
+                <a [routerLink]="['ETSI' +  s['alphaNumeric'] + 'YANGPageMain.html']">statistics</a> -
+                <a href="{{myBaseUrl}}/private/ETSI{{s['alphaNumeric']}}.json">download</a>
+              </p>
+            </ng-template>
+          </li>
+
           <li [ngbNavItem]="11">
             <a ngbNavLink>OPENROADM </a>
             <ng-template ngbNavContent>
@@ -274,11 +302,14 @@
       <ng-container *ngIf="jsonfile && showStatsOnly">
         <div class="results-grid-container" [ngStyle]="{minWidth: jsonfileResultsContainerWidth}">
           <p>
-            Number of YANG data models that passed compilation: {{ this.currentStats['passed']}}
+            Number of YANG data models that passed compilation: {{ this.currentStats['passed']}}/{{
+            this.currentStats['total']}}
             <br>
-            Number of YANG data models that passed compilation with warnings: {{ this.currentStats['warnings']}}
+            Number of YANG data models that passed compilation with warnings: {{ this.currentStats['warnings']}}/{{
+            this.currentStats['total']}}
             <br>
-            Number of YANG data models that failed compilation: {{ this.currentStats['failed']}}
+            Number of YANG data models that failed compilation: {{ this.currentStats['failed']}}/{{
+            this.currentStats['total']}}
             <br>
           </p>
 
