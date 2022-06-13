@@ -28,6 +28,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
   };
 
   loading = true;
+  draftsLoading = true;
 
   active = 1;
 
@@ -105,6 +106,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
   ciscoStatsSelection = 'XR';
   showStatsOnly = false;
   currentStats = {};
+  problematicDrafts = {}
   statsError = null;
   privateError = null;
   // TODO: Fetch this using dataService.getValidatorsVersions() method
@@ -187,6 +189,19 @@ export class PrivateComponent implements OnInit, OnDestroy {
         this.sdoToVendorPieData = this.stats.getSdoToVendorSums();
         this.vendorPieData = this.stats.getVendorGithubNumbers();
         this.sdoPieData = this.stats.getSdoGighubNumbers();
+      },
+      err => {
+        this.statsError = err;
+      }
+    );
+
+    this.dataService.getProblematicDrafts().pipe(
+      finalize(() => this.draftsLoading = false),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(
+      result => {
+        console.log(result)
+        this.problematicDrafts = result;
       },
       err => {
         this.statsError = err;
