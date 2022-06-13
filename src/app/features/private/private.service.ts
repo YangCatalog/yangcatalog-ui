@@ -20,7 +20,10 @@ export class PrivateService extends DataService {
         return new YangStatsModel(res);
       })
     );
+  }
 
+  getProblematicDrafts(): Observable<any> {
+    return this.customGet('api/problematic-drafts');
   }
 
   getPrivateJson(): Observable<any> {
@@ -39,28 +42,24 @@ export class PrivateService extends DataService {
     return this.customGet('private/' + jsonFile).pipe(
       map(response => this.transformObjDataToRows(response))
     );
-
   }
 
   loadAndTransformRfcObjData(jsonFile: string): Observable<any> {
     return this.customGet('private/' + jsonFile).pipe(
       map(response => Object.keys(response).map(key => [key, response[key]]))
     );
-
   }
 
   loadAndTransformStatisticsObjData(jsonFile: string): Observable<any> {
     return this.customGet('private/' + jsonFile).pipe(
       map(response => Object.keys(response).map(key => [key].concat(Object.keys(response[key]).map(key2 => response[key][key2]))))
     );
-
   }
 
   loadAndGetStatisticsForOneType(jsonFile: string, type: string): Observable<any> {
     return this.customGet('private/' + jsonFile).pipe(
       map(response => response[type])
     );
-
   }
 
   private transformObjDataToRows(objData: any) {
