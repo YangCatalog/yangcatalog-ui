@@ -108,6 +108,22 @@
           </li>
 
           <li [ngbNavItem]="4">
+            <a ngbNavLink>IETF</a>
+            <ng-template ngbNavContent>
+              <table style="width: 100%">
+                <tr>
+                  <th>Draft</th>
+                  <th>Xym Error</th>
+                </tr>
+                <tr *ngFor="let draft of problematicDrafts | keyvalue">
+                  <td style="width:30%;"><a target="_blank" href="https://www.ietf.org/archive/id/{{draft.key}}">{{draft.key}}</a></td>
+                  <td><pre>{{draft.value}}</pre></td>
+                </tr>
+              </table>
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="5">
             <a ngbNavLink>CISCO </a>
             <ng-template ngbNavContent>
               <label class="control-label" for="ciscoStatSelection">Select statistics to be displayed</label>
@@ -187,7 +203,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="5">
+          <li [ngbNavItem]="6">
             <a ngbNavLink>JUNIPER</a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['juniper']">
@@ -199,7 +215,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="6">
+          <li [ngbNavItem]="7">
             <a ngbNavLink>HUAWEI</a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['huawei']">
@@ -211,7 +227,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="7">
+          <li [ngbNavItem]="8">
             <a ngbNavLink>CIENA</a>
             <ng-template ngbNavContent>
               <p>
@@ -223,7 +239,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="8">
+          <li [ngbNavItem]="9">
             <a ngbNavLink>FUJITSU</a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['fujitsu']">
@@ -235,7 +251,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="9">
+          <li [ngbNavItem]="10">
             <a ngbNavLink>NOKIA</a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['nokia']">
@@ -259,7 +275,7 @@
             </ng-template>
           </li>
           -->
-          <li [ngbNavItem]="10">
+          <li [ngbNavItem]="11">
             <a ngbNavLink>ETSI</a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['etsi']">
@@ -271,7 +287,7 @@
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="11">
+          <li [ngbNavItem]="12">
             <a ngbNavLink>OPENROADM </a>
             <ng-template ngbNavContent>
               <p *ngFor="let s of privateData['openroadm']">
