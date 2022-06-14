@@ -121,14 +121,15 @@ export class PrivateComponent implements OnInit, OnDestroy {
     'Statistics': 1,
     'SDO': 2,
     'Graphs': 3,
-    'Cisco': 4,
-    'Juniper': 5,
-    'Huawei': 6,
-    'Ciena': 7,
-    'Fujitsu': 8,
-    'Nokia': 9,
-    'Etsi': 10,
-    'OpenROADM': 11
+    'Drafts': 4,
+    'Cisco': 5,
+    'Juniper': 6,
+    'Huawei': 7,
+    'Ciena': 8,
+    'Fujitsu': 9,
+    'Nokia': 10,
+    'Etsi': 11,
+    'OpenROADM': 12
   }
   queryParams = {
     'tab': 'Statistics'
