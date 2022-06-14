@@ -121,7 +121,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
     'Statistics': 1,
     'SDO': 2,
     'Graphs': 3,
-    'Drafts': 4,
+    'IETF': 4,
     'Cisco': 5,
     'Juniper': 6,
     'Huawei': 7,
