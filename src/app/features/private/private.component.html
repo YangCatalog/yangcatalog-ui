@@ -110,16 +110,12 @@
           <li [ngbNavItem]="4">
             <a ngbNavLink>IETF</a>
             <ng-template ngbNavContent>
-              <table style="width: 100%">
-                <tr>
-                  <th>Draft</th>
-                  <th>Xym Error</th>
-                </tr>
-                <tr *ngFor="let draft of problematicDrafts | keyvalue">
-                  <td style="width:30%;"><a target="_blank" href="https://www.ietf.org/archive/id/{{draft.key}}">{{draft.key}}</a></td>
-                  <td><pre>{{draft.value}}</pre></td>
-                </tr>
-              </table>
+              <div class="results-grid-container">
+                <yc-ag-grid tableId="problematicDrafts" domLayout="autoHeight" [suppressHorizontalScroll]="false"
+                  [gridOptions]="gridOptions" [defaultColDef]="defaultColDef" [pagination]="false"
+                  [allColumnDefs]="problematicDraftsColDefs" [rowData]="problematicDrafts">
+                </yc-ag-grid>
+              </div>
             </ng-template>
           </li>
 

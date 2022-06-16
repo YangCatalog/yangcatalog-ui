@@ -85,6 +85,15 @@ export class PrivateComponent implements OnInit, OnDestroy {
   };
 
   jsonPreviewColdefs: ColDef[] = [];
+  problematicDraftsColDefs: ColDef[] = [
+    {
+      colId: '1', field: 'draftName', maxWidth: 400, headerName: 'Draft Name',
+      cellRenderer: function (params) {
+        return '<a target="_blank" href="https://www.ietf.org/archive/id/' + params.value + '">' + params.value + '</a>'
+      }
+    },
+    { colId: '2', field: 'xymError', headerName: 'XYM Error' }
+  ];
   jsonfileResultsContainerWidth = '100%';
   jsonPreviewData: any;
 
@@ -201,7 +210,6 @@ export class PrivateComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed)
     ).subscribe(
       result => {
-        console.log(result)
         this.problematicDrafts = result;
       },
       err => {

@@ -23,7 +23,14 @@ export class PrivateService extends DataService {
   }
 
   getProblematicDrafts(): Observable<any> {
-    return this.customGet('api/problematic-drafts');
+    return this.customGet('api/problematic-drafts').pipe(
+      map(response => Object.keys(response).map(key => {
+        return {
+          'draftName': key,
+          'xymError': response[key]
+        }
+      }))
+    );
   }
 
   getPrivateJson(): Observable<any> {
