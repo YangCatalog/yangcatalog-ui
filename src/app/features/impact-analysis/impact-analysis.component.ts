@@ -55,7 +55,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     'rgba(100,32,32,1)', 'rgba(34,83,22,1)', 'rgba(37,90,110,1)', 'rgba(105,23,96,1)'
   ];
 
-
   visData: TopologyData;
 
   organizations: string[] = [];
@@ -242,7 +241,7 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.form.get('moduleNamesList').value) {
       allModules = this.form.get('moduleNamesList').value.map(module => module.value.split('@'));
     }
-    
+
     this.showWarnings = true;
     this.errors = [];
     this.warnings = [];
@@ -278,6 +277,8 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       }),
       takeUntil(this.componentDestroyed)
     ).subscribe(impactResult => {
+      this.warnings.push(...impactResult.warnings);
+      if (!impactResult.name) return;
       this.mainResults.push(impactResult);
       this.mainResultsNames.push(impactResult.name);
       this.addOrganizations(impactResult.getOrganisations());
@@ -322,8 +323,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
       this.visComponent.updateNodes(newNodes);
       this.visComponent.updateLinks(newLinks);
-
-      this.warnings.push(...impactResult.warnings);
     },
       err => {
         console.error(err);
@@ -334,7 +333,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onOrgMouseMove(org: string) {
-
     if (this.orgSelected[org] && org !== this.highlightedOrg) {
       this.highlightedOrg = org;
 
@@ -344,11 +342,9 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
   }
 
   onMatMouseMove(mat: string) {
-
     if (this.matSelected[mat] && mat !== this.highlightedMat) {
       this.highlightedMat = mat;
 
@@ -358,11 +354,9 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
 
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
   }
 
   onDirMouseMove(dir: string) {
-
     if (this.dirSelected[dir] && dir !== this.highlightedDir) {
       this.highlightedDir = dir;
 
@@ -373,7 +367,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
       });
       this.visComponent.highlightNodes(nodesToHighlighted, this.orgColors, this.matColors);
     }
-
   }
 
   onOrgMouseOut() {
@@ -515,7 +508,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         }
       });
     }
-
   }
 
   onClusterMaturityToggle(clustered: boolean) {
@@ -593,7 +585,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         }
       });
     }
-
   }
 
   onClickNode(event) {
@@ -670,7 +661,6 @@ export class ImpactAnalysisComponent implements OnInit, OnDestroy, AfterViewInit
         this.errors.push(err);
       }
     );
-
   }
 
   rearrange() {
