@@ -16,7 +16,7 @@
           <div class="form-inline">
             <input id="moduleNameInput" formControlName="moduleName" type="text" class="form-control"
               [ngbTypeahead]="autocomplete" placeholder="Fill the module name" />
-            <button [disabled]="!form.valid"  id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5"
+            <button [disabled]="!form.valid" id="rfcNumberSubmit" class="btn btn-outline-primary px-ml-5"
               routerLink="/yang-search/module_details/{{form.get('moduleName').value.trim()}}">
               <div class="spinner-border text-primary" role="status" *ngIf="loadingDetailsProgress"></div>
               Get details
@@ -24,10 +24,10 @@
           </div>
           <bfv-messages></bfv-messages>
           <div class="form-inline app-links" *ngIf="infoData">
-            <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}">
+            <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}" target="_blank">
               <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{infoData.currentModule}}" border="0">
               Tree View</a>
-            <a href="/yang-search/impact_analysis/{{infoData.data['name']}}@{{infoData.data['revision']}}">
+            <a href="/yang-search/impact_analysis/{{infoData.data['name']}}@{{infoData.data['revision']}}" target="_blank">
               <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{infoData.currentModule}}"
                 border="0">
               Impact Analysis</a>
