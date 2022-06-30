@@ -12,7 +12,7 @@ export class ImpactAnalysisModel {
 
 
   constructor(data = {}) {
-    this.document = data['document-name'];
+    this.document = data['reference'];
     this.maturity = data['maturity-level'];
     this.name = data['name'];
     this.organization = data['organization'];
@@ -28,6 +28,9 @@ export class ImpactAnalysisModel {
       : [];
 
     this.warnings = [];
+    this.warnings = this.warnings.concat(
+      data['warning'] ? data['warning'] : []
+    );
     this.warnings = this.warnings.concat(
       data['dependencies'] ? data['dependencies']
         .filter(dep => dep.hasOwnProperty('warning'))

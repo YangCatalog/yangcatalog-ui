@@ -4,22 +4,20 @@
   <ng-container *ngIf="node.organization"><strong>Organization: </strong> {{node.organization}}<br></ng-container>
   <ng-container *ngIf="node.maturity"><strong>Maturity: </strong> {{node.maturity}}<br></ng-container>
   <ng-container *ngIf="node.document"><strong>Document: </strong> <a href="{{node.document}}"
-                                                                     target="_blank">{{node.document}}</a><br>
+      target="_blank">{{node.document}}</a><br>
   </ng-container>
 </p>
 <p>
-  <a href="{{myBaseUrl}}/yang-search/module_details/{{node.name}}">
+  <a href="{{myBaseUrl}}/yang-search/module_details/{{node.name}}@{{node.revision}}" target="_blank">
     <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{node.name}}" border="0">
     Module details
   </a>
-  <a href="{{myBaseUrl}}/yang-search/yang_tree/{{node.name}}@{{node.revision}}">
+  <a href="{{myBaseUrl}}/yang-search/yang_tree/{{node.name}}@{{node.revision}}" target="_blank">
     <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{node.name}}" border="0">
     Tree View
   </a>
-  <a href="/yang-search/impact_analysis/{{node.name}}@{{node.revision}}">
-    <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{node.name}}"
-         border="0">
+  <a href="/yang-search/impact_analysis/{{node.name}}@{{node.revision}}" target="_blank">
+    <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{node.name}}" border="0">
     Impact Analysis
   </a>
 </p>
-
