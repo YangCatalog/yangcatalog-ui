@@ -2,6 +2,12 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.4.0 - 2022-07-08
+
+  * IETF navigation tab added to YANG Modules Stats [deployment #139](https://github.com/YangCatalog/deployment/issues/139)
+  * ETSI navigation tab added to YANG Modules Stats [#88](https://github.com/YangCatalog/yangcatalog-ui/issues/88)
+  * Bugfix: Display warning in Impact analysis if module does not exist [#92](https://github.com/YangCatalog/yangcatalog-ui/issues/92)
+
 * ##### v5.3.0 - 2022-06-06
 
   * Update to headers after yanglint v2.0.194 update [deployment #127](https://github.com/YangCatalog/deployment/issues/127)
