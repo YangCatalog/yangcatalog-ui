@@ -87,6 +87,7 @@ export class YangValidatorComponent implements OnInit, OnDestroy {
 
     this.initDraftNameForm();
 
+    this.subscribeRouteParams();
     this.subscribeQueryParams();
 
     this.getVersions();
