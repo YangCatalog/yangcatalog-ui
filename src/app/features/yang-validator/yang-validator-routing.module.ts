@@ -6,6 +6,10 @@ const routes: Routes = [
     {
         path: '',
         component: YangValidatorComponent
+    },
+    {
+        path: ':validating',
+        component: YangValidatorComponent
     }
 ];
 
