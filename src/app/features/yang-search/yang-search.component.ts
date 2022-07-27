@@ -2,9 +2,11 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { ErrorMessage } from 'ng-bootstrap-form-validation';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { YcValidationsService } from '../../core/yc-validations.service';
 import { AppAgGridComponent } from '../../shared/ag-grid/app-ag-grid.component';
 import { YangShowNodeModalComponent } from '../yang-show-node/yang-show-node-modal/yang-show-node-modal.component';
 import { YangSearchService } from './yang-search.service';
@@ -62,6 +64,12 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     { colId: 'description', field: 'description', headerName: 'Description', maxWidth: 400 },
   ];
   currentColDefs = [];
+  customErrorMessages: ErrorMessage[] = [
+    {
+      error: 'notValidRegex',
+      format: (label, error) => `Regular expression "${error.value}" is not valid`
+    }
+  ];
 
   defaultColDef = {
     autoHeight: true,
@@ -81,7 +89,8 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private dataService: YangSearchService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private ycValidations: YcValidationsService
   ) { }
 
   headerHeightGetter = () => {
@@ -131,7 +140,7 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private initForm() {
     this.form = this.fb.group({
-      searchTerm: ['', Validators.required],
+      searchTerm: ['', [Validators.required, this.ycValidations.regexpValidation()]],
       searchOptions: this.fb.group({
         caseSensitive: [false],
         regularExpression: [false],
@@ -217,6 +226,10 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
         i++;
       });
     }
+  }
+
+  onSearchTypeChange() {
+    this.form.controls['searchTerm'].updateValueAndValidity();
   }
 
   checkCheckedField(formGroupName: string, myValue: string): boolean {
