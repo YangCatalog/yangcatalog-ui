@@ -3,7 +3,7 @@
     <div class="yc-col" #contentCol>
       <form [formGroup]="form" *ngIf="!resultsMaximized">
         <h2>YANG Search</h2>
-        <div class="form-group">
+        <div class="form-group" [customErrorMessages]="customErrorMessages">
           <ngb-alert type="danger" (close)="onCloseError()"
                      *ngIf="error">{{ error.message || 'The application has encountered an unknown error.'}}</ngb-alert>
 
@@ -18,12 +18,12 @@
               <ng-template ngbNavContent>
                 <div formGroupName="searchOptions" class="options-category">
                   <label for="caseSensitiveCheckbox" class="checkbox"><input id="caseSensitiveCheckbox" formControlName="caseSensitive" type="checkbox"/><i class="skin"></i> <span>Case-Sensitive</span></label>
-                  <label for="regularExpressionCheckbox" class="checkbox"><input id="regularExpressionCheckbox" formControlName="regularExpression" type="checkbox"/><i class="skin"></i> <span>Regular Expression</span></label>
+                  <label (change)="onSearchTypeChange()" for="regularExpressionCheckbox" class="checkbox"><input id="regularExpressionCheckbox" formControlName="regularExpression" type="checkbox"/><i class="skin"></i> <span>Regular Expression</span></label>
                   <label for="includeMibsCheckbox" class="checkbox"><input id="includeMibsCheckbox" formControlName="includeMibs" type="checkbox"/><i class="skin"></i> <span>Include Mibs</span></label>
                   <label for="onlyLatestRevsCheckbox" class="checkbox"><input id="onlyLatestRevsCheckbox" formControlName="onlyLatestRevs" type="checkbox"/><i class="skin"></i> <span>Only Latest Revs</span></label>
                 </div>
                 <div class="options-category">
-                  <p >Search Fields</p>
+                  <p>Search Fields</p>
                   <label (change)="onCheckChange('searchFields', $event)" for="moduleNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'module')" id="moduleNameCheckbox" value="module" type="checkbox"/><i class="skin"></i> <span>Module Name</span></label>
                   <label (change)="onCheckChange('searchFields', $event)" for="nodeNameCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'argument')" id="nodeNameCheckbox" value="argument" type="checkbox"/><i class="skin"></i> <span>Node Name</span></label>
                   <label (change)="onCheckChange('searchFields', $event)" for="nodeDescriptionCheckbox" class="checkbox"><input [checked]="checkCheckedField('searchFields', 'description')" id="nodeDescriptionCheckbox" value="description" type="checkbox"/><i class="skin"></i> <span>Node Description</span></label>
