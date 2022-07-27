@@ -124,7 +124,7 @@ export class PrivateComponent implements OnInit, OnDestroy {
     'pyang-version': '2.5.3',
     'xym-version': '0.5',
     'yangdump-version': 'yangdump-pro 20.10-9',
-    'yanglint-version': 'yanglint 2.0.194'
+    'yanglint-version': 'yanglint 2.0.231'
   }
   tabIds = {
     'Statistics': 1,
