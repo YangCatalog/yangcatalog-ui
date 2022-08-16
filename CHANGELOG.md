@@ -2,6 +2,12 @@
 
 * ##### vm.m.p - 2022-MM-DD
 
+* ##### v5.5.0 - 2022-08-16
+
+  * Check if regex is valid if using regex search [#97](https://github.com/YangCatalog/yangcatalog-ui/issues/97)
+  * Update to headers after yanglint v2.0.231 update [deployment #146](https://github.com/YangCatalog/deployment/issues/146)
+  * Bugfix: yangvalidator API docs component displaying [#94](https://github.com/YangCatalog/yangcatalog-ui/issues/94)
+
 * ##### v5.4.0 - 2022-07-08
 
   * IETF navigation tab added to YANG Modules Stats [deployment #139](https://github.com/YangCatalog/deployment/issues/139)

@@ -140,7 +140,7 @@ export class YangSearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private initForm() {
     this.form = this.fb.group({
-      searchTerm: ['', [Validators.required, this.ycValidations.regexpValidation()]],
+      searchTerm: ['', [Validators.minLength(3), this.ycValidations.regexpValidation()]],
       searchOptions: this.fb.group({
         caseSensitive: [false],
         regularExpression: [false],
