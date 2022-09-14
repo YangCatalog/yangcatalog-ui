@@ -13,8 +13,7 @@ export class YangImplementationsService extends DataService {
     super(httpClient);
   }
 
-  // TODO: Same endpoint is used for now - maybe add separate endpoint
-  getImplementations(moduleName: string): Observable<ModuleDetailsModel> {
-    return this.getOneModel('api/yang-search/v2/module-details/' + moduleName, ModuleDetailsModel);
+  getImplementations(vendor: string, platform: string): Observable<any> {
+    return this.customGet(`api/search/vendors/vendor/${vendor}/platforms/platform/${platform}`);
   }
 }

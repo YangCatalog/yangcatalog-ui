@@ -33,8 +33,7 @@
               <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{infoData.currentModule}}"
                 border="0">
               Impact Analysis</a>
-            <a href="/yang-search/implementations/{{infoData.data['name']}}@{{infoData.data['revision']}}"
-              target="_blank">
+            <a (click)="openImplementationsHelpModal()">
               <img src="{{myBaseUrl}}/assets/img/implementation.png"
                 title="Implementations for {{infoData.currentModule}}" border="0">
               Implementations</a>

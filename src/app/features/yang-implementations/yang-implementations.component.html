@@ -14,24 +14,6 @@
         error.' }}
       </ngb-alert>
 
-      <ngb-alert *ngIf="implementations" type="info" [dismissible]="false">
-        INFO: This yang file does not contain any implementations.
-      </ngb-alert>
-
-      <div class="app-links">
-        <strong>Module:</strong> <span> {{ moduleName }} </span><br>
-        <a href="{{myBaseUrl}}/yang-search/module_details/{{moduleName}}" target="_blank">
-          <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{moduleName}}" border="0">
-          Module details</a>
-        <a href="/yang-search/impact_analysis/{{moduleName}}" target="_blank">
-          <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{moduleName}}" border="0">
-          Impact Analysis</a>
-        <a href="{{myBaseUrl}}/yang-search/yang_tree/{{moduleName}}" target="_blank">
-          <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{moduleName}}" border="0">
-          Tree View</a>
-      </div>
-
-      <pre *ngFor="let impl of implementations">{{impl}}</pre>
     </div>
   </div>
 </div>

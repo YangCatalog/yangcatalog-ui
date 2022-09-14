@@ -37,7 +37,7 @@ const routes: Routes = [
     data: { title: 'YANG Tree' }
   },
   {
-    path: 'yang-search/implementations/:module',
+    path: 'yang-search/implementations',
     loadChildren: () => import('./features/yang-implementations/yang-implementations.module').then(mod => mod.YangImplementationsModule),
     data: { title: 'YANG Module Implementations' }
   },

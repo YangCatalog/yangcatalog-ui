@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ModuleDetailsModel } from '../yang-module-details/models/module-details-model';
 import { YangImplementationsService } from './yang-implementations.service';
 
 @Component({
@@ -11,30 +12,25 @@ import { YangImplementationsService } from './yang-implementations.service';
   styleUrls: ['./yang-implementations.component.scss']
 })
 export class YangImplementationsComponent implements OnInit, OnDestroy {
-  path = ''
-  moduleName = '';
-  revision = '';
-  implementations: [];
+  vendor = ''
+  platform = '';
   loading = false;
   myBaseUrl = environment.WEBROOT_BASE_URL;
   error: any;
+
   private componentDestroyed: Subject<void> = new Subject<void>();
 
   constructor(private dataService: YangImplementationsService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
-    this.route.params
+    this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed))
       .subscribe(
         (params: Params) => {
-          if (params.hasOwnProperty('module')) {
-            const moduleArr = params['module'].split('@');
-            this.path = moduleArr;
-            this.moduleName = moduleArr[0];
-            this.revision = moduleArr[1];
-            this.loadImplementationsdata();
-          }
+          this.vendor = params['vendor'];
+          this.platform = params['platform'];
+          this.loadImplementationsdata();
         }
       );
   }
@@ -45,63 +41,10 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
 
   private loadImplementationsdata() {
     this.loading = true;
-    let requestModuleName = this.moduleName;
-    if (this.revision) {
-      requestModuleName += '@' + this.revision;
-    }
-    this.dataService.getImplementations(requestModuleName).pipe(
+    this.dataService.getImplementations(this.vendor, this.platform).pipe(
       takeUntil(this.componentDestroyed)
     ).subscribe(
       res => {
-        res.data['implementations'] = {
-          "implementation": [
-            {
-              "conformance-type": "implement",
-              "deviation": [
-                {
-                  "name": "huawei-aaa-deviations-ATN-980B",
-                  "revision": "2019-04-23"
-                }],
-              "feature-set": "ALL",
-              "os-type": "VRP",
-              "os-version": "V800R021C00",
-              "platform": "atn-980b",
-              "software-flavor": "ALL",
-              "software-version": "V800R021C00",
-              "vendor": "huawei"
-            },
-            {
-              "conformance-type": "implement",
-              "deviation": [
-                {
-                  "name": "huawei-aaa-deviations-OC-NE-X8X16",
-                  "revision": "2019-04-23"
-                }],
-              "feature-set": "ALL",
-              "os-type": "VRP",
-              "os-version": "V800R021C00",
-              "platform": "ne40e-x8x16",
-              "software-flavor": "ALL",
-              "software-version": "V800R021C00",
-              "vendor": "huawei"
-            },
-            {
-              "conformance-type": "implement",
-              "deviation": [
-                {
-                  "name": "huawei-aaa-deviations-NE8000M8M14",
-                  "revision": "2019-04-23"
-                }],
-              "feature-set": "ALL",
-              "os-type": "VRP",
-              "os-version": "V800R021C00",
-              "platform": "ne8000-m8",
-              "software-flavor": "ALL",
-              "software-version": "V800R021C00",
-              "vendor": "huawei"
-            }]
-        }
-        this.implementations = res.data['implementations']['implementation']
         console.log(res)
       },
       err => {

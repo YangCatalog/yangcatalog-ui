@@ -6,6 +6,10 @@ const routes: Routes = [
     {
         path: '',
         component: YangImplementationsComponent
+    },
+    {
+        path: ':path',
+        component: YangImplementationsComponent
     }
 ];
 

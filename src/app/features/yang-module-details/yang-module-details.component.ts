@@ -8,7 +8,9 @@ import { merge, Observable, of, Subject, zip } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ModuleDetailsModel } from './models/module-details-model';
+import { ModuleImplementationModel } from './models/module-implementation-model';
 import { ModuleInfoMetaDataModel } from './models/module-info-meta-data-model';
+import { YangImplementationsModalComponent } from './yang-implementations-modal/yang-implementations-modal.component';
 import { YangModuleDetailsService } from './yang-module-details.service';
 import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-property-help-modal.component';
 
@@ -209,5 +211,68 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     }).componentInstance;
     modalNodeDetail.property = property.join(' >> ');
     modalNodeDetail.help = this.metaData.getPropertyHelpText(property);
+  }
+
+  openImplementationsHelpModal() {
+    const modalImplemtations: YangImplementationsModalComponent = this.modalService.open(YangImplementationsModalComponent, {
+      size: 'lg',
+    }).componentInstance;
+    modalImplemtations.name = this.infoData.data['name'];
+    modalImplemtations.revision = this.infoData.data['revision'];
+    modalImplemtations.metadata = this.metaData.getPropertiesSorted(this.metaData.metaData['implementations'])
+    // modalImplemtations.implementations = this.infoData.data['implementations'] ? this.infoData.data['implementations'] : [];
+    modalImplemtations.implementations = this.getImplExample();
+  }
+
+  private getImplExample(): ModuleImplementationModel[] {
+    return [
+      {
+        "conformance-type": "implement",
+        "deviation": [
+          {
+            "name": "huawei-aaa-deviations-ATN-980B",
+            "revision": "2019-04-23"
+          }],
+        "feature-set": "ALL",
+        "os-type": "VRP",
+        "os-version": "V800R021C00",
+        "platform": "atn-980b",
+        "software-flavor": "ALL",
+        "software-version": "V800R021C00",
+        "vendor": "huawei",
+        "feature": []
+      },
+      {
+        "conformance-type": "implement",
+        "deviation": [
+          {
+            "name": "huawei-aaa-deviations-OC-NE-X8X16",
+            "revision": "2019-04-23"
+          }],
+        "feature-set": "ALL",
+        "os-type": "VRP",
+        "os-version": "V800R021C00",
+        "platform": "ne40e-x8x16",
+        "software-flavor": "ALL",
+        "software-version": "V800R021C00",
+        "vendor": "huawei",
+        "feature": []
+      },
+      {
+        "conformance-type": "implement",
+        "deviation": [
+          {
+            "name": "huawei-aaa-deviations-NE8000M8M14",
+            "revision": "2019-04-23"
+          }],
+        "feature-set": "ALL",
+        "os-type": "VRP",
+        "os-version": "V800R021C00",
+        "platform": "ne8000-m8",
+        "software-flavor": "ALL",
+        "software-version": "V800R021C00",
+        "vendor": "huawei",
+        "feature": []
+      }]
   }
 }
