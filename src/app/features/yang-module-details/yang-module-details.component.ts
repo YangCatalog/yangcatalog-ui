@@ -220,8 +220,8 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     modalImplemtations.name = this.infoData.data['name'];
     modalImplemtations.revision = this.infoData.data['revision'];
     modalImplemtations.metadata = this.metaData.getPropertiesSorted(this.metaData.metaData['implementations'])
-    // modalImplemtations.implementations = this.infoData.data['implementations'] ? this.infoData.data['implementations'] : [];
-    modalImplemtations.implementations = this.getImplExample();
+    modalImplemtations.implementations = this.infoData.data['implementations'] ? this.infoData.data['implementations'] : [];
+    // modalImplemtations.implementations = this.getImplExample();
   }
 
   private getImplExample(): ModuleImplementationModel[] {

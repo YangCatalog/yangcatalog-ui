@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ModuleDetailsModel } from '../yang-module-details/models/module-details-model';
+import { SoftwareVersion, YangPlatformData } from './models/yang-platform-data';
 import { YangImplementationsService } from './yang-implementations.service';
 
 @Component({
@@ -14,6 +14,8 @@ import { YangImplementationsService } from './yang-implementations.service';
 export class YangImplementationsComponent implements OnInit, OnDestroy {
   vendor = ''
   platform = '';
+  title = 'YANG Implementations >> '
+  softwareVersions: SoftwareVersion[];
   loading = false;
   myBaseUrl = environment.WEBROOT_BASE_URL;
   error: any;
@@ -30,6 +32,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
         (params: Params) => {
           this.vendor = params['vendor'];
           this.platform = params['platform'];
+          this.title += this.vendor + ' >> ' + this.platform;
           this.loadImplementationsdata();
         }
       );
@@ -42,14 +45,14 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
   private loadImplementationsdata() {
     this.loading = true;
     this.dataService.getImplementations(this.vendor, this.platform).pipe(
+      finalize(() => this.loading = false),
       takeUntil(this.componentDestroyed)
-    ).subscribe(
-      res => {
-        console.log(res)
-      },
+    ).subscribe(platform => {
+      const data = new YangPlatformData(platform['yang-catalog:platform'][0]);
+      this.softwareVersions = data.getSoftwareVersions();
+    },
       err => {
         this.error = err;
-        this.loading = false;
       }
     );
   }

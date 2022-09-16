@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from '../../core/data.service';
-import { ModuleDetailsModel } from '../yang-module-details/models/module-details-model';
 
 @Injectable({
   providedIn: 'root'
