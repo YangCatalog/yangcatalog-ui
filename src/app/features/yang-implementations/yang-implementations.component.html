@@ -16,23 +16,24 @@
 
       <ng-container *ngIf="softwareVersions">
         <h3>Platform overview</h3>
+        <p><strong>NOTE: </strong>Click on the software version name to display the list of modules.</p>
         <table class="table">
           <tbody>
             <tr>
               <th class="col-md-2">Software Version</th>
               <th class="col-md-2">Software Flavor</th>
             </tr>
-            <tr *ngFor="let version of softwareVersions">
-              <td>{{version.name}}</td>
+            <tr *ngFor="let version of softwareVersions; index as i">
+              <td (click)="onSoftwareVersionClick(i)">{{version.name}}</td>
               <td>{{version.getSoftwareFlavorsNames()}}</td>
             </tr>
           </tbody>
         </table>
       </ng-container>
 
-      <ng-container *ngIf="softwareVersions">
-        <div *ngFor="let version of softwareVersions">
-          <h3>Software version {{version.name}}</h3>
+      <ng-container *ngIf="selectedVersion">
+        <div>
+          <h3>Software version {{selectedVersion.name}}</h3>
           <table class="table">
             <tbody>
               <tr>
@@ -42,7 +43,7 @@
                 <th class="col-md-1">Feature set</th>
                 <th class="col-md-4">Application links</th>
               </tr>
-              <tr *ngFor="let module of version.getSoftwareFlavors()[0].modules">
+              <tr *ngFor="let module of selectedVersion.getSoftwareFlavors()[0].modules">
                 <td>{{module.name}}@{{module.revision}}</td>
                 <td>{{module['os-type']}}</td>
                 <td>{{module['conformance-type']}}</td>

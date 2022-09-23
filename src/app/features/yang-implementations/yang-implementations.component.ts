@@ -16,6 +16,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
   platform = '';
   title = 'YANG Implementations >> '
   softwareVersions: SoftwareVersion[];
+  selectedVersion: SoftwareVersion;
   loading = false;
   myBaseUrl = environment.WEBROOT_BASE_URL;
   error: any;
@@ -42,6 +43,10 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
     this.componentDestroyed.next();
   }
 
+  onSoftwareVersionClick(index) {
+    this.selectedVersion = this.softwareVersions[index];
+  }
+
   private loadImplementationsdata() {
     this.loading = true;
     this.dataService.getImplementations(this.vendor, this.platform).pipe(
@@ -50,6 +55,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
     ).subscribe(platform => {
       const data = new YangPlatformData(platform['yang-catalog:platform'][0]);
       this.softwareVersions = data.getSoftwareVersions();
+      this.selectedVersion = this.softwareVersions[0];
     },
       err => {
         this.error = err;
