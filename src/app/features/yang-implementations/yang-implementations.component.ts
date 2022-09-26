@@ -26,7 +26,6 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
   constructor(private dataService: YangImplementationsService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
     this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed))
       .subscribe(
@@ -55,6 +54,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
     ).subscribe(platform => {
       const data = new YangPlatformData(platform['yang-catalog:platform'][0]);
       this.softwareVersions = data.getSoftwareVersions();
+      this.softwareVersions = this.softwareVersions.sort((a, b) => (a.name > b.name) ? 1 : -1);
       this.selectedVersion = this.softwareVersions[0];
     },
       err => {

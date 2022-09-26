@@ -221,58 +221,5 @@ export class YangModuleDetailsComponent implements OnInit, OnDestroy {
     modalImplemtations.revision = this.infoData.data['revision'];
     modalImplemtations.metadata = this.metaData.getPropertiesSorted(this.metaData.metaData['implementations'])
     modalImplemtations.implementations = this.infoData.data['implementations'] ? this.infoData.data['implementations'] : [];
-    // modalImplemtations.implementations = this.getImplExample();
-  }
-
-  private getImplExample(): ModuleImplementationModel[] {
-    return [
-      {
-        "conformance-type": "implement",
-        "deviation": [
-          {
-            "name": "huawei-aaa-deviations-ATN-980B",
-            "revision": "2019-04-23"
-          }],
-        "feature-set": "ALL",
-        "os-type": "VRP",
-        "os-version": "V800R021C00",
-        "platform": "atn-980b",
-        "software-flavor": "ALL",
-        "software-version": "V800R021C00",
-        "vendor": "huawei",
-        "feature": []
-      },
-      {
-        "conformance-type": "implement",
-        "deviation": [
-          {
-            "name": "huawei-aaa-deviations-OC-NE-X8X16",
-            "revision": "2019-04-23"
-          }],
-        "feature-set": "ALL",
-        "os-type": "VRP",
-        "os-version": "V800R021C00",
-        "platform": "ne40e-x8x16",
-        "software-flavor": "ALL",
-        "software-version": "V800R021C00",
-        "vendor": "huawei",
-        "feature": []
-      },
-      {
-        "conformance-type": "implement",
-        "deviation": [
-          {
-            "name": "huawei-aaa-deviations-NE8000M8M14",
-            "revision": "2019-04-23"
-          }],
-        "feature-set": "ALL",
-        "os-type": "VRP",
-        "os-version": "V800R021C00",
-        "platform": "ne8000-m8",
-        "software-flavor": "ALL",
-        "software-version": "V800R021C00",
-        "vendor": "huawei",
-        "feature": []
-      }]
   }
 }
