@@ -2,7 +2,7 @@
   <div class="yc-row-padding">
 
     <div class="yc-col">
-      <h2 class="flex-fill">{{ title }}</h2>
+      <h2 class="flex-fill">{{ title }} >> {{ selectedVersionName }}</h2>
 
       <p class="pt25" *ngIf="loading">
         <span class="spinner-border" role="status"></span>
@@ -17,7 +17,7 @@
       <ng-container *ngIf="softwareVersions">
         <h3>Platform overview</h3>
         <p><strong>NOTE: </strong>Click on the software version name to display the list of modules.</p>
-        <table class="table">
+        <table class="table platform-overview">
           <tbody>
             <tr>
               <th class="col-md-2">Software Version</th>

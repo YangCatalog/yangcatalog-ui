@@ -15,6 +15,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
   vendor = ''
   platform = '';
   title = 'YANG Implementations >> '
+  selectedVersionName = '';
   softwareVersions: SoftwareVersion[];
   selectedVersion: SoftwareVersion;
   loading = false;
@@ -44,6 +45,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
 
   onSoftwareVersionClick(index) {
     this.selectedVersion = this.softwareVersions[index];
+    this.selectedVersionName = this.selectedVersion.name;
   }
 
   private loadImplementationsdata() {
@@ -56,6 +58,7 @@ export class YangImplementationsComponent implements OnInit, OnDestroy {
       this.softwareVersions = data.getSoftwareVersions();
       this.softwareVersions = this.softwareVersions.sort((a, b) => (a.name > b.name) ? 1 : -1);
       this.selectedVersion = this.softwareVersions[0];
+      this.selectedVersionName = this.selectedVersion.name;
     },
       err => {
         this.error = err;
