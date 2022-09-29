@@ -8,10 +8,11 @@ import { CoreModule } from '../../core/core.module';
 import { YangModuleDetailsRoutingModule } from './yang-module-details-routing.module';
 import { YangModuleDetailsComponent } from './yang-module-details.component';
 import { YangPropertyHelpModalComponent } from './yang-property-help-modal/yang-property-help-modal.component';
+import { YangImplementationsModalComponent } from './yang-implementations-modal/yang-implementations-modal.component';
 
 
 @NgModule({
-  declarations: [YangModuleDetailsComponent, YangPropertyHelpModalComponent],
+  declarations: [YangModuleDetailsComponent, YangPropertyHelpModalComponent, YangImplementationsModalComponent],
   imports: [
     CommonModule,
     YangModuleDetailsRoutingModule,

@@ -1,0 +1,78 @@
+<div class="yc-container yc-app-container" style="padding:128px 16px;">
+  <div class="yc-row-padding">
+
+    <div class="yc-col">
+      <h2 class="flex-fill">{{ title }} >> {{ selectedVersionName }}</h2>
+
+      <p class="pt25" *ngIf="loading">
+        <span class="spinner-border" role="status"></span>
+        Loading data...
+      </p>
+
+      <ngb-alert *ngIf="error" type="danger" [dismissible]="false">
+        {{ error['error'] ? error['error']['description'] : error.message || 'The application has encountered an unknown
+        error.' }}
+      </ngb-alert>
+
+      <ng-container *ngIf="softwareVersions">
+        <h3>Platform overview</h3>
+        <p><strong>NOTE: </strong>Click on the software version name to display the list of modules.</p>
+        <table class="table platform-overview">
+          <tbody>
+            <tr>
+              <th class="col-md-2">Software Version</th>
+              <th class="col-md-2">Software Flavor</th>
+            </tr>
+            <tr *ngFor="let version of softwareVersions; index as i">
+              <td (click)="onSoftwareVersionClick(i)">{{version.name}}</td>
+              <td>{{version.getSoftwareFlavorsNames()}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <ng-container *ngIf="selectedVersion">
+        <div>
+          <h3>Software version {{selectedVersion.name}}</h3>
+          <table class="table">
+            <tbody>
+              <tr>
+                <th class="col-md-3">Module</th>
+                <th class="col-md-1">OS Type</th>
+                <th class="col-md-1">Conformance Type</th>
+                <th class="col-md-1">Feature set</th>
+                <th class="col-md-4">Application links</th>
+              </tr>
+              <tr *ngFor="let module of selectedVersion.getSoftwareFlavors()[0].modules">
+                <td>{{module.name}}@{{module.revision}}</td>
+                <td>{{module['os-type']}}</td>
+                <td>{{module['conformance-type']}}</td>
+                <td>{{module['feature-set']}}</td>
+                <td>
+                  <ng-container
+                    *ngTemplateOutlet="appLinksTemplate;context:{name: module.name, revision: module.revision}">
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <ng-template #appLinksTemplate let-name="name" let-revision="revision">
+        <div class="form-inline app-links">
+          <a href="{{myBaseUrl}}/yang-search/module_details/{{name}}@{{revision}}" target="_blank">
+            <img src="{{myBaseUrl}}/assets/img/details.png" title="Module details for {{name}}" border="0">
+            Module details</a>
+          <a href="{{myBaseUrl}}/yang-search/yang_tree/{{name}}@{{revision}}" target="_blank">
+            <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for name" border="0">
+            Tree View</a>
+          <a href="/yang-search/impact_analysis/{{name}}@{{revision}}" target="_blank">
+            <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for name" border="0">
+            Impact Analysis</a>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

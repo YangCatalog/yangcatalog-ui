@@ -9,8 +9,8 @@
 
       <form [formGroup]="form">
         <div class="form-group" [customErrorMessages]="customPatternErrorMessages">
-          <ngb-alert type="danger" (close)="onCloseError()" role="alert" 
-                     *ngIf="error">{{ error.description || 'The application has encountered an unknown error.'}}</ngb-alert>
+          <ngb-alert type="danger" (close)="onCloseError()" role="alert" * ngIf="error">{{ error.description || 'The
+            application has encountered an unknown error.'}}</ngb-alert>
 
           <label class="control-label" for="moduleNameInput">Module Name</label>
           <div class="form-inline">
@@ -24,13 +24,19 @@
           </div>
           <bfv-messages></bfv-messages>
           <div class="form-inline app-links" *ngIf="infoData">
-            <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}" target="_blank">
+            <a href="{{myBaseUrl}}/yang-search/yang_tree/{{infoData.data['name']}}@{{infoData.data['revision']}}"
+              target="_blank">
               <img src="{{myBaseUrl}}/assets/img/leaf.png" title="Tree View for {{infoData.currentModule}}" border="0">
               Tree View</a>
-            <a href="/yang-search/impact_analysis/{{infoData.data['name']}}@{{infoData.data['revision']}}" target="_blank">
+            <a href="/yang-search/impact_analysis/{{infoData.data['name']}}@{{infoData.data['revision']}}"
+              target="_blank">
               <img src="{{myBaseUrl}}/assets/img/impact.png" title="Impact Analysis for {{infoData.currentModule}}"
                 border="0">
               Impact Analysis</a>
+            <a (click)="openImplementationsHelpModal()">
+              <img src="{{myBaseUrl}}/assets/img/implementation.png"
+                title="Implementations for {{infoData.currentModule}}" border="0">
+              Implementations</a>
           </div>
         </div>
 
@@ -38,7 +44,7 @@
         <ng-template #revisionTemplate let-data="data">
           <select class="form-select" (change)="onRevisionSelectChange($event)" formControlName="moduleRevision">
             <option value="{{rev}}" *ngFor="let rev of infoData.revisions"
-                    [selected]="rev === form.get('moduleRevision').value">{{rev}}</option>
+              [selected]="rev === form.get('moduleRevision').value">{{rev}}</option>
           </select>
         </ng-template>
 
@@ -62,10 +68,10 @@
           <div style="position: relative; overflow: hidden">
             <div [innerHTML]="data | advancedFormat" [ngClass]="{collapsed: !expanded[mainProperty]}"></div>
             <div class="show-more-link" *ngIf="!expanded[mainProperty]">
-              <a (click)="expandCollapsableObject(mainProperty)">Show more ></a>
+              <a (click)="expandCollapsableObject(mainProperty)">Show more &gt;</a>
             </div>
             <div class="show-less-link" *ngIf="expanded[mainProperty]">
-              <a (click)="collapseObject(mainProperty)">< Show less</a>
+              <a (click)="collapseObject(mainProperty)">&lt; Show less</a>
             </div>
           </div>
         </ng-template>

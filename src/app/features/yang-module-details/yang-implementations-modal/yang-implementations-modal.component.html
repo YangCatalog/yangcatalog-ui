@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h3>Implementations for {{name}}@{{revision}} </h3>
+</div>
+<ngb-alert *ngIf="implementations.length === 0" type="info" [dismissible]="false">
+  INFO: This yang file does not contain any implementations.
+</ngb-alert>
+
+<ng-template #plainTextTemplate let-property="property" let-implementation="implementation">
+  {{implementation[property]}}
+</ng-template>
+
+<ng-template #linkTemplate let-property="property" let-implementation="implementation">
+  <a [href]="getImplementationsHref(property, implementation)" target="_blank">{{implementation[property]}}</a>
+</ng-template>
+
+<ng-template #deviationTemplate let-data="data">
+  <ng-container>
+    <table class="table nested-object" *ngFor="let deviation of data">
+      <tbody>
+        <tr *ngFor="let property of deviation | keyvalue">
+          <th scope="row" class="col-md-2">
+            {{property.key}}
+          </th>
+          <td>
+            <ng-container *ngTemplateOutlet="getPropTemplate(property.key);context:{data: property.value}">
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-template>
+
+<div class="modal-body">
+  <ng-container *ngIf="implementations">
+    <table class="table table-striped" *ngFor="let implementation of implementations; index as i">
+      <thead>
+        <tr>
+          <th scope=" col">Property Name</th>
+          <th scope="col">Property Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let property of metadata">
+          <th scope="row" class="col-md-3">
+            {{property}}
+          </th>
+          <td>
+            <ng-container
+              *ngTemplateOutlet="getPropTemplate(property);context:{property: property, implementation: implementation}">
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+      <br>
+    </table>
+  </ng-container>
+</div>
